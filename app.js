@@ -15,6 +15,8 @@ app.use(session({
     cookie:{secure:false}
 }))
 
+require('./modules/passport')(app);
+
 const hbs = create({
     extname: '.hbs'
 })
@@ -26,5 +28,7 @@ app.set('views', './views');
 app.set('view engine', 'hbs');
 
 app.use(express.urlencoded({extended:true}));
+
+app.use('/account', require('./routes/auth.r'));
 
 module.exports = app;

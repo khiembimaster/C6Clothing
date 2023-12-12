@@ -32,7 +32,7 @@ module.exports = {
         let con = null;
         try{
             con = await db.connect();
-            const rs = await con.one(`SELECT * FROM "${tbName}" WHERE "${fieldName}" = $1`, [value]);
+            const rs = await con.oneOrNone(`SELECT * FROM "${tbName}" WHERE "${fieldName}" = $1`, [value]);
             return rs;
         }catch(error){
             throw error;

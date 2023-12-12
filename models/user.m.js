@@ -1,12 +1,11 @@
 const db = require('./db');
 const tbName = 'Users';
 module.exports = class Account{
-    constructor(username, password, name, email, dob){
+    constructor(username, password, name, email){
         this.Username = username;
         this.Password = password;
         this.Name = name;
         this.Email = email;
-        this.DOB = dob;
         this.Permission = 1;
     }
     static async All(page,perPage){
