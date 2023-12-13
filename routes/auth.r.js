@@ -1,22 +1,20 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
-const AccountController = require('../controllers/auth.c.js');
+const accountController = require('../controllers/auth.c.js');
 
 
-router.post('/signup', AccountController.signup);
+router.post('/signup', accountController.signup);
+router.get('/logout', accountController.logout);
 
-router.get('/logout', AccountController.logout);
 // Username-Password strategy
 router.route('/login')
-    .get(AccountController.loginPage)
-    .post(AccountController.login);
+    .get(accountController.loginPage)
+    .post(accountController.login);
 
 // OAUTH2 strategy
 //=Google
-router.get('/auth/google', AccountController.google);
-router.get('/auth/google/callback', AccountController.googleCallback);
-
-
+router.get('/auth/google', accountController.google);
+router.get('/auth/google/callback', accountController.googleCallback);
 
 module.exports = router;
