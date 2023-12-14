@@ -1,13 +1,13 @@
 const express = require('express');
-const { route } = require('./category.r');
+
 const router = express.Router();
 // const productController = require('../controllers/product.c');
-
+const order = require('../controllers/order.c');
 router.route('/')
-    .get()      // Order history
-    .post()     // Order placement
+    .get(order.All)      // Order history
+    .post(order.Add)     // Order placement
 
 router.route('/:id')
-    .get()      // Order details
+    .get(order.GetOne)      // Order details
     
 module.exports = router;

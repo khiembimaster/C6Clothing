@@ -35,6 +35,6 @@ app.use('/account', require('./routes/auth.r'));
 app.use('/category',require('./routes/category.r'));
 
 app.use('/product', require('./routes/product.r'));
-
+app.use('/order',require('./routes/order.r'));
 app.use('/cart', require('./routes/cart.r'));
 module.exports = app;

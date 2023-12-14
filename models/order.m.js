@@ -6,7 +6,7 @@ module.exports = class Order{
        this.userId = userId;
        this.total = total;
     }
-    static async All(page,perPage){
+    static async All(page = 1,perPage = 5){
         const rs = await db.findAll(tbName,page,perPage);
         return rs;
     }
