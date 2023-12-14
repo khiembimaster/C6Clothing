@@ -29,6 +29,7 @@ app.set('view engine', 'hbs');
 
 app.use(express.urlencoded({extended:true}));
 
-app.use('/account', require('./routes/auth.r'));
+//app.use('/account', require('./routes/auth.r'));
+app.use('/account', require('./routes/account.r'));
 
 module.exports = app;

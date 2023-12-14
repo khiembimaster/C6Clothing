@@ -24,10 +24,20 @@ module.exports = class Account{
         const rs = await db.del(tbName, 'Username', username);
         return rs;
     }
-    static async Update(user){
-        const rs = await db.update(tbName, user);
+    static async Update(id, user){
+        const condition = {
+            value: id,
+            field: "ID"
+        }
+        const rs = await db.update(tbName, condition, user);
         return rs;
     }
-    
-    
+    static async GetById(id){
+        const rs = await db.findOne(tbName, 'ID', id);
+        return rs;
+    }
+    static async DelById(id){
+        const rs = await db.del(tbName, 'ID', id);
+        return rs;
+    }  
 }

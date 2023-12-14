@@ -27,12 +27,13 @@ module.exports = {
             const password = req.body.password;
             const name = req.body.name;
             const email = req.body.email;
-            
+            console.log(username);
             bcrypt.hash(password, saltRounds, async function(err, hash){
+                console.log(password);
                 if(err){
                     return next(err);
                 }
-                const user = new Account(username, hash, name, email, dob);
+                const user = new Account(username, hash, name, email);
                 await Account.Add(user);
                 
                 req.login(user, function(err) {
