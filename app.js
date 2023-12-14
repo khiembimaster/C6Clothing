@@ -2,6 +2,8 @@ require('dotenv').config('.env');
 const express = require('express');
 const session = require('express-session');
 
+
+
 const app = express();
 
 const { create } = require('express-handlebars');
@@ -30,5 +32,7 @@ app.set('view engine', 'hbs');
 app.use(express.urlencoded({extended:true}));
 
 app.use('/account', require('./routes/auth.r'));
+app.use('/category',require('./routes/category.r'));
+
 
 module.exports = app;

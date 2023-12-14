@@ -2,17 +2,17 @@ const db = require('./db');
 const tbName = 'Categories';
 module.exports = class Category{
     constructor(catName){
-     
+        
         this.CatName = catName;
     }
-    static async All(){
-        const rs = await db.all(tbName);
+    static async All(page = 1 , perPage = 5){
+        const rs = await db.findAll(tbName,page,perPage);
         return rs;
     }
     static async Add(cat){
         console.log(cat);
         await db.add(tbName, {CatName: cat.CatName});
-        return rs;
+         return cat;
     }
     static async Get(catID){
         const rs = await db.one(tbName, 'CatID', catID);
@@ -22,8 +22,8 @@ module.exports = class Category{
         const rs = await db.del(tbName, 'CatID', catID);
         return rs;
     }
-    static async Update(cat){
-        const rs = await db.update(tbName, {field:"CatID", value:cat.CatID}, cat);
+    static async Update(id,cat){
+        const rs = await db.update(tbName, {field:"CatID", value:id}, cat);
         return rs;
     }
 }
