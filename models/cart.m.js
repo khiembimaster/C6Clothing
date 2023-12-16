@@ -21,8 +21,12 @@ module.exports = class Cart{
         const rs = await db.del(tbName, 'ID',id);
         return rs;
     }
-    static async Update(order){
-        const rs = await db.update(tbName, order);
+    static async Update(id, order){
+        const condition = {
+            value: id,
+            field: "ID"
+        }
+        const rs = await db.update(tbName, condition, order);
         return rs;
     }
     static async GetByUserID(userID){
