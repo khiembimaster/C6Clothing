@@ -1,0 +1,18 @@
+  <div class="container">
+    {{!-- <h1>{{ category }}</h1> --}}
+
+    <div class="row">
+      {{#each products}}
+      <div class="col-md-4">
+        <div class="card mb-2">
+          <img src="{{this.ImageUrl}}" class="card-img-top" alt="{{this.ProName}}">
+          <div class="card-body">
+            <h5 class="card-title">{{this.ProName}}</h5>
+            <p class="card-text">{{this.TinyDes}}</p>
+            <a href="#" class="btn btn-primary">Buy Now</a>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>

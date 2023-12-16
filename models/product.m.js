@@ -12,12 +12,17 @@ module.exports = class Product{
         this.Quantity = Quantity;
         this.Image = Image;
     }
-    static async All(page,perPage){
-        const products = await db.findAll(tbName,page,perPage);
+    static async All(params){
+        let filters = [];
+        if(params.category) filters.push(`"CatID" = ${params.category}`);
+        if(params.minPrice) filters.push(`"Price" >= ${params.minPrice}`);
+        if(params.maxPrice) filters.push(`"Price" <= ${params.maxPrice}`);
+
+        const products = await db.searchAndFilter(tbName,params.page,params.perPage, 
+            {key:'ProName', value:params.search}, filters, {field:'Price', order: params.order} );
+
         for(let product of products){
-            if(product.Image){
-             
-              
+            if(product.Image){ 
                 product.ImageUrl = imageURL.getURL(product.Image);
             } else {
                 product.ImageUrl = "#";
@@ -28,10 +33,10 @@ module.exports = class Product{
     static async Add(product, buffer, mimetype){
         await db.add(tbName, product);
        
-        return imageURL.saveImg(buffer,mimetype,product.Image);
+        return imageURL.saveImage(buffer,mimetype,product.Image);
     }
     static async GetByID(proID){
-        const product = await db.findOne(tbName, 'ID', proID);
+        const product = await db.findOne(tbName, 'ProID', proID);
         if(product.Image){
 
             product.ImageUrl = imageURL.getURL(product.Image);
@@ -62,44 +67,8 @@ module.exports = class Product{
         await s3.send(command);
         await db.del(tbName, 'ID', proID);
     }
-    static async Update(product){
-        const rs = await db.update(tbName, {field:"ID", value:product.ProID}, product);
-        return rs;
+    static async Update(id, buffer, mimetype, product){
+        await db.update(tbName, {field:"ID", value:id}, product);
+        return imageURL.saveImage(buffer,mimetype,product.Image);
     }
-    static async GetProductsOfCategory(catID,page,perPage){
-        const products = await db.findByField(tbName, "CatID", catID,page,perPage);
-        for(let product of products){
-            if(product.Image){
-
-                product.ImageUrl = imageURL.getURL(product.Image);
-            } else {
-                product.ImageUrl = "#";
-            }
-        }
-        return products;
-    }
-    static async FilterByPrice(value1,value2,page,perPage) {
-        const rs = await db.filterByField(tbName,"Price",value1,value2,page,perPage);
-        for(let product of rs){
-            if(product.Image){
-
-                product.ImageUrl = imageURL.getURL(product.Image);
-            } else {
-                product.ImageUrl = "#";
-            }
-        }
-        return rs;
-    }
-    static async FilterByDate(value1,value2,page,perPage) {
-        const rs = await db.filterByField(tbName,"Date",value1,value2,page,perPage);
-        for(let product of rs){
-            if(product.Image){
-                product.ImageUrl = imageURL.getURL(product.Image);
-            } else {
-                product.ImageUrl = "#";
-            }
-        }
-        return rs;
-    }
-
 }

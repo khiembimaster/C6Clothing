@@ -34,5 +34,7 @@ app.use(express.urlencoded({extended:true}));
 app.use('/account', require('./routes/auth.r'));
 app.use('/category',require('./routes/category.r'));
 
+app.use('/product', require('./routes/product.r'));
+
 
 module.exports = app;

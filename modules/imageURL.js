@@ -1,4 +1,4 @@
-const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand} = require('@aws-sdk/client-s3');
+const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand, Update} = require('@aws-sdk/client-s3');
 
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
@@ -17,7 +17,6 @@ const s3 = new S3Client({
 })
 
 module.exports =  {
-  
     getURL: async function(productImage) {
         const getObjectParams = {
             Bucket: bucketName,
@@ -26,5 +25,15 @@ module.exports =  {
         const command = new GetObjectCommand(getObjectParams);
         const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
         return url;
+    },
+    saveImage: async function(buffer,mimetype, key){
+        const params = {
+            Body: buffer,
+            Bucket: bucketName,
+            ContentType: mimetype,
+            Key: key
+        }
+        const command = new PutObjectCommand(params);
+        const rs = await s3.send(command);
     }
 }
