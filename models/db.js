@@ -72,7 +72,27 @@ module.exports = {
             }
         }
     },
-
+    searchAndFilter:  async (tbName, page,perPage, query, filters, sort) => {
+        let con = null;
+        try{
+            con = await db.connect();
+            let sql = `SELECT * FROM "${tbName}" WHERE "${query.key}" ILIKE '%${query.value}%'`;
+            for(let filter of filters){
+                sql += ` AND ${filter}`;
+            }
+            sql += ` ORDER BY "${sort.field}" ${sort.order}`;
+            sql += ` LIMIT ${perPage} OFFSET ${(page-1)*perPage} `;
+            console.log(sql);
+            const rs = await con.manyOrNone(sql);
+            return rs;
+        }catch(error){
+            throw error;
+        }finally{
+            if(con){
+                con.done();
+            }
+        }
+    },
     
     
     add: async (tbName, obj)=>{
