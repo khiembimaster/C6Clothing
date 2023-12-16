@@ -30,5 +30,5 @@ app.set('view engine', 'hbs');
 app.use(express.urlencoded({extended:true}));
 
 app.use('/account', require('./routes/auth.r'));
-
+app.use('/cart', require('./routes/cart.r'));
 module.exports = app;
