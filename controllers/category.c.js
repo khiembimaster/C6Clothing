@@ -27,8 +27,8 @@ module.exports = {
     delete: async(req,res,next)=>{
         try{
             const id = req.params.id;
-           res.send(Category.Del(id));
-
+            const rs = await Category.Del(id);
+           res.send(rs);
         }
         catch(error){
             next(error);
@@ -37,8 +37,8 @@ module.exports = {
     edit: async(req,res,next)=>{
         try{
             const id = req.params.id;
-            const cat = req.body;
-            res.send(Category.Update(id,cat));
+            const cat = req.body.catName;
+            res.send(Category.Update(id,new Category(cat)));
         }catch(error){
             next(error);
         }

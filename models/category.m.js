@@ -14,15 +14,15 @@ module.exports = class Category{
         return cat;
     }
     static async Get(catID){
-        const rs = await db.one(tbName, 'CatID', catID);
+        const rs = await db.one(tbName, 'ID', catID);
         return rs;
     }
     static async Del(catID){
-        const rs = await db.del(tbName, 'CatID', catID);
+        const rs = await db.del(tbName, 'ID', catID);
         return rs;
     }
     static async Update(id,cat){
-        const rs = await db.update(tbName, {field:"CatID", value:id}, cat);
+        const rs = await db.update(tbName, {field:"ID", value:id}, cat);
         return rs;
     }
 }
