@@ -6,7 +6,20 @@ const passport = require('passport');
 module.exports = {
     loginPage: async(req, res, next)=>{
         try{
-            res.send('Login page');
+            res.render('signin', {
+                css:()=>'css/signin_signup',
+                js:()=>'js/empty'
+            })
+        }catch(error){
+            next(error);
+        }
+    },
+    signupPage: async(req, res, next)=>{
+        try{
+            res.render('signup', {
+                css:()=>'css/signin_signup',
+                js:()=>'js/empty'
+            })
         }catch(error){
             next(error);
         }
