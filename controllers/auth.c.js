@@ -36,6 +36,7 @@ module.exports = {
     }),
     signup: async (req, res, next)=>{
         try{
+            console.log(req.body);
             const username = req.body.username;
             const password = req.body.password;
             const name = req.body.name;
