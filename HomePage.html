@@ -16,10 +16,12 @@
             font-family: Arial, sans-serif;
             overflow: auto;
         }
+
         .navbar-custom {
             background-color: #f8f9fa;
             /* Màu nền của header */
         }
+
         .navbar-custom {
             background-color: #f8f9fa;
             /* Màu nền của header */
@@ -91,8 +93,9 @@
         }
 
         .category-card:hover img {
-            transform: translateY(-10px);
+            transform: scale(1.1);
             /* Di chuyển ảnh lên một chút khi hover */
+            transition: transform 0.3s;
         }
 
         .category-card img {
@@ -120,7 +123,7 @@
     </style>
 </head>
 
-<body style="overflow: auto;" >
+<body style="overflow: auto;">
     <header>
         <div class="container">
             <div class="row">

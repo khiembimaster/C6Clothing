@@ -1,0 +1,139 @@
+<style>
+    .card-img-top {
+        height: 300px;
+        /* Điều chỉnh chiều cao mong muốn */
+        object-fit: cover;
+        /* Đảm bảo hình ảnh không bị bóp méo */
+    }
+
+    .category-card {
+        position: relative;
+        transition: transform 0.3s;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .category-card:hover img {
+        transform: scale(1.1);
+        /* Di chuyển ảnh lên một chút khi hover */
+        transition: transform 0.3s;
+    }
+
+    .category-card img {
+        transition: transform 0.3s;
+    }
+
+    .card-body {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        /* Màu nền khi hover */
+        padding: 10px;
+        transform: translateY(100%);
+        transition: transform 0.3s;
+        color: #fff;
+        font-size: 18px;
+    }
+
+    .category-card:hover .card-body {
+        transform: translateY(0);
+        /* Hiện hiệu ứng khi di chuột đến */
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div id="carouselExampleIndicators1" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators1" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators1" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators1" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="./image/pexels-tembela-bohle-1884584.jpg" class="d-block w-100" alt="Slide 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="./image/pexels-tembela-bohle-1884584.jpg" class="d-block w-100" alt="Slide 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="./image/pexels-tembela-bohle-1884584.jpg" class="d-block w-100" alt="Slide 3">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators1"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators1"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <div class="row my-5 ">
+        <h2 style="font-weight: bold; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            text-transform: uppercase;">Category</h2>
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="card category-card">
+                    <img src="./image/category shirt.png" class="card-img-top" alt="Category Image">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Tee Shirt</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card category-card">
+                    <img src="./image/catrgory shoes.png" class="card-img-top" alt="Category Image">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Shoes</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card category-card">
+                    <img src="./image/category bag.png" class="card-img-top" alt="Category Image">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Bag</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="card category-card">
+                    <img src="./image/category glass.png" class="card-img-top" alt="Category Image">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Glasses</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card category-card">
+                    <img src="./image/category accessories.png" class="card-img-top" alt="Category Image">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Accessories</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card category-card">
+                    <img src="./image/category hat.png" class="card-img-top" alt="Category Image">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Hat</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

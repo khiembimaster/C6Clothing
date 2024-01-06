@@ -1,3 +1,51 @@
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        overflow: auto;
+    }
+
+    .navbar-custom {
+        background-color: #f8f9fa;
+        /* Màu nền của header */
+    }
+
+    .navbar-custom {
+        background-color: #f8f9fa;
+        /* Màu nền của header */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .search-bar {
+        margin-left: auto;
+    }
+
+    .navbar-brand {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* Adjustments for centering */
+    .center-navbar {
+        display: flex;
+        justify-content: center;
+    }
+
+    .navbar-nav .nav-link .fas.fa-user-circle {
+        font-size: 35px;
+        /* Kích thước icon */
+    }
+</style>
+
 <header>
     <div class="container">
         <div class="row">
@@ -8,8 +56,7 @@
                             <a class="nav-link" href="#"><i class="fas fa-user-circle"></i> </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-cart-plus"
-                                    style="font-size: 35px;"></i></a>
+                            <a class="nav-link" href="#"><i class="fas fa-cart-plus" style="font-size: 35px;"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -37,8 +84,8 @@
                                 <a class="nav-link" href="#">All Product</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
                                     Category
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
