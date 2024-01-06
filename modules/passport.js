@@ -41,7 +41,7 @@ const google = new GoogleStrategy({
   async function(accessToken, refreshToken, profile, done) {
     try{
         console.log(profile);
-        let user = await Account.Get(profile.displayName);
+        let user = await Account.Get(profile.displayName + profile.id);
         console.log(user);
         if(user){
             return done(null, user)
@@ -51,7 +51,7 @@ const google = new GoogleStrategy({
                 if(err){
                     return next(err);
                 }
-                user = new Account(profile.displayName, hash, profile.displayName, profile.emails[0].value);
+                user = new Account(profile.displayName + profile.id, hash, profile.displayName, profile.emails[0].value);
                 await Account.Add(user);
                 return done(null, user);  
             })
