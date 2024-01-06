@@ -16,11 +16,8 @@ module.exports = {
     },
     add: async(req,res,next) =>{
         try {
-            const cat = req.body; 
-            console.log("abcd");
-            console.log(cat);
-            rs = await Category.Add(cat);
-            console.log(rs);
+            const cat = req.body.catName; 
+            const rs = await Category.Add(new Category(cat));
             res.send(rs);
         }
         catch(error){

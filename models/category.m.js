@@ -10,9 +10,8 @@ module.exports = class Category{
         return rs;
     }
     static async Add(cat){
-        console.log(cat);
-        await db.add(tbName, {CatName: cat.CatName});
-         return cat;
+        await db.add(tbName, cat);
+        return cat;
     }
     static async Get(catID){
         const rs = await db.one(tbName, 'CatID', catID);

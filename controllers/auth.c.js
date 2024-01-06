@@ -32,7 +32,7 @@ module.exports = {
                 if(err){
                     return next(err);
                 }
-                const user = new Account(username, hash, name, email, dob);
+                const user = new Account(username, hash, name, email);
                 await Account.Add(user);
                 
                 req.login(user, function(err) {
