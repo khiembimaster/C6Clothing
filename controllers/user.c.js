@@ -22,8 +22,8 @@ module.exports = {
     },
     get: async (req, res, next) => {
         try {
-            const name = req.params.id;
-            const rs = await User.Get(name);
+            const username = req.params.id;
+            const rs = await User.Get(username);
             return rs;
         } catch (error) {
             next(error)
@@ -31,8 +31,8 @@ module.exports = {
     },
     delete: async (req, res, next) => {
         try {
-            const name = req.params.id;
-            const rs = await User.Del(name);
+            const username = req.params.id;
+            const rs = await User.Del(username);
             return rs;
         } catch (error) {
             next(error);
@@ -40,8 +40,8 @@ module.exports = {
     },
     update: async (req, res, next) => {
         try {
-            const name = req.params.id;
-            const rs = await User.Update(name);
+            const username = req.params.id;
+            const rs = await User.Update(username);
             return rs;
         } catch (error) {
             next(error);
