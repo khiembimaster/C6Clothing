@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="...">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: auto;
+        }
+
+        .navbar-custom {
+            background-color: #f8f9fa;
+            /* Màu nền của header */
+        }
+
+        .navbar-custom {
+            background-color: #f8f9fa;
+            /* Màu nền của header */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-bar {
+            margin-left: auto;
+        }
+
+        .navbar-brand {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Adjustments for centering */
+        .center-navbar {
+            display: flex;
+            justify-content: center;
+        }
+
+        .navbar-nav .nav-link .fas.fa-user-circle {
+            font-size: 35px;
+            /* Kích thước icon */
+        }
+
+        .footer-99382 {
+            background-color: #5b5555;
+            padding: 50px 0;
+            color: #fff;
+            margin-top: 50px;
+            /* Thêm margin-top để giảm sự lấn lên nội dung trên */
+            /* Thêm padding-top và padding-bottom để tạo khoảng cách ở trên và dưới nội dung trong footer */
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+
+        .footer-99382 h3 {
+            color: #fff;
+            /* Chỉnh màu chữ của các tiêu đề h3 thành màu trắng */
+        }
+
+        .footer-99382 p {
+            color: #d3d3d3;
+            /* Thay đổi màu chữ của đoạn văn bản trong footer (nếu cần) */
+        }
+
+        .card-img-top {
+            height: 250px;
+            /* Điều chỉnh chiều cao mong muốn */
+            object-fit: cover;
+            /* Đảm bảo hình ảnh không bị bóp méo */
+        }
+
+        .category-card {
+            cursor: pointer;
+        }
+
+        .category-card:hover img {
+            transform: translateY(-10px);
+            /* Di chuyển ảnh lên một chút khi hover */
+        }
+
+        .category-card:hover .card-body {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body style="overflow: auto;">
+    <header>
+        <div class="container">
+            <div class="row">
+                <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+                    <div class="social-icons">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-user-circle"></i> </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-cart-plus"
+                                        style="font-size: 35px;"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="navbar-brand">C6 CLOTHING</div>
+                    <div class="search-bar">
+                        <form class="d-flex">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                </nav>
+            </div>
+            <div class="row center-navbar">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">All Product</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Category
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <li><a class="dropdown-item" href="#">Action</a></li>
+                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row my-5">
+            <h2
+                style="font-weight: bold; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-transform: uppercase;">
+                Your Cart
+            </h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <!-- Item 1 -->
+                        <div class="row mb-4 align-items-center">
+                            <div class="col-md-2">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
+                                    class="img-fluid rounded-3" alt="Cotton T-shirt">
+                            </div>
+                            <div class="col-md-3">
+                                <h6 class="text-muted">Shirt</h6>
+                                <h6 class="text-black mb-0">Cotton T-shirt</h6>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input id="form1" min="0" name="quantity" value="1" type="number"
+                                        class="form-control form-control-sm" />
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <h6 class="mb-0">€ 44.00</h6>
+                            </div>
+                            <div class="col-md-2 text-end">
+                                <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
+                            </div>
+                        </div>
+                        <!-- Repeat this structure for other items -->
+                        <div class="row mb-4 align-items-center">
+                            <div class="col-md-2">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
+                                    class="img-fluid rounded-3" alt="Cotton T-shirt">
+                            </div>
+                            <div class="col-md-3">
+                                <h6 class="text-muted">Shirt</h6>
+                                <h6 class="text-black mb-0">Cotton T-shirt</h6>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input id="form1" min="0" name="quantity" value="1" type="number"
+                                        class="form-control form-control-sm" />
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <h6 class="mb-0">€ 44.00</h6>
+                            </div>
+                            <div class="col-md-2 text-end">
+                                <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="row mb-4 align-items-center">
+                            <div class="col-md-2">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
+                                    class="img-fluid rounded-3" alt="Cotton T-shirt">
+                            </div>
+                            <div class="col-md-3">
+                                <h6 class="text-muted">Shirt</h6>
+                                <h6 class="text-black mb-0">Cotton T-shirt</h6>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input id="form1" min="0" name="quantity" value="1" type="number"
+                                        class="form-control form-control-sm" />
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <h6 class="mb-0">€ 44.00</h6>
+                            </div>
+                            <div class="col-md-2 text-end">
+                                <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="row mb-4 align-items-center">
+                            <div class="col-md-2">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
+                                    class="img-fluid rounded-3" alt="Cotton T-shirt">
+                            </div>
+                            <div class="col-md-3">
+                                <h6 class="text-muted">Shirt</h6>
+                                <h6 class="text-black mb-0">Cotton T-shirt</h6>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input id="form1" min="0" name="quantity" value="1" type="number"
+                                        class="form-control form-control-sm" />
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <h6 class="mb-0">€ 44.00</h6>
+                            </div>
+                            <div class="col-md-2 text-end">
+                                <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="row mb-4 align-items-center">
+                            <div class="col-md-2">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
+                                    class="img-fluid rounded-3" alt="Cotton T-shirt">
+                            </div>
+                            <div class="col-md-3">
+                                <h6 class="text-muted">Shirt</h6>
+                                <h6 class="text-black mb-0">Cotton T-shirt</h6>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input id="form1" min="0" name="quantity" value="1" type="number"
+                                        class="form-control form-control-sm" />
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <h6 class="mb-0">€ 44.00</h6>
+                            </div>
+                            <div class="col-md-2 text-end">
+                                <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="row mb-4 align-items-center">
+                            <div class="col-md-2">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
+                                    class="img-fluid rounded-3" alt="Cotton T-shirt">
+                            </div>
+                            <div class="col-md-3">
+                                <h6 class="text-muted">Shirt</h6>
+                                <h6 class="text-black mb-0">Cotton T-shirt</h6>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input id="form1" min="0" name="quantity" value="1" type="number"
+                                        class="form-control form-control-sm" />
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <h6 class="mb-0">€ 44.00</h6>
+                            </div>
+                            <div class="col-md-2 text-end">
+                                <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="row mb-4 align-items-center">
+                            <div class="col-md-2">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
+                                    class="img-fluid rounded-3" alt="Cotton T-shirt">
+                            </div>
+                            <div class="col-md-3">
+                                <h6 class="text-muted">Shirt</h6>
+                                <h6 class="text-black mb-0">Cotton T-shirt</h6>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input id="form1" min="0" name="quantity" value="1" type="number"
+                                        class="form-control form-control-sm" />
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <h6 class="mb-0">€ 44.00</h6>
+                            </div>
+                            <div class="col-md-2 text-end">
+                                <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="row mb-4 align-items-center">
+                            <div class="col-md-2">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
+                                    class="img-fluid rounded-3" alt="Cotton T-shirt">
+                            </div>
+                            <div class="col-md-3">
+                                <h6 class="text-muted">Shirt</h6>
+                                <h6 class="text-black mb-0">Cotton T-shirt</h6>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input id="form1" min="0" name="quantity" value="1" type="number"
+                                        class="form-control form-control-sm" />
+                                    <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <h6 class="mb-0">€ 44.00</h6>
+                            </div>
+                            <div class="col-md-2 text-end">
+                                <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card bg-grey mb-4">
+                    <div class="card-body p-5">
+                        <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                        <hr class="my-4">
+                        <div class="d-flex justify-content-between mb-4">
+                            <h5 class="text-uppercase">Items 3</h5>
+                            <h5>€ 132.00</h5>
+                        </div>
+                        <h5 class="text-uppercase mb-3">Shipping</h5>
+                        <!-- Shipping options here -->
+                        <div class="mb-4 pb-2">
+                            <select class="select">
+                                <option value="1">Standard-Delivery- €5.00</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                                <option value="4">Four</option>
+                            </select>
+                        </div>
+                        <h5 class="text-uppercase mb-3">Enter Code</h5>
+                        <!-- Input field for code -->
+                        <div class="mb-5">
+                            <div class="form-outline">
+                                <input type="text" id="form3Examplea2" class="form-control form-control-lg" />
+                                <label class="form-label" for="form3Examplea2">Enter your code</label>
+                            </div>
+                        </div>
+                        <hr class="my-4">
+                        <div class="d-flex justify-content-between mb-5">
+                            <h5 class="text-uppercase">Total Price</h5>
+                            <h5>€ 137.00</h5>
+                        </div>
+                        <!-- Checkout button -->
+                        <button type="button" class="btn btn-dark btn-block btn-lg"
+                            data-mdb-ripple-color="dark">Checkout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer-99382">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 pr-md-5">
+                    <a href="#" class="footer-site-logo d-block mb-4">C6 CLOTHING</a>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi quasi perferendis ratione
+                        perspiciatis accusantium.</p>
+                </div>
+                <div class="col-md">
+                    <h3>Discover</h3>
+                    <ul class="list-unstyled nav-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Portfolio</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md">
+                    <h3>About</h3>
+                    <ul class="list-unstyled nav-links">
+                        <li><a href="#">Clients</a></li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Career</a></li>
+                        <li><a href="#">Testimonials</a></li>
+                        <li><a href="#">Journal</a></li>
+                    </ul>
+                </div>
+                <div class="col-md">
+                    <h3>Help</h3>
+                    <ul class="list-unstyled nav-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms &amp; Conditions</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+                <div class="col-md">
+                    <h3>Follow Us</h3>
+                    <ul class="social list-unstyled">
+                        <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fas fa-phone-square-alt"></i></a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-12 text-center">
+                    <div class="copyright mt-5 pt-5">
+                        <p><small>&copy; C6 CLOTHING.</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pzjw8f+YgLg9h0a4T0t3u6TB2nZ2xOr8B5eNs7kK1S26jEM6hEegonuKKhQ/nq+5"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

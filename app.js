@@ -14,7 +14,7 @@ app.use(session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie:{secure:false}
+    cookie: { secure: false }
 }))
 
 require('./modules/passport')(app);
@@ -29,12 +29,12 @@ app.engine('hbs', hbs.engine);
 app.set('views', './views');
 app.set('view engine', 'hbs');
 
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/account', require('./routes/auth.r'));
-app.use('/category',require('./routes/category.r'));
+app.use('/category', require('./routes/category.r'));
 
 app.use('/product', require('./routes/product.r'));
-app.use('/order',require('./routes/order.r'));
+app.use('/order', require('./routes/order.r'));
 app.use('/cart', require('./routes/cart.r'));
 module.exports = app;
