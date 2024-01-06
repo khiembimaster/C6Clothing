@@ -36,7 +36,7 @@ const google = new GoogleStrategy({
     tokenURL: 'https://oauth2.googleapis.com/token',
     clientID: '68992611538-gj9k595vap4saopf7fh32t4euv9t7ea7.apps.googleusercontent.com',
     clientSecret: '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',
-    callbackURL: `https://localhost:3000/account/auth/google/callback`
+    callbackURL: `https://localhost:${process.env.PORT}/account/auth/google/callback`
   },
   async function(accessToken, refreshToken, profile, done) {
     try{
