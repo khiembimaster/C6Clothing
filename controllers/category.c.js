@@ -15,8 +15,12 @@ module.exports = {
     add: async (req, res, next) => {
         try {
             const cat = req.body.catName;
-            const rs = await Category.Add(new Category(cat));
+            const buffer = await sharp(req.file.buffer).resize({height:640, width:1080, fit:"contain"}).toBuffer();
+            const image = crypto.randomUUID();
+            const rs = await Category.Add(new Category(cat,image),buffer, req.file.mimetype);
+            
             res.send(rs);
+
         }
         catch (error) {
             next(error);
@@ -36,7 +40,8 @@ module.exports = {
         try {
             const id = req.params.id;
             const cat = req.body.catName;
-            res.send(Category.Update(id, new Category(cat)));
+            const buffer = await sharp(req.file.buffer).resize({height:640, width:1080, fit:"contain"}).toBuffer();
+            res.send(Category.Update(id, new Category(cat),buffer,req.file.mimetype));
         } catch (error) {
             next(error);
         }
