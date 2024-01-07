@@ -31,6 +31,7 @@ module.exports = class Product{
         return products;
     }
     static async Add(product, buffer, mimetype){
+        console.log(product)
         await db.add(tbName, product);
        
         return imageURL.saveImage(buffer,mimetype,product.Image);
