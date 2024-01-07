@@ -33,57 +33,19 @@
             text-transform: uppercase;">Category</h2>
     </div>
     <div class="container mt-5">
+
         <div class="row">
+            {{#each categories}}
             <div class="col-lg-4 mb-4">
                 <div class="card category-card">
-                    <img src="./image/category shirt.png" class="card-img-top" alt="Category Image">
+                    <img src="{{this.ImageUrl}}" class="card-img-top" alt="Category Image">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Tee Shirt</h5>
+                        <h5 class="card-title text-center">{{this.CatName}}</h5>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 mb-4">
-                <div class="card category-card">
-                    <img src="./image/catrgory shoes.png" class="card-img-top" alt="Category Image">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Shoes</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-4">
-                <div class="card category-card">
-                    <img src="./image/category bag.png" class="card-img-top" alt="Category Image">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Bag</h5>
-                    </div>
-                </div>
-            </div>
+            {{/each}}
         </div>
-        <div class="row">
-            <div class="col-lg-4 mb-4">
-                <div class="card category-card">
-                    <img src="./image/category glass.png" class="card-img-top" alt="Category Image">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Glasses</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-4">
-                <div class="card category-card">
-                    <img src="./image/category accessories.png" class="card-img-top" alt="Category Image">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Accessories</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-4">
-                <div class="card category-card">
-                    <img src="./image/category hat.png" class="card-img-top" alt="Category Image">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Hat</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>
