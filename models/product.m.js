@@ -30,6 +30,19 @@ module.exports = class Product{
         }
         return products;
     }
+    static async getAll(page, perPage){
+        console.log(page, perPage)
+        const rs = await db.findAll(tbName,page,perPage);
+        for(let product of rs){
+            if(product.Image){ 
+                product.ImageUrl = await imageURL.getURL(product.Image);
+            } else {
+                product.ImageUrl = "#";
+            }
+        }
+        console.log(rs)
+        return rs;
+    }
     static async Add(product, buffer, mimetype){
         console.log(product)
         await db.add(tbName, product);
@@ -59,9 +72,10 @@ module.exports = class Product{
         return rs;
     }
     static async DelByID(proID){
-        const product = await db.one(tbName, 'ID', proID);
+        const product = await db.findOne(tbName, 'ID', proID);
         const input = {
-            Bucket: bucketName,
+        
+            Bucket: product.bucketName,
             Key: product.Image,
         }
         const command = new DeleteObjectCommand(input);

@@ -6,7 +6,8 @@ module.exports = class Category{
         this.Image = image;
         this.CatName = catName;
     }
-    static async All(page = 1 , perPage = 5){
+    static async All(page, perPage){
+        console.log(page, perPage)
         const rs = await db.findAll(tbName,page,perPage);
         for(let cat of rs){
             if(cat.Image){ 
@@ -15,6 +16,7 @@ module.exports = class Category{
                 cat.ImageUrl = "#";
             }
         }
+        console.log(rs)
         return rs;
     }
     static async Add(cat,buffer,mimetype){

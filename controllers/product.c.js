@@ -6,7 +6,7 @@ const sharp = require('sharp');
 
 module.exports = {
     uploadPage: async(req, res, next)=>{
-        const categories = await Category.All();
+        const categories = await Category.All(1, 10);
         res.render('products_upload', {
             'form-action': `https://localhost:${process.env.PORT}/product`,
             'categories': categories,
