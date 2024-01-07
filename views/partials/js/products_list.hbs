@@ -1,0 +1,24 @@
+<script>
+        const priceMinInput = document.getElementById('priceMin');
+        const priceMaxInput = document.getElementById('priceMax');
+        const priceMinValue = document.getElementById('priceMinValue');
+        const priceMaxValue = document.getElementById('priceMaxValue');
+
+        // Function to update price values
+        function updatePriceValue(input, valueElement) {
+            valueElement.textContent = input.value;
+        }
+
+        // Event listeners to track range changes
+        priceMinInput.addEventListener('input', function () {
+            updatePriceValue(priceMinInput, priceMinValue);
+        });
+
+        priceMaxInput.addEventListener('input', function () {
+            updatePriceValue(priceMaxInput, priceMaxValue);
+        });
+
+        // Initial value update
+        updatePriceValue(priceMinInput, priceMinValue);
+        updatePriceValue(priceMaxInput, priceMaxValue);
+    </script>

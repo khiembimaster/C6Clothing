@@ -18,17 +18,17 @@ module.exports = class Product{
         if(params.minPrice) filters.push(`"Price" >= ${params.minPrice}`);
         if(params.maxPrice) filters.push(`"Price" <= ${params.maxPrice}`);
 
-        const products = await db.searchAndFilter(tbName,params.page,params.perPage, 
+        const result = await db.searchAndFilter(tbName,params.page,params.perPage, 
             {key:'ProName', value:params.search}, filters, {field:'Price', order: params.order} );
-
-        for(let product of products){
+        
+        for(let product of result.data){
             if(product.Image){ 
-                product.ImageUrl = imageURL.getURL(product.Image);
+                product.ImageUrl = await imageURL.getURL(product.Image);
             } else {
                 product.ImageUrl = "#";
             }
         }
-        return products;
+        return result;
     }
     static async getAll(page, perPage){
         console.log(page, perPage)
@@ -72,10 +72,9 @@ module.exports = class Product{
         return rs;
     }
     static async DelByID(proID){
-        const product = await db.findOne(tbName, 'ID', proID);
+        const product = await db.one(tbName, 'ID', proID);
         const input = {
-        
-            Bucket: product.bucketName,
+            Bucket: bucketName,
             Key: product.Image,
         }
         const command = new DeleteObjectCommand(input);

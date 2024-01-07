@@ -35,5 +35,13 @@ module.exports =  {
         }
         const command = new PutObjectCommand(params);
         const rs = await s3.send(command);
+    },
+    deleteImage: async function(productImage){
+        const params = {
+            Bucket: bucketName,
+            Key: productImage,
+        }
+        const command = new DeleteObjectCommand(params);
+        await s3.send(command);
     }
 }
