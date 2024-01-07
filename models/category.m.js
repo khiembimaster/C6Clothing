@@ -10,7 +10,7 @@ module.exports = class Category{
         const rs = await db.findAll(tbName,page,perPage);
         for(let cat of rs){
             if(cat.Image){ 
-               cat.ImageUrl = imageURL.getURL(cat.Image);
+               cat.ImageUrl = await imageURL.getURL(cat.Image);
             } else {
                 cat.ImageUrl = "#";
             }
@@ -18,7 +18,7 @@ module.exports = class Category{
         return rs;
     }
     static async Add(cat,buffer,mimetype){
-        
+        console.log(cat);
         await db.add(tbName, cat);
         return imageURL.saveImage(buffer,mimetype,cat.Image);
       //  return cat;
