@@ -6,6 +6,7 @@ module.exports = {
             if(req.session.passport){
                 user = req.session.passport.user
             }
+            
             const categories = await Category.All();
             res.render('homepage', {
                 'user':  user,

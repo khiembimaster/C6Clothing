@@ -7,7 +7,7 @@ router.route('/')
     .post(userController.add)
 
 router.route('/:username')
-    .get(userController.get)
+    .get(userController.updatePage)
     .put(userController.update)
     .delete(userController.delete)
 

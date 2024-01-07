@@ -65,12 +65,14 @@ module.exports = {
     },
     updatePage: async (req, res, next)=> {
         try {
-            const userName = req.params.userName;
+            const userName = req.params.username;
             const rs = await Account.Get(userName);
-            res.render('upateAccount', {
+            console.log("11", rs);
+            console.log(userName);
+            res.render('updateUser', {
                 user: rs,
                 //passWord: pass,
-                css:()=>'css/signin_signup',
+                css:()=>'css/update',
                 js:()=>'js/empty'
             })
         } catch (error) {
