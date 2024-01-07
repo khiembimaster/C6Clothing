@@ -25,7 +25,11 @@ module.exports = class Account {
         return rs;
     }
     static async Update(user) {
-        const rs = await db.update(tbName, user);
+        const condition = {
+            value: user.Username,
+            field: "Username"
+        }
+        const rs = await db.update(tbName, condition, user);
         return rs;
     }
 

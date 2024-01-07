@@ -1,5 +1,7 @@
+const Account = require('../models/user.m');
 const User = require('../models/user.m')
-
+const bcrypt = require('bcrypt');
+const saltRounds = 17;
 module.exports = {
     all: async (req, res, next) => {
         try {
@@ -38,13 +40,41 @@ module.exports = {
             next(error);
         }
     },
-    update: async (req, res, next) => {
+    update: async (req, res, next) => {    
         try {
-            const username = req.params.id;
-            const rs = await User.Update(username);
-            return rs;
+            const username = req.body.userName;
+            const password = req.body.passWord;
+            const name = req.body.name;
+            const email = req.body.email;
+            
+            bcrypt.hash(password, saltRounds, async function(err, hash){
+                if(err){
+                    return next(err);
+                }
+                const user = new Account(username, hash, name, email);
+                const rs = await User.Update(user);
+                //return rs;
+                req.login(user, function(err) {
+                    if (err) { return next(err); }
+                    res.redirect('/');
+                });
+            })
         } catch (error) {
             next(error);
+        }
+    },
+    updatePage: async (req, res, next)=> {
+        try {
+            const userName = req.params.userName;
+            const rs = await Account.Get(userName);
+            res.render('upateAccount', {
+                user: rs,
+                //passWord: pass,
+                css:()=>'css/signin_signup',
+                js:()=>'js/empty'
+            })
+        } catch (error) {
+            next(error)
         }
     }
 }

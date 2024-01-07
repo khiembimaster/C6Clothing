@@ -1,0 +1,49 @@
+
+<!-- Modal -->
+<div class="modal fade" id="signup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="signupLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="signupLabel">Update information</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="https://localhost:3000/account/signup" method="post">
+            <div class="form-floating mb-3">
+                <input name="username" type="text" class="form-control" id="un" placeholder="Username" value="{{user.userName}}">
+                <label for="un">Username</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input name="password" type="password" class="form-control" id="pwd" placeholder="Password" value="{{user.passWord}}">
+                <label for="pwd">Password</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input name="name" type="text" class="form-control" id="name" placeholder="Name" value="{{user.name}}">
+                <label for="name">Name</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input name="email" type="email" class="form-control" id="email" placeholder="Email" value="{{user.email}}">
+                <label for="email">Email</label>
+            </div>
+            <hr>
+            <div class="d-flex gap-2 my-3">
+                <button class="w-50 btn btn-primary btn-login text-uppercase fw-bold" type="submit">Sign
+                    up</button>
+
+                <button type="button" class="w-50 btn btn-primary btn-login text-uppercase fw-bold" data-bs-toggle="modal" data-bs-target="#signin">
+                Sign in</button>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="d-grid mt-2">
+            <a class="btn btn-google text-uppercase fw-bold bg-light text-primary border"
+                href="https://localhost:3000/account/auth/google">
+                <i class="fab fa-google me-2"></i> Sign up with Google
+            </a>
+        </div>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
