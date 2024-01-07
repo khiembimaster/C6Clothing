@@ -40,7 +40,9 @@ dialog. bootstrap 5.x or 4.x is supported. You can also use the bootstrap js 3.3
 
         let editor;
         ClassicEditor
-        .create(document.querySelector('#editor'))
+        .create(document.querySelector('#editor'), {
+             toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ]
+        })
         .then(newEditor => {
             editor = newEditor;
         })
