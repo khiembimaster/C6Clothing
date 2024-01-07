@@ -60,12 +60,7 @@ module.exports = class Product{
     }
     static async DelByID(proID){
         const product = await db.one(tbName, 'ID', proID);
-        const input = {
-            Bucket: bucketName,
-            Key: product.Image,
-        }
-        const command = new DeleteObjectCommand(input);
-        await s3.send(command);
+        imageURL.deleteImage(product.Image);
         await db.del(tbName, 'ID', proID);
     }
     static async Update(id, buffer, mimetype, product){

@@ -8,7 +8,7 @@ const Handlebars = require('handlebars');
 Handlebars.registerHelper("list", function(n, options){
     var accum = '';
     console.log(n);
-    for(var i = 0; i < n; i++){
+    for(var i = 1; i <= n; i++){
         accum += options.fn(i);
     }
     return accum;
@@ -63,6 +63,7 @@ module.exports = {
                 title: 'Products',
                 products: result.data,
                 total: result.count,
+                totalPages: result.totalPages,
                 prev: (params.page - 1) || result.count,
                 next: (params.page % result.count) + 1,
                 'categories': categories,

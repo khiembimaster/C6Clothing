@@ -82,8 +82,8 @@ module.exports = {
             for(let filter of filters){
                 filters_sql += ` AND ${filter}`;
             }
-            let rs = await con.one(count_sql + filters_sql); 
-
+            let rs = await con.one(count_sql + filters_sql);
+            rs['totalPages'] = Math.ceil(rs['count'] / perPage);
             sql += filters_sql;
             sql += ` ORDER BY "${sort.field}" ${sort.order}`;
             sql += ` LIMIT ${perPage} OFFSET ${(page-1)*perPage} `;
