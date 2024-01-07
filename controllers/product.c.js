@@ -37,7 +37,7 @@ module.exports = {
             
             await Product.Add(new Product(name, tinyDes, fullDes, price,category,quantity, image), buffer, req.file.mimetype);
             
-            res.redirect('/product');
+            res.redirect('/admin/product');
             
         }catch(error){
             next(error);
@@ -89,7 +89,9 @@ module.exports = {
     },
     delete: async (req, res, next)=>{
         try{
-            await Product.DelByID(req.params.id);      
+            await Product.DelByID(req.params.id);   
+            console.log("12121")
+            await res.redirect('/admin/product');   
         }catch(error){
             next(error);
         }
