@@ -6,12 +6,24 @@ const sharp = require('sharp');
 const Handlebars = require('handlebars');
 
 Handlebars.registerHelper("list", function(n, options){
+    if(n == 0) return;
+    
     var accum = '';
     console.log(n);
+
+    accum +=   `
+    <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+    </li>`
     for(var i = 1; i <= n; i++){
-        accum += options.fn(i);
+        accum +=`<li class="page-item"><a class="page-link" href="">${i}</a></li>`;
     }
-    return accum;
+    
+    accum += `
+    <li class="page-item">
+        <a class="page-link" href="#">Next</a>
+    </li>`
+    return new Handlebars.SafeString(accum);
 })
 
 module.exports = {
@@ -58,14 +70,20 @@ module.exports = {
             }
             const result = await Product.All(params);
             const categories = await Category.All();
-            
+            let user = null;
+            if(req.session.passport){
+                user = req.session.passport.user
+            }
             res.render('products_list', {
-                title: 'Products',
-                products: result.data,
-                total: result.count,
-                totalPages: result.totalPages,
-                prev: (params.page - 1) || result.count,
-                next: (params.page % result.count) + 1,
+                'user': user,   
+                'title': 'Products',
+                'products': result.data,
+                'total': result.count,
+                'totalPages': result.totalPages,
+                'prev': (params.page - 1) || result.count,
+                'next': (params.page % result.count) + 1,
+                'min_price': params.minPrice || 0,
+                'max_price': params.maxPrice || 100,
                 'categories': categories,
                 css: ()=>'css/products_list',
                 js:()=>'js/products_list'
