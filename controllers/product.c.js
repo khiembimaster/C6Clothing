@@ -57,6 +57,7 @@ module.exports = {
                 maxPrice : req.query.max_price || null
             }
             const result = await Product.All(params);
+            const categories = await Category.All();
             
             res.render('products_list', {
                 title: 'Products',
@@ -64,6 +65,7 @@ module.exports = {
                 total: result.count,
                 prev: (params.page - 1) || result.count,
                 next: (params.page % result.count) + 1,
+                'categories': categories,
                 css: ()=>'css/products_list',
                 js:()=>'js/products_list'
             });
