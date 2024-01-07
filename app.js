@@ -23,7 +23,7 @@ const hbs = create({
     extname: '.hbs'
 })
 
-app.use(express.static('public'))
+app.use('/static', express.static('public'))
 
 app.engine('hbs', hbs.engine);
 app.set('views', './views');
@@ -31,6 +31,7 @@ app.set('view engine', 'hbs');
 
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/', require('./routes/home.r'));
 app.use('/account', require('./routes/auth.r'));
 app.use('/category', require('./routes/category.r'));
 

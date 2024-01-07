@@ -99,7 +99,6 @@ module.exports = {
         let con = null;
         try{
             con = await db.connect();
-            console.log(obj);
             let sql = pgp.helpers.insert(obj, null, tbName);
             await con.none(sql);
         }catch(error){

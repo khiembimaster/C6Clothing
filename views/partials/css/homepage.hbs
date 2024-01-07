@@ -1,0 +1,51 @@
+<style>
+    .card-img-top {
+        height: 300px;
+        /* Điều chỉnh chiều cao mong muốn */
+        object-fit: cover;
+        /* Đảm bảo hình ảnh không bị bóp méo */
+    }
+
+    .category-card {
+        position: relative;
+        transition: transform 0.3s;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .category-card:hover img {
+        transform: scale(1.1);
+        /* Di chuyển ảnh lên một chút khi hover */
+        transition: transform 0.3s;
+    }
+
+    .category-card img {
+        transition: transform 0.3s;
+    }
+
+    .card-body {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        /* Màu nền khi hover */
+        padding: 10px;
+        transform: translateY(100%);
+        transition: transform 0.3s;
+        color: #fff;
+        font-size: 18px;
+    }
+
+    .category-card:hover .card-body {
+        transform: translateY(0);
+        /* Hiện hiệu ứng khi di chuột đến */
+    }
+</style>
+
+<style>
+.btn-google:hover {
+    background-color: rgb(52, 52, 255) !important;
+    color: white !important;
+}
+</style>

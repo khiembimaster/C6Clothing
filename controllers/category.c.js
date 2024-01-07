@@ -1,6 +1,19 @@
 const Category = require('../models/category.m');
-
+require('dotenv').config('.env');
+const crypto = require('crypto');
+const sharp = require('sharp');
 module.exports = {
+    upload: async (req, res, next) => {
+        try {
+            res.render('categories_creation', {
+                'form-action': `https://localhost:${process.env.PORT}/category`,
+                css: ()=>'css/products_upload',
+                js:()=>'js/products_upload'
+            })
+        } catch (error) {
+            next(error);
+        }
+    },
     all: async (req, res, next) => {
         try {
             var page = req.query.page;
@@ -14,9 +27,13 @@ module.exports = {
     },
     add: async (req, res, next) => {
         try {
+            console.log(req.body);
             const cat = req.body.catName;
-            const rs = await Category.Add(new Category(cat));
-            res.send(rs);
+            const buffer = await sharp(req.file.buffer).resize({height:640, width:1080, fit:"contain"}).toBuffer();
+            const image = crypto.randomUUID();
+            const rs = await Category.Add(new Category(cat,image),buffer, req.file.mimetype);
+        
+            res.redirect('/category');
         }
         catch (error) {
             next(error);
@@ -36,7 +53,8 @@ module.exports = {
         try {
             const id = req.params.id;
             const cat = req.body.catName;
-            res.send(Category.Update(id, new Category(cat)));
+            const buffer = await sharp(req.file.buffer).resize({height:640, width:1080, fit:"contain"}).toBuffer();
+            res.send(Category.Update(id, new Category(cat),buffer,req.file.mimetype));
         } catch (error) {
             next(error);
         }

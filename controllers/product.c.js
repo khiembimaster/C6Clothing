@@ -1,17 +1,27 @@
 const Product = require('../models/product.m');
+const Category = require('../models/category.m');
 require('dotenv').config('.env');
 const crypto = require('crypto');
 const sharp = require('sharp');
 
 module.exports = {
+    uploadPage: async(req, res, next)=>{
+        const categories = await Category.All();
+        res.render('products_upload', {
+            'form-action': `https://localhost:${process.env.PORT}/product`,
+            'categories': categories,
+            css: ()=>'css/products_upload',
+            js:()=>'js/products_upload'
+        })
+    },
     upload: async (req, res, next)=>{
         try{    
             const name = req.body.name;
             const tinyDes = req.body.tiny;
             const fullDes = req.body.full;
-            const price = req.body.price;
+            const price = Number.parseFloat(req.body.price) || 0;
             const category = req.body.category;
-            const quantity = req.body.quantity;
+            const quantity = Number.parseInt(req.body.quantity) || 0;
             const buffer = await sharp(req.file.buffer).resize({height:640, width:1080, fit:"contain"}).toBuffer();
             const image = crypto.randomUUID();
             
