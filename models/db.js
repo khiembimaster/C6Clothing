@@ -77,13 +77,18 @@ module.exports = {
         try{
             con = await db.connect();
             let sql = `SELECT * FROM "${tbName}" WHERE "${query.key}" ILIKE '%${query.value}%'`;
+            let count_sql = `SELECT COUNT(*) FROM "${tbName}" WHERE "${query.key}" ILIKE '%${query.value}%'`;
+            let filters_sql = "";
             for(let filter of filters){
-                sql += ` AND ${filter}`;
+                filters_sql += ` AND ${filter}`;
             }
+            let rs = await con.one(count_sql + filters_sql); 
+
+            sql += filters_sql;
             sql += ` ORDER BY "${sort.field}" ${sort.order}`;
             sql += ` LIMIT ${perPage} OFFSET ${(page-1)*perPage} `;
             console.log(sql);
-            const rs = await con.manyOrNone(sql);
+            rs["data"] = await con.manyOrNone(sql);
             return rs;
         }catch(error){
             throw error;

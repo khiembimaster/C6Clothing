@@ -1,0 +1,87 @@
+<style>
+    .category-card {
+        cursor: pointer;
+    }
+
+    .category-card:hover img {
+        transition: 0.3s;
+        transform: translateY(-10px);
+        /* Di chuyển ảnh lên một chút khi hover */
+    }
+
+    .category-card img {
+        transition: 0.3s;
+    }
+
+    .category-card:hover .card-body {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="container">
+    <div class="row my-5 ">
+        <h2 style="font-weight: bold; 
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                    text-transform: uppercase;">All product</h2>
+    </div>
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-2">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid justify-content-center">
+                    <form class="d-flex flex-column">
+                        <label for="priceMin" class="form-label">Price Min: <span id="priceMinValue">0</span>$</label>
+                        <input type="range" class="form-range mb-2" min="0" max="100" id="priceMin">
+
+                        <label for="priceMax" class="form-label">Price Max: <span id="priceMaxValue">0</span>$</label>
+                        <input type="range" class="form-range mb-2" min="0" max="100" id="priceMax">
+                        <div class="d-grid gap-2 mb-2">
+                            <button class="btn btn-outline-success"><a class="dropdown-item"
+                                    href="#">Ascending</a></button>
+                        </div>
+                        <div class="d-grid gap-2 mb-2">
+                            <button class="btn btn-outline-success"><a class="dropdown-item"
+                                    href="#">Descending</a></button>
+                        </div>
+                        <div class="d-grid gap-2 mb-2">
+                            <button class="btn btn-outline-success"><a class="dropdown-item"
+                                    href="#">Newest</a></button>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+        </div>
+        <div class="col-lg-10">
+            <div class="row">
+                {{#each products}}
+                <div class="col-md-4 mb-4">
+                    <div class="category-card">
+                        <img class="card-img-top" src="{{this.ImageUrl}}" alt="Card image cap">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{this.ProName}}</h5>
+                            <p class="card-text">Price: ${{this.Price}}</p>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+
+            <div class="row">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        {{#list total}}
+                        <li class="page-item"><a class="page-link" href="{{this}}">{{this}}</a></li>
+                        {{/list}}            
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+

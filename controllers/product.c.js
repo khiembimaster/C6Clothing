@@ -3,6 +3,16 @@ const Category = require('../models/category.m');
 require('dotenv').config('.env');
 const crypto = require('crypto');
 const sharp = require('sharp');
+const Handlebars = require('handlebars');
+
+Handlebars.registerHelper("list", function(n, options){
+    var accum = '';
+    console.log(n);
+    for(var i = 0; i < n; i++){
+        accum += options.fn(i);
+    }
+    return accum;
+})
 
 module.exports = {
     uploadPage: async(req, res, next)=>{
@@ -46,12 +56,16 @@ module.exports = {
                 minPrice : req.query.min_price || null,
                 maxPrice : req.query.max_price || null
             }
-            const products = await Product.All(params);
-            console.log(products);
-            res.render('products', {
+            const result = await Product.All(params);
+            
+            res.render('products_list', {
                 title: 'Products',
-                theme: req.session.isDark ? 'dark':'light',
-                products: products
+                products: result.data,
+                total: result.count,
+                prev: (params.page - 1) || result.count,
+                next: (params.page % result.count) + 1,
+                css: ()=>'css/products_list',
+                js:()=>'js/products_list'
             });
             
         }catch(error){
