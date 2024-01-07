@@ -106,55 +106,31 @@
             </div>
         </nav>
 
-        <div style="width:100%;height: 100%;" class="d-flex justify-content-center align-items-center bg-light">
-            <div class="d-flex flex-column rounded shadow bg-white">
-                <h5 class="text-start ps-2 text-secondary mt-2 mb-3">Sales per month</h5>
-                <canvas id="myChart" style="width:100%;max-width:800px; height: 400px;"></canvas>
+        <div class="p-2 bg-light">
+            <div>
+                <p class="m-0 fs-5 mb-1">Manage</p>
+
+                <div class="mb-3">
+                    <button class="btn btn-primary" type="submit">Add category</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <p class="m-0 fs-5">Category list</p>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+
+                <div style="height: 540px;" class="bg-white rounded shadow overflow-hidden">
+
+                </div>
             </div>
         </div>
     </main>
 
-    <script>
-        const xValues = [];
-        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-        for (i = 1; i < 13; i++) {
-            xValues.push(Math.round((Math.random() * 100)))
-        }
-
-        new Chart("myChart", {
-            type: 'line',
-
-            data: {
-                labels: months,
-                datasets: [{
-                    label: 'Sale ($)',
-                    fill: false,
-                    backgroundColor: "rgba(0,0,255,1.0)",
-                    borderColor: "rgba(0,0,255,0.1)",
-                    data: xValues
-                }]
-            },
-            options: {
-                scales: {
-                    xAxes: [{
-                        stacked: false,
-                        gridLines: {
-                            color: "transparent"
-                        }
-                    }]
-                },
-                legend: {
-                    display: false
-                },
-                plugins: {
-                    filler: {
-                        propagate: false
-                    }
-                },
-            }
-        });
-    </script>
 </body>
 
 </html>
