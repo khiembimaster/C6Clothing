@@ -3,7 +3,7 @@ const express = require('express');
 const session = require('express-session');
 
 
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED='0'
 const app = express();
 
 const { create } = require('express-handlebars');

@@ -14,6 +14,21 @@ module.exports = class Account {
     }
     static async Add(user) {
         const rs = await db.add(tbName, user);
+        console.log(user);
+        const params = {
+            id: user.Email,
+            balance: 0
+          }
+          
+          const response = await fetch('https://localhost:5000/wallet', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params)
+          });
+          const data = await response.json();
+          console.log(data);
         return rs;
     }
     static async Get(username) {

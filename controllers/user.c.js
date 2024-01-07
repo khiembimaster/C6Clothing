@@ -16,6 +16,7 @@ module.exports = {
             const { username, password, name, email } = req.body;
             const newUser = new User(username, password, name, email);
             await User.Add(newUser);
+          
         } catch (error) {
             next(error)
         }
