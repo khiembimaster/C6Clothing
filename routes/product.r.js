@@ -9,6 +9,9 @@ router.route('/')
     .get(productController.all) // All Products
     .post(upload.single('image'), productController.upload) // Product Addition
 
+router.route('/upload')
+    .get(productController.uploadPage);
+
 router.route('/:id')
     .get(productController.get) // Product details
     .delete(productController.delete) // Product deletion

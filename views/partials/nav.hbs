@@ -47,13 +47,45 @@
 </style>
 
 <header>
+    {{> signin}}
+    {{> signup}}
     <div class="container">
         <div class="row">
             <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
                 <div class="social-icons">
+
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-user-circle"></i> </a>
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user-circle"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    {{#if user}}
+                                    <li>
+                                        <h5 class="dropdown-item btn-primary">{{user}}</h5>
+                                    <li>
+                                        <li>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="dropdown-item btn-primary" action="https://localhost:3000/account/logout">
+                                        Log Out
+                                        </button>
+                                    <li>
+                                    {{else}}
+                                    <li>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="dropdown-item btn-primary" data-bs-toggle="modal" data-bs-target="#signin">
+                                        Log In
+                                        </button>
+                                    <li>
+                                        <button type="button" class="dropdown-item btn-primary" data-bs-toggle="modal" data-bs-target="#signup">
+                                        Sign Up
+                                        </button>
+                                    </li>
+                                    {{/if}}
+                                </ul>
+                            </div>
+                            
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#"><i class="fas fa-cart-plus" style="font-size: 35px;"></i></a>
@@ -75,7 +107,7 @@
                     <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                <a class="nav-link active" aria-current="page" href="https://localhost:3000/">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">About</a>
@@ -89,9 +121,9 @@
                                     Category
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    {{#each categories}}
+                                    <li><a class="dropdown-item" href="{{this.ImageUrl}}">{{this.CatName}}</a></li>
+                                    {{/each}}
                                 </ul>
                             </li>
                         </ul>
