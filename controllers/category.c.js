@@ -98,7 +98,12 @@ module.exports = {
         try {
             const id = req.params.id;
             const rs = await Category.Del(id);
-            res.send(rs);
+            const categories = await Category.All(1, 10)
+            res.render("manageCategories",{
+                categories: categories,
+                css:()=>'css/manageCategories',
+                js:()=>'js/empty'
+            })
         }
         catch (error) {
             next(error);

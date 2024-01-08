@@ -130,15 +130,14 @@ module.exports = {
                 maxPrice : req.query.max_price || null
             }
             const result = await Product.All(params);
-            const categories = await Category.All();
+            console.log(result)
+            console.log("1111")
             res.render("manageProduct",{
                 products: result,
-                css:()=>'css/manageCategories',
+                css:()=>'css/manageProduct',
                 js:()=>'js/empty'
             }
             )
-            // console.log("12121")
-            // await res.redirect('/admin/product');   
         }catch(error){
             next(error);
         }
