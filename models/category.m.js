@@ -26,16 +26,22 @@ module.exports = class Category{
       //  return cat;
     }
     static async Get(catID){
-
-        const rs = await db.one(tbName, 'ID', catID);
+        const rs = await db.findOne(tbName, 'ID', catID);
         if(rs.Image){
-            rs.ImageUrl = imageURL.getURL(product.Image);
+            rs.ImageUrl = await imageURL.getURL(rs.Image);
         } else {
             rs.ImageUrl = "#";
         }
         return rs;
     }
     static async Del(catID){
+        const products = await db.filterByField('Product', 'CatID', catID);
+        for(product of products){
+            imageURL.deleteImage(product.Image);
+            await db.del('Product', 'ID', product.ID);
+        }
+        const category = this.Get(catID);
+        imageURL.deleteImage(category.Image);
         const rs = await db.del(tbName, 'ID', catID);
         return rs;
     }

@@ -9,7 +9,7 @@ Handlebars.registerHelper("list", function (n, prev, page, next) {
     if (n < 1) return;
 
     var accum = '';
-    console.log(n);
+    console.log("page" + page);
 
     accum += `
     <li class="page-item">
@@ -74,10 +74,12 @@ module.exports = {
             if (req.session.passport) {
                 user = req.session.passport.user
             }
-            if (Object.keys(req.query).length === 0) {
+            if(Object.keys(req.query).length <= 1){
                 res.render('products_list', {
-                    'user': user,
+                    'search': params.search,
+                    'user': user,   
                     'title': 'Products',
+                    'section':'ALL PRODUCT',
                     'products': result.data,
                     'total': result.count,
                     'totalPages': result.totalPages,
@@ -90,8 +92,19 @@ module.exports = {
                     css: () => 'css/products_list',
                     js: () => 'js/products_list'
                 });
-            } else {
+            }else if(req.query.page == null){
                 res.render('partials/product_list_comp', {
+                    layout: false,
+                    'products': result.data,
+                    'total': result.count,
+                    'totalPages': result.totalPages,
+                    'prev': result.totalPages,
+                    'page': 1,
+                    'next': (1 % result.totalPages) + 1,
+                });
+            }
+            else {
+                res.render('partials/product_list_comp_products', {
                     layout: false,
                     'products': result.data,
                     'total': result.count,
@@ -101,10 +114,7 @@ module.exports = {
                     'next': (params.page % result.totalPages) + 1,
                 });
             }
-
-
-
-        } catch (error) {
+        }catch(error){
             next(error);
         }
     },
@@ -120,12 +130,30 @@ module.exports = {
             next(error);
         }
     },
-    delete: async (req, res, next) => {
-        try {
-            await Product.DelByID(req.params.id);
-            console.log("12121")
-            await res.redirect('/admin/product');
-        } catch (error) {
+    delete: async (req, res, next)=>{
+        try{
+            await Product.DelByID(req.params.id);   
+            let params = {
+                page : parseInt(req.query.page) || 1,
+                perPage : parseInt(req.query.per_page) || 5,
+                search : req.query.search || "",
+                sort : req.query.sort || null,
+                order : req.query.order || "ASC",
+                category : req.query.category || null,
+                minPrice : req.query.min_price || null,
+                maxPrice : req.query.max_price || null
+            }
+            const result = await Product.All(params);
+            const categories = await Category.All();
+            res.render("manageProduct",{
+                products: result,
+                css:()=>'css/manageCategories',
+                js:()=>'js/empty'
+            }
+            )
+            // console.log("12121")
+            // await res.redirect('/admin/product');   
+        }catch(error){
             next(error);
         }
     },

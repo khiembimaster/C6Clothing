@@ -1,4 +1,5 @@
 const Category = require('../models/category.m');
+const Product = require('../models/product.m')
 require('dotenv').config('.env');
 const crypto = require('crypto');
 const sharp = require('sharp');
@@ -13,6 +14,61 @@ module.exports = {
                 js: () => 'js/products_upload'
             })
         } catch (error) {
+            next(error);
+        }
+    },
+    get:  async (req, res, next)=>{
+        try{
+            const category = await Category.Get(req.params.id);
+
+            let params = {
+                category: parseInt(req.params.id),
+                page : parseInt(req.query.page) || 1,
+                perPage : parseInt(req.query.per_page) || 5,
+                search : req.query.search || "",
+                sort : req.query.sort || null,
+                order : req.query.order || "ASC",
+                category : req.query.category || null,
+                minPrice : req.query.min_price || null,
+                maxPrice : req.query.max_price || null
+            }
+            
+            const result = await Product.All(params);
+            
+            if(Object.keys(req.query).length === 0){
+                let user = null;
+                if(req.session.passport){
+                    user = req.session.passport.user
+                }
+                const categories = await Category.All();
+                res.render('products_list', {
+                    'user': user,   
+                    'title': 'Products',
+                    'section': category.CatName.toUpperCase(),
+                    'products': result.data,
+                    'total': result.count,
+                    'totalPages': result.totalPages,
+                    'prev': (params.page - 1) || result.totalPages,
+                    'page': params.page,
+                    'next': (params.page % result.totalPages) + 1,
+                    'min_price': params.minPrice || 0,
+                    'max_price': params.maxPrice || 100,
+                    'categories': categories,
+                    css: ()=>'css/products_list',
+                    js:()=>'js/products_list'
+                });
+            }else {
+                res.render('partials/product_list_comp', {
+                    layout: false,
+                    'products': result.data,
+                    'total': result.count,
+                    'totalPages': result.totalPages,
+                    'prev': (params.page - 1) || result.totalPages,
+                    'page': params.page,
+                    'next': (params.page % result.totalPages) + 1,
+                });
+            }
+        }catch(error){
             next(error);
         }
     },

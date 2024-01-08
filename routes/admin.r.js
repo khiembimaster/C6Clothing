@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 const adminController = require('../controllers/admin.c');
-
+const productControler = require('../controllers/product.c')
 router.route('/')
     .get(adminController.dashboard)      // All accounts
 router.route('/category')
@@ -14,7 +14,7 @@ router.route('/product')
 router.route('/product/upload')
     .get(adminController.uploadProduct)
 router.route('/product/:id')
-    .get(adminController.deleteCategory)
+    .delete(adminController.deleteCategory)
 router.route('/user')
     .get(adminController.user)
 module.exports = router;

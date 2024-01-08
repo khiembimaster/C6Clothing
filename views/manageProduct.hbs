@@ -56,7 +56,7 @@
 <script>
     $(".btn-delete").click(function (e) {
         $.ajax({
-            url: 'https://localhost:3000/product/' + $(this).val(),
+            url: 'https://localhost:3000/admin/product/'+ $(this).val(),
             type: "DELETE",
             success: function (result) {
                 $("body").html(result);
