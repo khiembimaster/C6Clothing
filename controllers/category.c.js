@@ -28,23 +28,23 @@ module.exports = {
                 search : req.query.search || "",
                 sort : req.query.sort || null,
                 order : req.query.order || "ASC",
-                category : req.query.category || null,
                 minPrice : req.query.min_price || null,
                 maxPrice : req.query.max_price || null
             }
             
             const result = await Product.All(params);
-            
-            if(Object.keys(req.query).length === 0){
+
+            if(Object.keys(req.query).length <= 1){  
+                const categories = await Category.All();
                 let user = null;
-                if(req.session.passport){
+                if (req.session.passport) {
                     user = req.session.passport.user
                 }
-                const categories = await Category.All();
                 res.render('products_list', {
+                    'search': params.search,
                     'user': user,   
                     'title': 'Products',
-                    'section': category.CatName.toUpperCase(),
+                    'section':category.CatName.toUpperCase(),
                     'products': result.data,
                     'total': result.count,
                     'totalPages': result.totalPages,
@@ -54,11 +54,22 @@ module.exports = {
                     'min_price': params.minPrice || 0,
                     'max_price': params.maxPrice || 100,
                     'categories': categories,
-                    css: ()=>'css/products_list',
-                    js:()=>'js/products_list'
+                    css: () => 'css/products_list',
+                    js: () => 'js/products_list'
                 });
-            }else {
+            }else if(req.query.page == null){
                 res.render('partials/product_list_comp', {
+                    layout: false,
+                    'products': result.data,
+                    'total': result.count,
+                    'totalPages': result.totalPages,
+                    'prev': result.totalPages,
+                    'page': 1,
+                    'next': (1 % result.totalPages) + 1,
+                });
+            }
+            else {
+                res.render('partials/product_list_comp_products', {
                     layout: false,
                     'products': result.data,
                     'total': result.count,

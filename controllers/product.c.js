@@ -64,17 +64,16 @@ module.exports = {
                 search: req.query.search || "",
                 sort: req.query.sort || null,
                 order: req.query.order || "ASC",
-                category: req.query.category || null,
                 minPrice: req.query.min_price || null,
                 maxPrice: req.query.max_price || null
             }
             const result = await Product.All(params);
-            const categories = await Category.All();
-            let user = null;
-            if (req.session.passport) {
-                user = req.session.passport.user
-            }
             if(Object.keys(req.query).length <= 1){
+                const categories = await Category.All();
+                let user = null;
+                if (req.session.passport) {
+                    user = req.session.passport.user
+                }
                 res.render('products_list', {
                     'search': params.search,
                     'user': user,   
