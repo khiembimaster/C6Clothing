@@ -14,6 +14,6 @@ router.route('/').get(categoryController.all) // All Categories
 
 router.route('/:id')
     .delete(categoryController.delete) // Category deletion
-    .put(categoryController.edit); // Category edition
-    //.get(categoryController.get);
+    .put(categoryController.edit) // Category edition
+    .get(categoryController.get);
 module.exports = router;

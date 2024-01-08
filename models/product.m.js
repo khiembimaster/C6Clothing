@@ -63,7 +63,6 @@ module.exports = class Product{
         const rs = await db.filterByField(tbName,"ProName",name,page,perPage);
         for(let product of rs){
             if(product.Image){
-
                 product.ImageUrl = imageURL.getURL(product.Image);
             } else {
                 product.ImageUrl = "#";

@@ -1,4 +1,5 @@
 <script>
+    $(()=>{
         const priceMinInput = document.getElementById('priceMin');
         const priceMaxInput = document.getElementById('priceMax');
         const priceMinValue = document.getElementById('priceMinValue');
@@ -21,4 +22,28 @@
         // Initial value update
         updatePriceValue(priceMinInput, priceMinValue);
         updatePriceValue(priceMaxInput, priceMaxValue);
-    </script>
+
+        const listener = function(e, page=1){
+            e.preventDefault();
+            const order = $(this).val();
+            const min_price = $('#priceMin').val();
+            const max_price = $('#priceMax').val();
+            const search = $('#searchbar').val();
+            const data = {
+                'page': page,
+                'order':order,
+                'min_price':min_price,
+                'max_price':max_price,
+                'search':search
+            };
+            $.get("https://localhost:3000/product/", data)
+                .done(function(data){
+                    $('#product-list-comp').replaceWith(data);
+                });
+        };
+
+        $('.sort-btn').click(listener);
+        $('#search').submit(listener);        
+        $('.page-link').click(listener);
+    })
+</script>           
