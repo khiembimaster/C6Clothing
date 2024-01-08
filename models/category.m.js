@@ -6,7 +6,8 @@ module.exports = class Category{
         this.Image = image;
         this.CatName = catName;
     }
-    static async All(page = 1 , perPage = 5){
+
+    static async All(page=1, perPage=5){
         console.log(page, perPage)
         const rs = await db.findAll(tbName,page,perPage);
         for(let cat of rs){
@@ -26,10 +27,9 @@ module.exports = class Category{
       //  return cat;
     }
     static async Get(catID){
-
-        const rs = await db.one(tbName, 'ID', catID);
+        const rs = await db.findOne(tbName, 'ID', catID);
         if(rs.Image){
-            rs.ImageUrl = imageURL.getURL(product.Image);
+            rs.ImageUrl = await imageURL.getURL(rs.Image);
         } else {
             rs.ImageUrl = "#";
         }
