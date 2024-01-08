@@ -76,6 +76,7 @@ module.exports = {
                 res.render('products_list', {
                     'user': user,   
                     'title': 'Products',
+                    'section':'ALL PRODUCT',
                     'products': result.data,
                     'total': result.count,
                     'totalPages': result.totalPages,
@@ -99,9 +100,6 @@ module.exports = {
                     'next': (params.page % result.totalPages) + 1,
                 });
             }
-            
-            
-            
         }catch(error){
             next(error);
         }

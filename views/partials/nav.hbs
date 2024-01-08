@@ -111,7 +111,7 @@
                                 <a class="nav-link" href="#">About</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">All Product</a>
+                                <a class="nav-link" href="https://localhost:3000/product">All Product</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -120,7 +120,7 @@
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     {{#each categories}}
-                                    <li><a class="dropdown-item" href="{{this.ImageUrl}}">{{this.CatName}}</a></li>
+                                    <li><a class="dropdown-item" href="https://localhost:3000/category/{{this.ID}}">{{this.CatName}}</a></li>
                                     {{/each}}
                                 </ul>
                             </li>
