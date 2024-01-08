@@ -9,7 +9,7 @@ Handlebars.registerHelper("list", function(n, prev, page, next){
     if(n < 1) return;
     
     var accum = '';
-    console.log(n);
+    console.log("page" + page);
 
     accum +=   `
     <li class="page-item">
@@ -72,8 +72,9 @@ module.exports = {
             if(req.session.passport){
                 user = req.session.passport.user
             }
-            if(Object.keys(req.query).length === 0){
+            if(Object.keys(req.query).length <= 1){
                 res.render('products_list', {
+                    'search': params.search,
                     'user': user,   
                     'title': 'Products',
                     'section':'ALL PRODUCT',
@@ -89,8 +90,19 @@ module.exports = {
                     css: ()=>'css/products_list',
                     js:()=>'js/products_list'
                 });
-            }else {
+            }else if(req.query.page == null){
                 res.render('partials/product_list_comp', {
+                    layout: false,
+                    'products': result.data,
+                    'total': result.count,
+                    'totalPages': result.totalPages,
+                    'prev': result.totalPages,
+                    'page': 1,
+                    'next': (1 % result.totalPages) + 1,
+                });
+            }
+            else {
+                res.render('partials/product_list_comp_products', {
                     layout: false,
                     'products': result.data,
                     'total': result.count,
