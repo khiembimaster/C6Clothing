@@ -28,7 +28,7 @@ Handlebars.registerHelper("list", function(n, options){
 
 module.exports = {
     uploadPage: async(req, res, next)=>{
-        const categories = await Category.All();
+        const categories = await Category.All(1, 10);
         res.render('products_upload', {
             'form-action': `https://localhost:${process.env.PORT}/product`,
             'categories': categories,
@@ -49,7 +49,7 @@ module.exports = {
             
             await Product.Add(new Product(name, tinyDes, fullDes, price,category,quantity, image), buffer, req.file.mimetype);
             
-            res.redirect('/product');
+            res.redirect('/admin/product');
             
         }catch(error){
             next(error);
@@ -107,7 +107,9 @@ module.exports = {
     },
     delete: async (req, res, next)=>{
         try{
-            await Product.DelByID(req.params.id);      
+            await Product.DelByID(req.params.id);   
+            console.log("12121")
+            await res.redirect('/admin/product');   
         }catch(error){
             next(error);
         }

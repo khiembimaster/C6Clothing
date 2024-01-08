@@ -32,7 +32,6 @@ module.exports = {
             const buffer = await sharp(req.file.buffer).resize({height:640, width:1080, fit:"contain"}).toBuffer();
             const image = crypto.randomUUID();
             const rs = await Category.Add(new Category(cat,image),buffer, req.file.mimetype);
-        
             res.redirect('/category');
         }
         catch (error) {
