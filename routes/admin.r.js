@@ -6,13 +6,14 @@ const adminController = require('../controllers/admin.c');
 router.route('/')
     .get(adminController.dashboard)      // All accounts
 router.route('/category')
-    .get(adminController.category)  
+    .get(adminController.category)
 router.route('/category/upload')
-    .get(adminController.uploadCategory)  
+    .get(adminController.uploadCategory)
 router.route('/product')
-    .get(adminController.product)  
+    .get(adminController.product)
 router.route('/product/upload')
-    .get(adminController.uploadProduct)  
-    module.exports = router;
+    .get(adminController.uploadProduct)
 router.route('/product/:id')
-    .get(adminController.deleteCategory)  
+    .get(adminController.deleteCategory)
+
+module.exports = router;
