@@ -42,12 +42,11 @@ module.exports = {
             }
         }
     },
-    findByField: async (tbName, fieldName, value,page,perPage) => {
+    findByField: async (tbName, fieldName, value) => {
         let con = null;
         try{
             con = await db.connect();
-            const rs = await con.manyOrNone(`SELECT * FROM "${tbName}" WHERE "${fieldName}" = $1
-             LIMIT ${perPage} OFFSET ${(page-1)*perPage} `, [value]);
+            const rs = await con.manyOrNone(`SELECT * FROM "${tbName}" WHERE "${fieldName}" = $1`, [value]);
             return rs;
         }catch(error){
             throw error;
