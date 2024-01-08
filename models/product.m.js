@@ -72,7 +72,7 @@ module.exports = class Product{
     }
     static async DelByID(proID){
         const product = await db.findOne(tbName, 'ID', proID);
-        imageURL.deleteImage(product.Image);
+        await imageURL.deleteImage(product.Image);
         await db.del(tbName, 'ID', proID);
     }
     static async Update(id, buffer, mimetype, product){
