@@ -119,8 +119,26 @@ module.exports = {
     delete: async (req, res, next)=>{
         try{
             await Product.DelByID(req.params.id);   
-            console.log("12121")
-            await res.redirect('/admin/product');   
+            let params = {
+                page : parseInt(req.query.page) || 1,
+                perPage : parseInt(req.query.per_page) || 5,
+                search : req.query.search || "",
+                sort : req.query.sort || null,
+                order : req.query.order || "ASC",
+                category : req.query.category || null,
+                minPrice : req.query.min_price || null,
+                maxPrice : req.query.max_price || null
+            }
+            const result = await Product.All(params);
+            const categories = await Category.All();
+            res.render("manageProduct",{
+                products: result,
+                css:()=>'css/manageCategories',
+                js:()=>'js/empty'
+            }
+            )
+            // console.log("12121")
+            // await res.redirect('/admin/product');   
         }catch(error){
             next(error);
         }
