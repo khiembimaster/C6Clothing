@@ -25,34 +25,8 @@
                 </div>
             </nav>
         </div>
-        <div class="col-lg-10">
-            <div class="row">
-                {{#each products}}
-                <div class="col-md-4 mb-4">
-                    <div class="category-card">
-                        <img class="card-img-top" src="{{this.ImageUrl}}" alt="Card image cap">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">{{this.ProName}}</h5>
-                            <p class="card-text">Price: ${{this.Price}}</p>
-                        </div>
-                    </div>
-                </div>
-                {{/each}}
-            </div>
-
-            <div class="row">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        
-
-                        {{#list totalPages}}
-                        {{this}}
-                        {{/list}}            
-
-                    </ul>
-                </nav>
-            </div>
-        </div>
+        
+        {{> product_list_comp}}
     </div>
 </div>
 

@@ -5,23 +5,22 @@ const crypto = require('crypto');
 const sharp = require('sharp');
 const Handlebars = require('handlebars');
 
-Handlebars.registerHelper("list", function(n, options){
-    if(n == 0) return;
+Handlebars.registerHelper("list", function(n, prev, page, next){
+    if(n < 1) return;
     
     var accum = '';
     console.log(n);
 
     accum +=   `
-    <li class="page-item disabled">
-        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+    <li class="page-item">
+        <button class="page-link" tabindex="-1" aria-disabled="true" value="${prev}">Previous</button>
     </li>`
     for(var i = 1; i <= n; i++){
-        accum +=`<li class="page-item"><a class="page-link" href="">${i}</a></li>`;
+        accum +=`<li class="page-item"><button class="page-link" value="${1}" ${page == i ? "active":''}>${i}</button></li>`;
     }
-    
     accum += `
     <li class="page-item">
-        <a class="page-link" href="#">Next</a>
+        <button class="page-link" tabindex="-1" aria-disabled="true" value="${next}">Next</button>
     </li>`
     return new Handlebars.SafeString(accum);
 })
@@ -57,7 +56,6 @@ module.exports = {
     },
     all: async (req, res, next)=>{
         try{
-            
             let params = {
                 page : parseInt(req.query.page) || 1,
                 perPage : parseInt(req.query.per_page) || 5,
@@ -74,20 +72,35 @@ module.exports = {
             if(req.session.passport){
                 user = req.session.passport.user
             }
-            res.render('products_list', {
-                'user': user,   
-                'title': 'Products',
-                'products': result.data,
-                'total': result.count,
-                'totalPages': result.totalPages,
-                'prev': (params.page - 1) || result.count,
-                'next': (params.page % result.count) + 1,
-                'min_price': params.minPrice || 0,
-                'max_price': params.maxPrice || 100,
-                'categories': categories,
-                css: ()=>'css/products_list',
-                js:()=>'js/products_list'
-            });
+            if(Object.keys(req.query).length === 0){
+                res.render('products_list', {
+                    'user': user,   
+                    'title': 'Products',
+                    'products': result.data,
+                    'total': result.count,
+                    'totalPages': result.totalPages,
+                    'prev': (params.page - 1) || result.totalPages,
+                    'page': params.page,
+                    'next': (params.page % result.totalPages) + 1,
+                    'min_price': params.minPrice || 0,
+                    'max_price': params.maxPrice || 100,
+                    'categories': categories,
+                    css: ()=>'css/products_list',
+                    js:()=>'js/products_list'
+                });
+            }else {
+                res.render('partials/product_list_comp', {
+                    layout: false,
+                    'products': result.data,
+                    'total': result.count,
+                    'totalPages': result.totalPages,
+                    'prev': (params.page - 1) || result.totalPages,
+                    'page': params.page,
+                    'next': (params.page % result.totalPages) + 1,
+                });
+            }
+            
+            
             
         }catch(error){
             next(error);
