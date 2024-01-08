@@ -13,7 +13,7 @@ module.exports = {
         }
     },
     dashboard: async (req,res,next) =>{
-            // res. render dashboard
+        res.redirect('/admin/category');
     },
     category: async(req,res,next)=>{
         try {
