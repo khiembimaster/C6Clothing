@@ -1,15 +1,15 @@
-<div class="p-2 bg-light">
+<div class="p-2">
     <div>
         <p class="m-0 fs-5 mb-1">Manage</p>
 
-        <div class="mb-3">
+        {{!-- <div class="mb-3">
             <a href="https://localhost:3000/admin/product/upload" class="btn btn-primary">Add product</a>
-        </div>
+        </div> --}}
     </div>
 
     <div>
         <div class="d-flex justify-content-between align-items-center mb-2">
-            <p class="m-0 fs-5">Product list</p>
+            <p class="m-0 fs-5">User list</p>
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
@@ -23,26 +23,25 @@
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
+                                <th scope="col">Username</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Image</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Birthdate</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{#each products}}
+                            {{#each users}}
                             <tr>
                                 <td>{{this.ID}}</td>
-                                <td>{{this.ProName}}</td>
-                                <td>{{this.Price}}</td>
-                                <td>{{this.Quantity}}</td>
-                                <td><img src="{{this.ImageUrl}}" class="img-thumbnail" alt="Category Image"
-                                        style="height: 120px; weight: 120px"></td>
+                                <td>{{this.Username}}</td>
+                                <td>{{this.Name}}</td>
+                                <td>{{this.Email}}</td>
+                                <td>{{this.DOB}}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-danger btn-delete" value="{{this.ID}}"
-                                        onclick="return confirm('Are you sure you want to delete?')">Delete</button>
                                     <a href="/edit-categories/Update/{{this.ID}}" class="btn btn-primary">Update</a>
+                                    <button class="btn btn-danger btn-delete" value="{{this.Username}}"
+                                        onclick="return confirm('Are you sure you want to delete?')">Delete</button>
                                 </td>
                             </tr>
                             {{/each}}
@@ -56,7 +55,7 @@
 <script>
     $(".btn-delete").click(function (e) {
         $.ajax({
-            url: 'https://localhost:3000/product/' + $(this).val(),
+            url: 'https://localhost:3000/user/' + $(this).val(),
             type: "DELETE",
             success: function (result) {
                 $("body").html(result);

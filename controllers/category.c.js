@@ -5,8 +5,8 @@ const sharp = require('sharp');
 module.exports = {
     upload: async (req, res, next) => {
         try {
-            res.render('admin/adminLayout', {
-                content: () => 'admin/addCategory',
+            res.render('addCategory', {
+                layout: 'admin',
                 current: 3,
                 'form-action': `https://localhost:${process.env.PORT}/category`,
                 css: () => 'css/products_upload',

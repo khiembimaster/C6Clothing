@@ -1,6 +1,24 @@
 const Categories = require('../models/category.m')
 const Product = require('../models/product.m');
 module.exports = {
+    user: async (req, res, next) => {
+        try {
+            const page = req.params.page;
+            const perPage = req.params.perPage;
+            console.log(page, perPage)
+            const rs = await Categories.All(1, 5);
+            console.log(rs.CatName)
+            res.render('manageUser', {
+                layout: 'admin',
+                categories: rs,
+                current: 4,
+                css: () => 'js/empty',
+                js: () => 'js/empty'
+            })
+        } catch (error) {
+            next(error)
+        }
+    },
     upload: async (req, res, next) => {
         try {
             res.render('categories_creation', {
@@ -14,8 +32,8 @@ module.exports = {
     },
     dashboard: async (req, res, next) => {
         // res. render dashboard
-        res.render('admin/adminLayout', {
-            content: () => 'admin/dashboard',
+        res.render('dashboard', {
+            layout: 'admin',
             current: 1,
             css: () => 'js/empty',
             js: () => 'js/empty'
@@ -28,8 +46,8 @@ module.exports = {
             console.log(page, perPage)
             const rs = await Categories.All(1, 5);
             console.log(rs.CatName)
-            res.render('admin/adminLayout', {
-                content: () => 'admin/manageCategories',
+            res.render('manageCategories', {
+                layout: 'admin',
                 categories: rs,
                 current: 3,
                 css: () => 'js/empty',
@@ -56,8 +74,8 @@ module.exports = {
             console.log(page, perPage)
             const rs = await Product.getAll(1, 5);
             console.log(rs)
-            res.render("admin/adminLayout", {
-                content: () => 'admin/manageProduct',
+            res.render("manageProduct", {
+                layout: 'admin',
                 products: rs,
                 current: 2,
                 css: () => 'css/manageCategories',

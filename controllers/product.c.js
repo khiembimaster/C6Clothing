@@ -28,8 +28,8 @@ Handlebars.registerHelper("list", function (n, prev, page, next) {
 module.exports = {
     uploadPage: async (req, res, next) => {
         const categories = await Category.All(1, 10);
-        res.render('admin/adminLayout', {
-            content: () => 'admin/addProduct',
+        res.render('addProduct', {
+            layout: 'admin',
             current: 2,
             'form-action': `https://localhost:${process.env.PORT}/product`,
             'categories': categories,
