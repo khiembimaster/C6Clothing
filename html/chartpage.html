@@ -96,12 +96,45 @@
                         Username
                     </a>
                     <ul style="left:-40%;" class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><button type="button" class="dropdown-item btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#changepassword">
+                                Change password
+                            </button></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li><a class="dropdown-item" href="#">Log out</a></li>
                     </ul>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="changepassword" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="changepassword" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="signupLabel">Change password</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-floating mb-3">
+                                        <input name="username" type="text" class="form-control" id="signin-un"
+                                            placeholder="Username">
+                                        <label for="signin-un">Current password</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input name="password" type="password" class="form-control" id="signin-pwd"
+                                            placeholder="Password">
+                                        <label for="signin-pwd">New password</label>
+                                    </div>
+                                    <button class="w-100 btn btn-primary btn-login text-uppercase fw-bold"
+                                        type="submit">Change password</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
