@@ -9,9 +9,9 @@ router.route('/')
 router.route('/:id')
     .put(cartController.update)
     .delete(cartController.delete)
-    .get(cartController.getByID)
+    .get(cartController.cartPage)
 router.route('/items')
-    .post(cartItemsController.add)// Cart Item Addition 
+    .post(cartItemsController.add)// Cart ItemAd dition 
     .get(cartItemsController.getAll)
 router.route('/items/:id')
     .put(cartItemsController.update)      // Cart Item Update
