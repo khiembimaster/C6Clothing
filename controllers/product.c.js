@@ -4,6 +4,7 @@ require('dotenv').config('.env');
 const crypto = require('crypto');
 const sharp = require('sharp');
 const Handlebars = require('handlebars');
+const { category } = require('./admin.c');
 
 Handlebars.registerHelper("list", function (n, prev, page, next) {
     if (n < 1) return;
@@ -121,7 +122,20 @@ module.exports = {
         try {
             try {
                 const product = await Product.GetByID(req.params.id);
-                res.send(product);
+                const categories = await Category.All();
+                let user = null;
+                if (req.session.passport) {
+                    user = req.session.passport.user
+                }
+                res.render('product_detail', {
+                    'product': product,
+                    'user': user,
+                    'categories':categories,
+                    css:()=>'css/product_detail',
+                    js:()=>'js/product_detail'
+                });
+
+
             } catch (error) {
                 next(error);
             }

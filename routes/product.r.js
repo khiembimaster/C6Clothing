@@ -14,7 +14,5 @@ router.route('/upload')
 
 router.route('/:id')
     .get(productController.get) // Product details
-    .delete(productController.delete) // Product deletion
-    .put(productController.edit);   // Product edition
 
 module.exports = router;
