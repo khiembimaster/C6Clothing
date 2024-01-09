@@ -70,7 +70,7 @@ module.exports = {
             const categories = await Category.All();
             let user = null;
             if(req.session.passport){
-                user = req.session.passport.user
+                user = req.session.passport.user.username
             }
             if(Object.keys(req.query).length === 0){
                 res.render('products_list', {

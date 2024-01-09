@@ -36,7 +36,7 @@ module.exports = {
             if(Object.keys(req.query).length === 0){
                 let user = null;
                 if(req.session.passport){
-                    user = req.session.passport.user
+                    user = req.session.passport.user.username
                 }
                 const categories = await Category.All();
                 res.render('products_list', {

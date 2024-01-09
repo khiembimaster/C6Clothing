@@ -19,7 +19,6 @@ module.exports = class Account {
             id: user.Email,
             balance: 0
           }
-          
           const response = await fetch('https://localhost:5000/wallet', {
             method: 'POST',
             headers: {
@@ -33,6 +32,8 @@ module.exports = class Account {
     }
     static async Get(username) {
         const rs = await db.findOne(tbName, 'Username', username);
+        // ------------- //
+        //--------------//
         return rs;
     }
     static async Del(username) {
