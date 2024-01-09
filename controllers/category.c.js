@@ -6,10 +6,12 @@ const sharp = require('sharp');
 module.exports = {
     upload: async (req, res, next) => {
         try {
-            res.render('categories_creation', {
+            res.render('addCategory', {
+                layout: 'admin',
+                current: 3,
                 'form-action': `https://localhost:${process.env.PORT}/category`,
-                css: ()=>'css/products_upload',
-                js:()=>'js/products_upload'
+                css: () => 'css/products_upload',
+                js: () => 'js/products_upload'
             })
         } catch (error) {
             next(error);
@@ -26,23 +28,23 @@ module.exports = {
                 search : req.query.search || "",
                 sort : req.query.sort || null,
                 order : req.query.order || "ASC",
-                category : req.query.category || null,
                 minPrice : req.query.min_price || null,
                 maxPrice : req.query.max_price || null
             }
             
             const result = await Product.All(params);
-            
-            if(Object.keys(req.query).length === 0){
+
+            if(Object.keys(req.query).length <= 1){  
+                const categories = await Category.All();
                 let user = null;
-                if(req.session.passport){
+                if (req.session.passport) {
                     user = req.session.passport.user
                 }
-                const categories = await Category.All();
                 res.render('products_list', {
+                    'search': params.search,
                     'user': user,   
                     'title': 'Products',
-                    'section': category.CatName.toUpperCase(),
+                    'section':category.CatName.toUpperCase(),
                     'products': result.data,
                     'total': result.count,
                     'totalPages': result.totalPages,
@@ -52,11 +54,22 @@ module.exports = {
                     'min_price': params.minPrice || 0,
                     'max_price': params.maxPrice || 100,
                     'categories': categories,
-                    css: ()=>'css/products_list',
-                    js:()=>'js/products_list'
+                    css: () => 'css/products_list',
+                    js: () => 'js/products_list'
                 });
-            }else {
+            }else if(req.query.page == null){
                 res.render('partials/product_list_comp', {
+                    layout: false,
+                    'products': result.data,
+                    'total': result.count,
+                    'totalPages': result.totalPages,
+                    'prev': result.totalPages,
+                    'page': 1,
+                    'next': (1 % result.totalPages) + 1,
+                });
+            }
+            else {
+                res.render('partials/product_list_comp_products', {
                     layout: false,
                     'products': result.data,
                     'total': result.count,
@@ -85,9 +98,9 @@ module.exports = {
         try {
             console.log(req.body);
             const cat = req.body.catName;
-            const buffer = await sharp(req.file.buffer).resize({height:640, width:1080, fit:"contain"}).toBuffer();
+            const buffer = await sharp(req.file.buffer).resize({ height: 640, width: 1080, fit: "contain" }).toBuffer();
             const image = crypto.randomUUID();
-            const rs = await Category.Add(new Category(cat,image),buffer, req.file.mimetype);
+            const rs = await Category.Add(new Category(cat, image), buffer, req.file.mimetype);
             res.redirect('/category');
         }
         catch (error) {
@@ -113,8 +126,8 @@ module.exports = {
         try {
             const id = req.params.id;
             const cat = req.body.catName;
-            const buffer = await sharp(req.file.buffer).resize({height:640, width:1080, fit:"contain"}).toBuffer();
-            res.send(Category.Update(id, new Category(cat),buffer,req.file.mimetype));
+            const buffer = await sharp(req.file.buffer).resize({ height: 640, width: 1080, fit: "contain" }).toBuffer();
+            res.send(Category.Update(id, new Category(cat), buffer, req.file.mimetype));
         } catch (error) {
             next(error);
         }

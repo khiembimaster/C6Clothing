@@ -36,6 +36,13 @@ module.exports = class Category{
         return rs;
     }
     static async Del(catID){
+        const products = await db.findByField('Products', 'CatID', catID);
+        for(var product of products){
+            await imageURL.deleteImage(product.Image);
+            await db.del('Products', 'ID', product.ID);
+        }
+        const category = await this.Get(catID);
+        await imageURL.deleteImage(category.Image);
         const rs = await db.del(tbName, 'ID', catID);
         return rs;
     }

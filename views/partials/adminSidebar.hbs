@@ -1,0 +1,68 @@
+<style>
+    /* Sidebar */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        /* Height of navbar */
+        box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+        width: 240px;
+        z-index: 600;
+    }
+
+    @media (max-width: 991.98px) {
+        .sidebar {
+            width: 100%;
+        }
+    }
+
+    .sidebar .active {
+        border-radius: 5px;
+        box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+    }
+
+    .sidebar-sticky {
+        position: relative;
+        top: 0;
+        height: calc(100vh - 48px);
+        padding-top: 0.5rem;
+        overflow-x: hidden;
+        overflow-y: auto;
+        /* Scrollable contents if viewport is shorter than content. */
+    }
+</style>
+
+<side>
+    <!-- Sidebar -->
+    <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-dark text-white">
+        <div class="ps-4 py-3 mb-3 fs-5 fw-bold">Home</div>
+        <div class="list-group list-group-flush mx-3 gap-2">
+            <a href="/admin" type="button" class="btn btn-dark text-start {{#if_eq current 1 }}
+                active
+            {{/if_eq}}">
+                <i class="fa-solid fa-chart-simple"></i>
+                Dashboard
+            </a>
+            <a href="/admin/product" type="button" class="btn btn-dark text-start {{#if_eq current 2 }}
+                active
+            {{/if_eq}}">
+                <i class="fa-solid fa-bag-shopping"></i>
+                Products
+            </a>
+            <a href="/admin/category" type="button" class="btn btn-dark text-start {{#if_eq current 3 }}
+                active
+            {{/if_eq}}">
+                <i class="fa-solid fa-list"></i>
+                Categories
+            </a>
+            <a href="/admin/users" type="button" class="btn btn-dark text-start {{#if_eq current 4 }}
+                active
+            {{/if_eq}}">
+                <i class="fa-solid fa-user"></i>
+                Users
+            </a>
+        </div>
+    </nav>
+    <!-- Sidebar -->
+</side>

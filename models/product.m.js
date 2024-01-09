@@ -50,10 +50,9 @@ module.exports = class Product{
         return imageURL.saveImage(buffer,mimetype,product.Image);
     }
     static async GetByID(proID){
-        const product = await db.findOne(tbName, 'ProID', proID);
+        const product = await db.findOne(tbName, 'ID', proID);
         if(product.Image){
-
-            product.ImageUrl = imageURL.getURL(product.Image);
+            product.ImageUrl = await imageURL.getURL(product.Image);
         } else {
             product.ImageUrl = "#";
         }
@@ -63,7 +62,7 @@ module.exports = class Product{
         const rs = await db.filterByField(tbName,"ProName",name,page,perPage);
         for(let product of rs){
             if(product.Image){
-                product.ImageUrl = imageURL.getURL(product.Image);
+                product.ImageUrl = await imageURL.getURL(product.Image);
             } else {
                 product.ImageUrl = "#";
             }
@@ -72,7 +71,7 @@ module.exports = class Product{
     }
     static async DelByID(proID){
         const product = await db.findOne(tbName, 'ID', proID);
-        imageURL.deleteImage(product.Image);
+        await imageURL.deleteImage(product.Image);
         await db.del(tbName, 'ID', proID);
     }
     static async Update(id, buffer, mimetype, product){

@@ -25,14 +25,14 @@ module.exports = {
         }
     },
     'login': passport.authenticate('myStrategy', {
-        successRedirect: '/',
+        successRedirect: 'back',
         failureRedirect: '/',
         failureFlash: false
     }),
     'google': passport.authenticate('google', {scope: ['email', 'profile']}),
     'googleCallback': passport.authenticate('google', {
-        successRedirect: '/',
-        failureRedirect: '/login'
+        successRedirect: 'back',
+        failureRedirect: '/'
     }),
     signup: async (req, res, next)=>{
         try{
@@ -51,7 +51,7 @@ module.exports = {
                 
                 req.login(user, function(err) {
                     if (err) { return next(err); }
-                    res.redirect('/');
+                    res.redirect('back');
                 });
             })
 
@@ -62,7 +62,7 @@ module.exports = {
     logout: async(req, res, next)=>{
         req.logout((error)=>{
             if(error) return next(error);
-            res.redirect('/');
+            res.redirect('back');
         });
     }
 }

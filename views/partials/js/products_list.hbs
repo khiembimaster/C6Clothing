@@ -22,15 +22,34 @@
         // Initial value update
         updatePriceValue(priceMinInput, priceMinValue);
         updatePriceValue(priceMaxInput, priceMaxValue);
-
-        const listener = function(e, page=1){
+        const pageNavigatorConfig = function(order){
+            $('.page-link').click(function(e){
+                e.preventDefault();
+                const min_price = $('#priceMin').val();
+                const max_price = $('#priceMax').val();
+                const search = $('#searchbar').val();
+                const page = $(this).val();
+                const data = {
+                    'order':order,
+                    'min_price':min_price,
+                    'max_price':max_price,
+                    'search':search,
+                    'page': page
+                };
+                console.log(page);
+                $.get("https://localhost:3000/product/", data)
+                    .done(function(data){
+                        $('#product-list-comp-products').replaceWith(data);
+                    });
+            });
+        }
+        const listener = function(e){
             e.preventDefault();
-            const order = $(this).val();
+            const order = $(this).val() || "ASC";
             const min_price = $('#priceMin').val();
             const max_price = $('#priceMax').val();
             const search = $('#searchbar').val();
             const data = {
-                'page': page,
                 'order':order,
                 'min_price':min_price,
                 'max_price':max_price,
@@ -39,11 +58,12 @@
             $.get("https://localhost:3000/product/", data)
                 .done(function(data){
                     $('#product-list-comp').replaceWith(data);
+                    pageNavigatorConfig(order);
                 });
         };
 
         $('.sort-btn').click(listener);
         $('#search').submit(listener);        
-        $('.page-link').click(listener);
+        pageNavigatorConfig();
     })
 </script>           
