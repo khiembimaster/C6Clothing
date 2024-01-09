@@ -1,4 +1,6 @@
 const Cart = require('../models/cart.m');
+const CartItem = require('../models/cartItems.m')
+const Product = require('../models/product.m')
 module.exports = {
     all: async (req, res, next) => {
         try {
@@ -58,6 +60,32 @@ module.exports = {
             console.log(rs);
         } catch (error) {
             next(error);
+        }
+    },
+    cartPage: async(req, res, next) => {
+        try {
+            const id = req.params.id;
+            const rs = await Cart.GetByUserID(id);
+            const rs1 = await CartItem.GetByCartID(rs.ID);
+            var products = 0;
+            for(let cartItem of rs1){
+                const rs3 = await Product.GetByID(cartItem.ProductID);
+                //cartItem.assign(rs3.ProName, rs3.Price, rs.ImageUrl)
+                cartItem['ProName'] = rs3.ProName
+                cartItem['Price'] = cartItem.Quantity * rs3.Price
+                cartItem['Image'] = rs3.ImageUrl
+                products += cartItem.Quantity
+            }
+            console.log(rs1)
+            res.render("cart", {
+                cartItems: rs1,
+                Cart: products,
+                css:()=>'css/cart',
+                js:()=>'js/cart'
+
+            })
+        } catch (error) {
+            next(error)
         }
     }
 }

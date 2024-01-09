@@ -1,8 +1,8 @@
 const db = require('./db');
 const tbName = 'CartItems';
 module.exports = class Item{
-    constructor(CatID, ProductID, Date, Quantity){
-        this.CatID = CatID;
+    constructor(CartID, ProductID, Date, Quantity){
+        this.CartID = CartID;
         this.ProductID = ProductID;
         this.Date = Date;
         this.Quantity = Quantity;
@@ -20,19 +20,19 @@ module.exports = class Item{
         return rs;
     }
     static async Del(id){
-        const rs = await db.del(tbName, 'CartID', id);
+        const rs = await db.del(tbName, 'ID', id);
         return rs;
     }
     static async Update(id, item){
         const condition = {
             value: id,
-            field: "ID"
+            field: "CartID"
         }
         const rs = await db.update(tbName, condition, item);
         return rs;
     }
     static async GetByCartID(cartID){
-        const rs = await db.findOne(tbName, 'CartID', cartID);
+        const rs = await db.findByField(tbName, 'CartID', cartID);
         return rs;
     }
     static async All(page,perPage){
