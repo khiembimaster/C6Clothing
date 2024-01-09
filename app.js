@@ -5,7 +5,7 @@ const session = require('express-session');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 const app = express();
-
+app.use(express.json());
 const { create } = require('express-handlebars');
 
 app.use(express.static('public'));

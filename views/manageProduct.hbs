@@ -1,4 +1,4 @@
-<div class="p-2">
+<div class="p-2 h-100">
     <div>
         <p class="m-0 fs-5 mb-1">Manage</p>
 
@@ -40,7 +40,7 @@
                                 <td><img src="{{this.ImageUrl}}" class="img-thumbnail" alt="Category Image"
                                         style="height: 120px; weight: 120px"></td>
                                 <td>
-                                    <a href="/" class="btn btn-primary">Update</a>
+                                    <a href="/product/update/{{this.ID}}" class="btn btn-primary">Update</a>
                                     <button class="btn btn-danger btn-delete" value="{{this.ID}}"
                                         onclick="return confirm('Are you sure you want to delete?')">Delete</button>
                                 </td>
@@ -56,10 +56,10 @@
 <script>
     $(".btn-delete").click(function (e) {
         $.ajax({
-            url: 'https://localhost:3000/admin/product/'+ $(this).val(),
+            url: 'https://localhost:3000/admin/product/' + $(this).val(),
             type: "DELETE",
             success: function (result) {
-                $("body").html(result);
+                window.location.href = 'https://localhost:3000/admin/product/'
             }
         })
     })

@@ -8,33 +8,48 @@ module.exports = {
         try {
             res.render('addCategory', {
                 layout: 'admin',
+                title: "Upload category",
                 current: 3,
                 'form-action': `https://localhost:${process.env.PORT}/category`,
-                css: () => 'css/products_upload',
-                js: () => 'js/products_upload'
+                css: () => 'css/uploadCategory',
+                js: () => 'js/uploadCategory'
             })
         } catch (error) {
             next(error);
         }
     },
-    get:  async (req, res, next)=>{
-        try{
+    update: async (req, res, next) => {
+        try {
+            res.render('addCategory', {
+                layout: 'admin',
+                title: "Edit category",
+                current: 3,
+                'form-action': `https://localhost:${process.env.PORT}/category/${req.params.id}`,
+                css: () => 'js/empty',
+                js: () => 'js/editCategory'
+            })
+        } catch (error) {
+            next(error);
+        }
+    },
+    get: async (req, res, next) => {
+        try {
             const category = await Category.Get(req.params.id);
 
             let params = {
                 category: parseInt(req.params.id),
-                page : parseInt(req.query.page) || 1,
-                perPage : parseInt(req.query.per_page) || 5,
-                search : req.query.search || "",
-                sort : req.query.sort || null,
-                order : req.query.order || "ASC",
-                minPrice : req.query.min_price || null,
-                maxPrice : req.query.max_price || null
+                page: parseInt(req.query.page) || 1,
+                perPage: parseInt(req.query.per_page) || 5,
+                search: req.query.search || "",
+                sort: req.query.sort || null,
+                order: req.query.order || "ASC",
+                minPrice: req.query.min_price || null,
+                maxPrice: req.query.max_price || null
             }
-            
+
             const result = await Product.All(params);
 
-            if(Object.keys(req.query).length <= 1){  
+            if (Object.keys(req.query).length <= 1) {
                 const categories = await Category.All();
                 let user = null;
                 if (req.session.passport) {
@@ -42,9 +57,9 @@ module.exports = {
                 }
                 res.render('products_list', {
                     'search': params.search,
-                    'user': user,   
+                    'user': user,
                     'title': 'Products',
-                    'section':category.CatName.toUpperCase(),
+                    'section': category.CatName.toUpperCase(),
                     'products': result.data,
                     'total': result.count,
                     'totalPages': result.totalPages,
@@ -57,7 +72,7 @@ module.exports = {
                     css: () => 'css/products_list',
                     js: () => 'js/products_list'
                 });
-            }else if(req.query.page == null){
+            } else if (req.query.page == null) {
                 res.render('partials/product_list_comp', {
                     layout: false,
                     'products': result.data,
@@ -79,7 +94,7 @@ module.exports = {
                     'next': (params.page % result.totalPages) + 1,
                 });
             }
-        }catch(error){
+        } catch (error) {
             next(error);
         }
     },
@@ -88,7 +103,6 @@ module.exports = {
             var page = req.query.page;
             var perpage = req.query.perpage;
             list = await Category.All(page, perpage);
-            console.log(list);
             res.send(list);
         } catch (error) {
             next(error);
@@ -96,12 +110,11 @@ module.exports = {
     },
     add: async (req, res, next) => {
         try {
-            console.log(req.body);
             const cat = req.body.catName;
             const buffer = await sharp(req.file.buffer).resize({ height: 640, width: 1080, fit: "contain" }).toBuffer();
             const image = crypto.randomUUID();
             const rs = await Category.Add(new Category(cat, image), buffer, req.file.mimetype);
-            res.redirect('/category');
+            res.redirect('admin/category');
         }
         catch (error) {
             next(error);
@@ -110,8 +123,8 @@ module.exports = {
     delete: async (req, res, next) => {
         try {
             const id = req.params.id;
-            const rs = await Category.Del(id);
-            res.send(rs);
+            await Category.Del(id);
+            res.send('oke')
         }
         catch (error) {
             next(error);
@@ -121,8 +134,8 @@ module.exports = {
         try {
             const id = req.params.id;
             const cat = req.body.catName;
-            const buffer = await sharp(req.file.buffer).resize({ height: 640, width: 1080, fit: "contain" }).toBuffer();
-            res.send(Category.Update(id, new Category(cat), buffer, req.file.mimetype));
+            //const buffer = await sharp(req.file.buffer).resize({ height: 640, width: 1080, fit: "contain" }).toBuffer();
+            res.send(Category.Update(id, new Category(cat), null, null));
         } catch (error) {
             next(error);
         }

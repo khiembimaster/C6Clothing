@@ -1,4 +1,4 @@
-<div class="p-2">
+<div class="p-2 h-100">
     <div>
         <p class="m-0 fs-5 mb-1">Manage</p>
 
@@ -18,7 +18,7 @@
 
         <div style="height: 540px;" class="bg-white rounded shadow overflow-hidden">
             <div class="row">
-                <div class="container">
+                <div id="list" class="container">
                     <table class="table">
                         <thead>
                             <tr>
@@ -36,7 +36,7 @@
                                 <td><img src="{{this.ImageUrl}}" class="img-thumbnail" alt="Category Image"
                                         style="height: 120px; weight: 120px"></td>
                                 <td>
-                                    <a href="/edit-categories/Update/{{this.ID}}" class="btn btn-primary">Update</a>
+                                    <a href="/category/update/{{this.ID}}" class="btn btn-primary">Update</a>
                                     <button class="btn btn-danger btn-delete" value="{{this.ID}}"
                                         onclick="return confirm('Are you sure you want to delete?')">Delete</button>
                                 </td>
@@ -51,11 +51,12 @@
 </div>
 <script>
     $(".btn-delete").click(function (e) {
+        e.preventDefault();
         $.ajax({
             url: 'https://localhost:3000/category/' + $(this).val(),
             type: "DELETE",
             success: function (result) {
-                $("body").html(result);
+                window.location.href = 'https://localhost:3000/admin/category/'
             }
         })
     })

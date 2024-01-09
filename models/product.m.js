@@ -2,8 +2,8 @@ const db = require('./db');
 const tbName = 'Products';
 const imageURL = require('../modules/imageURL');
 
-module.exports = class Product{
-    constructor(ProName, TinyDes, FullDes, Price, CatID, Quantity, Image){
+module.exports = class Product {
+    constructor(ProName, TinyDes, FullDes, Price, CatID, Quantity, Image) {
         this.ProName = ProName;
         this.TinyDes = TinyDes;
         this.FullDes = FullDes;
@@ -12,17 +12,17 @@ module.exports = class Product{
         this.Quantity = Quantity;
         this.Image = Image;
     }
-    static async All(params){
+    static async All(params) {
         let filters = [];
-        if(params.category) filters.push(`"CatID" = ${params.category}`);
-        if(params.minPrice) filters.push(`"Price" >= ${params.minPrice}`);
-        if(params.maxPrice) filters.push(`"Price" <= ${params.maxPrice}`);
+        if (params.category) filters.push(`"CatID" = ${params.category}`);
+        if (params.minPrice) filters.push(`"Price" >= ${params.minPrice}`);
+        if (params.maxPrice) filters.push(`"Price" <= ${params.maxPrice}`);
 
-        const result = await db.searchAndFilter(tbName,params.page,params.perPage, 
-            {key:'ProName', value:params.search}, filters, {field:'Price', order: params.order} );
-        
-        for(let product of result.data){
-            if(product.Image){ 
+        const result = await db.searchAndFilter(tbName, params.page, params.perPage,
+            { key: 'ProName', value: params.search }, filters, { field: 'Price', order: params.order });
+
+        for (let product of result.data) {
+            if (product.Image) {
                 product.ImageUrl = await imageURL.getURL(product.Image);
             } else {
                 product.ImageUrl = "#";
@@ -30,11 +30,11 @@ module.exports = class Product{
         }
         return result;
     }
-    static async getAll(page, perPage){
+    static async getAll(page, perPage) {
         console.log(page, perPage)
-        const rs = await db.findAll(tbName,page,perPage);
-        for(let product of rs){
-            if(product.Image){ 
+        const rs = await db.findAll(tbName, page, perPage);
+        for (let product of rs) {
+            if (product.Image) {
                 product.ImageUrl = await imageURL.getURL(product.Image);
             } else {
                 product.ImageUrl = "#";
@@ -43,25 +43,25 @@ module.exports = class Product{
         console.log(rs)
         return rs;
     }
-    static async Add(product, buffer, mimetype){
+    static async Add(product, buffer, mimetype) {
         console.log(product)
         await db.add(tbName, product);
-       
-        return imageURL.saveImage(buffer,mimetype,product.Image);
+
+        return imageURL.saveImage(buffer, mimetype, product.Image);
     }
-    static async GetByID(proID){
+    static async GetByID(proID) {
         const product = await db.findOne(tbName, 'ID', proID);
-        if(product.Image){
+        if (product.Image) {
             product.ImageUrl = await imageURL.getURL(product.Image);
         } else {
             product.ImageUrl = "#";
         }
         return product;
     }
-    static async SearchByName(name,page,perPage){
-        const rs = await db.filterByField(tbName,"ProName",name,page,perPage);
-        for(let product of rs){
-            if(product.Image){
+    static async SearchByName(name, page, perPage) {
+        const rs = await db.filterByField(tbName, "ProName", name, page, perPage);
+        for (let product of rs) {
+            if (product.Image) {
                 product.ImageUrl = await imageURL.getURL(product.Image);
             } else {
                 product.ImageUrl = "#";
@@ -69,13 +69,16 @@ module.exports = class Product{
         }
         return rs;
     }
-    static async DelByID(proID){
+    static async DelByID(proID) {
         const product = await db.findOne(tbName, 'ID', proID);
         await imageURL.deleteImage(product.Image);
         await db.del(tbName, 'ID', proID);
     }
-    static async Update(id, buffer, mimetype, product){
-        await db.update(tbName, {field:"ID", value:id}, product);
-        return imageURL.saveImage(buffer,mimetype,product.Image);
+    static async Update(id, buffer, mimetype, product) {
+        const dbProduct = await this.GetByID(id);
+        product.Image = dbProduct.Image
+        product.CatID = dbProduct.CatID
+        await db.update(tbName, { field: "ID", value: id }, product);
+        //return imageURL.saveImage(buffer, mimetype, product.Image);
     }
 }

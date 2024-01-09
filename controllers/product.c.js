@@ -32,10 +32,24 @@ module.exports = {
         res.render('addProduct', {
             layout: 'admin',
             current: 2,
+            title: "Upload product",
             'form-action': `https://localhost:${process.env.PORT}/product`,
             'categories': categories,
-            css: () => 'css/products_upload',
-            js: () => 'js/products_upload'
+            css: () => 'css/uploadProduct',
+            js: () => 'js/uploadProduct'
+        })
+    },
+    updatePage: async (req, res, next) => {
+        const id = req.params.id;
+        const prod = await Product.GetByID(id)
+        res.render('addProduct', {
+            layout: 'admin',
+            current: 2,
+            prod: prod,
+            title: "Edit product",
+            'form-action': `https://localhost:${process.env.PORT}/product/${req.params.id}`,
+            css: () => 'js/empty',
+            js: () => 'js/editProduct'
         })
     },
     upload: async (req, res, next) => {
@@ -52,7 +66,6 @@ module.exports = {
             await Product.Add(new Product(name, tinyDes, fullDes, price, category, quantity, image), buffer, req.file.mimetype);
 
             res.redirect('/admin/product');
-
         } catch (error) {
             next(error);
         }
@@ -69,7 +82,7 @@ module.exports = {
                 maxPrice: req.query.max_price || null
             }
             const result = await Product.All(params);
-            if(Object.keys(req.query).length <= 1){
+            if (Object.keys(req.query).length <= 1) {
                 const categories = await Category.All();
                 let user = null;
                 if (req.session.passport) {
@@ -77,9 +90,9 @@ module.exports = {
                 }
                 res.render('products_list', {
                     'search': params.search,
-                    'user': user,   
+                    'user': user,
                     'title': 'Products',
-                    'section':'ALL PRODUCT',
+                    'section': 'ALL PRODUCT',
                     'products': result.data,
                     'total': result.count,
                     'totalPages': result.totalPages,
@@ -92,7 +105,7 @@ module.exports = {
                     css: () => 'css/products_list',
                     js: () => 'js/products_list'
                 });
-            }else if(req.query.page == null){
+            } else if (req.query.page == null) {
                 res.render('partials/product_list_comp', {
                     layout: false,
                     'products': result.data,
@@ -114,7 +127,7 @@ module.exports = {
                     'next': (params.page % result.totalPages) + 1,
                 });
             }
-        }catch(error){
+        } catch (error) {
             next(error);
         }
     },
@@ -130,9 +143,9 @@ module.exports = {
                 res.render('product_detail', {
                     'product': product,
                     'user': user,
-                    'categories':categories,
-                    css:()=>'css/product_detail',
-                    js:()=>'js/product_detail'
+                    'categories': categories,
+                    css: () => 'css/product_detail',
+                    js: () => 'js/product_detail'
                 });
 
 
@@ -143,48 +156,29 @@ module.exports = {
             next(error);
         }
     },
-    delete: async (req, res, next)=>{
-        try{
-            await Product.DelByID(req.params.id);   
-            let params = {
-                page : parseInt(req.query.page) || 1,
-                perPage : parseInt(req.query.per_page) || 5,
-                search : req.query.search || "",
-                sort : req.query.sort || null,
-                order : req.query.order || "ASC",
-                category : req.query.category || null,
-                minPrice : req.query.min_price || null,
-                maxPrice : req.query.max_price || null
-            }
-            const result = await Product.All(params);
-            const categories = await Category.All();
-            res.render("manageProduct",{
-                products: result,
-                css:()=>'css/manageCategories',
-                js:()=>'js/empty'
-            }
-            )
-            // console.log("12121")
-            // await res.redirect('/admin/product');   
-        }catch(error){
+    delete: async (req, res, next) => {
+        try {
+            await Product.DelByID(req.params.id);
+            res.send('ok');
+        } catch (error) {
             next(error);
         }
     },
     edit: async (req, res, next) => {
         try {
-            const buffer = await sharp(req.file.buffer).resize({ height: 640, width: 1080, fit: "contain" }).toBuffer();
+            // const buffer = await sharp(req.file.buffer).resize({ height: 640, width: 1080, fit: "contain" }).toBuffer();
 
-            await Product.Update(req.params.id, buffer, req.file.mimetype,
+            await Product.Update(req.params.id, null, null,
                 new Product(
                     req.body.name,
                     req.body.tiny,
                     req.body.full,
                     req.body.price,
-                    req.body.category,
-                    req, body.quantity,
+                    null,
+                    req.body.quantity,
                     req.body.image
                 ));
-
+            res.send('back');
         } catch (error) {
             next(error);
         }
