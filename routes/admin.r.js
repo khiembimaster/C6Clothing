@@ -15,6 +15,6 @@ router.route('/product/upload')
     .get(adminController.uploadProduct)
 router.route('/product/:id')
     .delete(adminController.deleteCategory)
-router.route('/user')
+router.route('/users')
     .get(adminController.user)
 module.exports = router;

@@ -1,4 +1,4 @@
-<div class="p-2">
+<div class="p-2 h-100">
     <div>
         <p class="m-0 fs-5 mb-1">Manage</p>
 
@@ -56,7 +56,7 @@
 <script>
     $(".btn-delete").click(function (e) {
         $.ajax({
-            url: 'https://localhost:3000/admin/product/'+ $(this).val(),
+            url: 'https://localhost:3000/admin/product/' + $(this).val(),
             type: "DELETE",
             success: function (result) {
                 $("body").html(result);

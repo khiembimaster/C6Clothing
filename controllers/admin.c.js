@@ -1,16 +1,15 @@
 const Categories = require('../models/category.m')
 const Product = require('../models/product.m');
+const User = require('../models/user.m')
 module.exports = {
     user: async (req, res, next) => {
         try {
             const page = req.params.page;
             const perPage = req.params.perPage;
-            console.log(page, perPage)
-            const rs = await Categories.All(1, 5);
-            console.log(rs.CatName)
+            const rs = await User.All(1, 5);
             res.render('manageUser', {
                 layout: 'admin',
-                categories: rs,
+                user: rs,
                 current: 4,
                 css: () => 'js/empty',
                 js: () => 'js/empty'
@@ -45,7 +44,6 @@ module.exports = {
             const perPage = req.params.perPage;
             console.log(page, perPage)
             const rs = await Categories.All(1, 5);
-            console.log(rs.CatName)
             res.render('manageCategories', {
                 layout: 'admin',
                 categories: rs,
