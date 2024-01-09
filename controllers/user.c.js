@@ -47,19 +47,25 @@ module.exports = {
             const password = req.body.passWord;
             const name = req.body.name;
             const email = req.body.email;
-            
-            bcrypt.hash(password, saltRounds, async function(err, hash){
-                if(err){
-                    return next(err);
-                }
-                const user = new Account(username, hash, name, email);
+            const check = await Account.Get(username);
+            if(check.Password == password){
+                const user = new Account(username, password, name, email);
                 const rs = await User.Update(user);
-                //return rs;
-                req.login(user, function(err) {
-                    if (err) { return next(err); }
-                    res.redirect('/');
-                });
-            })
+            }
+            else{
+                bcrypt.hash(password, saltRounds, async function(err, hash){
+                    if(err){
+                        return next(err);
+                    }
+                    const user = new Account(username, hash, name, email);
+                    const rs = await User.Update(user);
+                    //return rs;
+                    req.login(user, function(err) {
+                        if (err) { return next(err); }
+                        res.redirect('/');
+                    });
+                })
+            }
         } catch (error) {
             next(error);
         }
@@ -69,7 +75,6 @@ module.exports = {
             const userName = req.params.username;
             const rs = await Account.Get(userName);
             console.log("11", rs);
-            console.log(userName);
             res.render('updateUser', {
                 user: rs,
                 //passWord: pass,

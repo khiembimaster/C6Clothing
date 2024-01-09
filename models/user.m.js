@@ -33,6 +33,7 @@ module.exports = class Account {
     }
     static async Get(username) {
         const rs = await db.findOne(tbName, 'Username', username);
+        console.log(rs)
         return rs;
     }
     static async Del(username) {

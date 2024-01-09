@@ -31,6 +31,7 @@ module.exports = {
     findOne: async (tbName, fieldName, value) => {
         let con = null;
         try{
+            console.log(tbName, fieldName,value)
             con = await db.connect();
             const rs = await con.oneOrNone(`SELECT * FROM "${tbName}" WHERE "${fieldName}" = $1`, [value]);
             return rs;

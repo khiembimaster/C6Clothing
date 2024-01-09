@@ -9,7 +9,7 @@
                 <label for="un">Username</label>
             </div>
             <div class="form-floating mb-3">
-                <input name="password" type="password" class="form-control" id="pwd" placeholder="Password" value="{{user.PassWord}}">
+                <input name="password" type="text" class="form-control" id="pwd" placeholder="Password" value="{{user.Password}}">
                 <label for="pwd">Password</label>
             </div>
             <div class="form-floating mb-3">
@@ -21,8 +21,10 @@
                 <label for="email">Email</label>
             </div>
             <hr>
-            <div class="d-flex gap-2 my-3">
-                
+            <div class="row">
+                <div class="justify-content-center d-flex">
+                    <button style="width: 300px; height: 100px" class="btn btn-sm btn-light btn-update" value="{{user.Username}}"  onclick="return confirm('Are you sure you want to edit?')">Update</button>
+                </div>
             </div>
         </form>
     </div>
