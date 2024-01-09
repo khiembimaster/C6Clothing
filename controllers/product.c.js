@@ -86,7 +86,7 @@ module.exports = {
                 const categories = await Category.All();
                 let user = null;
                 if (req.session.passport) {
-                    user = req.session.passport.user
+                    user = req.session.passport.user.username
                 }
                 res.render('products_list', {
                     'search': params.search,

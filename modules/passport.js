@@ -3,17 +3,36 @@ const bcrypt = require('bcrypt');
 require('dotenv').config('.env');
 const Account = require('../models/user.m');
 const MyStrategy = require('./myStrategy');
+const { as } = require('pg-promise');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
-passport.serializeUser((user, done) => {
-    done(null, user.Username);
+passport.serializeUser( (user, done) => {
+    // token = ??
+    console.log(user);
+    const params = {
+        id: user.Email
+      }
+  fetch('https://localhost:5000/wallet/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+      }).then( async(res)=>{
+        const data = await res.json();
+        user.refreshToken = data.refreshToken;
+        console.log(data);
+        done(null, {'username': user.Username,wallet:user.refreshToken});
+      });
+    
+ 
 });
-passport.deserializeUser(async(username, done) => {
-    const user = await Account.Get(username);
-    if(user){
-        return done(null, user);
+passport.deserializeUser(async(user, done) => {
+    const u = await Account.Get(user.username);
+    if(u){
+        return done(null, u);
     }
-    done('invalid', user);
+    done('invalid', u);
 });
 
 //Custom strategy
