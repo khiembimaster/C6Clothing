@@ -1,0 +1,16 @@
+<script>
+    $(() => {
+        $('form').submit(function (e) {
+            e.preventDefault();
+            console.log('{{form-action}}')
+            $.ajax({
+                url: "{{form-action}}",
+                type: "PUT",
+                datatype: "json/application",
+                data: $(this).serializeArray(),
+            }).done(function (data) {
+                window.location.href = '/admin/user'
+            })
+        });
+    })
+</script>

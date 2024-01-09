@@ -55,4 +55,6 @@ app.use('/admin', require('./routes/admin.r'));
 app.use('/product', require('./routes/product.r'));
 app.use('/order', require('./routes/order.r'));
 app.use('/cart', require('./routes/cart.r'));
+app.use('/user', require('./routes/user.r'))
+
 module.exports = app;

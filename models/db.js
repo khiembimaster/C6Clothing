@@ -14,101 +14,101 @@ const cn = {
 const db = pgp(cn);
 
 module.exports = {
-    findAll: async (tbName,page,perPage) => {
+    findAll: async (tbName, page, perPage) => {
         let con = null;
-        try{
-            con= await db.connect();
-            const rs = await con.any(`SELECT * FROM "${tbName}" LIMIT ${perPage} OFFSET ${(page-1)*perPage}`);
+        try {
+            con = await db.connect();
+            const rs = await con.any(`SELECT * FROM "${tbName}" LIMIT ${perPage} OFFSET ${(page - 1) * perPage}`);
             return rs;
-        }catch(error){
+        } catch (error) {
             throw error;
-        } finally{
-            if(con){
+        } finally {
+            if (con) {
                 con.done();
             }
         }
     },
     findOne: async (tbName, fieldName, value) => {
         let con = null;
-        try{
+        try {
             con = await db.connect();
             const rs = await con.oneOrNone(`SELECT * FROM "${tbName}" WHERE "${fieldName}" = $1`, [value]);
             return rs;
-        }catch(error){
+        } catch (error) {
             throw error;
-        }finally{
-            if(con){
+        } finally {
+            if (con) {
                 con.done();
             }
         }
     },
     findByField: async (tbName, fieldName, value) => {
         let con = null;
-        try{
+        try {
             con = await db.connect();
             const rs = await con.manyOrNone(`SELECT * FROM "${tbName}" WHERE "${fieldName}" = $1`, [value]);
             return rs;
-        }catch(error){
+        } catch (error) {
             throw error;
-        }finally{
-            if(con){
+        } finally {
+            if (con) {
                 con.done();
             }
         }
     },
-    filterByField:  async (tbName, fieldName, value, page,perPage) => {
+    filterByField: async (tbName, fieldName, value, page, perPage) => {
         let con = null;
-        try{
+        try {
             con = await db.connect();
             const rs = await con.manyOrNone(`SELECT * FROM "${tbName}" WHERE "${fieldName}" ILIKE '%${value}%'
-             LIMIT ${perPage} OFFSET ${(page-1)*perPage} `);
+             LIMIT ${perPage} OFFSET ${(page - 1) * perPage} `);
             return rs;
-        }catch(error){
+        } catch (error) {
             throw error;
-        }finally{
-            if(con){
+        } finally {
+            if (con) {
                 con.done();
             }
         }
     },
-    searchAndFilter:  async (tbName, page,perPage, query, filters, sort) => {
+    searchAndFilter: async (tbName, page, perPage, query, filters, sort) => {
         let con = null;
-        try{
+        try {
             con = await db.connect();
             let sql = `SELECT * FROM "${tbName}" WHERE "${query.key}" ILIKE '%${query.value}%'`;
             let count_sql = `SELECT COUNT(*) FROM "${tbName}" WHERE "${query.key}" ILIKE '%${query.value}%'`;
             let filters_sql = "";
-            for(let filter of filters){
+            for (let filter of filters) {
                 filters_sql += ` AND ${filter}`;
             }
             let rs = await con.one(count_sql + filters_sql);
             rs['totalPages'] = Math.ceil(rs['count'] / perPage);
             sql += filters_sql;
             sql += ` ORDER BY "${sort.field}" ${sort.order}`;
-            sql += ` LIMIT ${perPage} OFFSET ${(page-1)*perPage} `;
+            sql += ` LIMIT ${perPage} OFFSET ${(page - 1) * perPage} `;
             console.log(sql);
             rs["data"] = await con.manyOrNone(sql);
             return rs;
-        }catch(error){
+        } catch (error) {
             throw error;
-        }finally{
-            if(con){
+        } finally {
+            if (con) {
                 con.done();
             }
         }
     },
-    
-    
-    add: async (tbName, obj)=>{
+
+
+    add: async (tbName, obj) => {
         let con = null;
-        try{
+        try {
             con = await db.connect();
             let sql = pgp.helpers.insert(obj, null, tbName);
             await con.none(sql);
-        }catch(error){
+        } catch (error) {
             throw error;
-        }finally{
-            if(con){
+        } finally {
+            if (con) {
                 con.done();
             }
         }
@@ -117,12 +117,17 @@ module.exports = {
         let con = null;
         try {
             con = await db.connect();
-            let sql = `DELETE FROM "${tbName}" WHERE "${fieldName}" = ${value}`;
+            let sql;
+            if (typeof value === "string")
+                sql = `DELETE FROM "${tbName}" WHERE "${fieldName}" LIKE '${value}'`;
+            else
+                sql = `DELETE FROM "${tbName}" WHERE "${fieldName}" = ${value}`;
+            console.log(sql)
             await con.none(sql);
-        } catch (error){
+        } catch (error) {
             throw error;
         } finally {
-            if(con){
+            if (con) {
                 con.done();
             }
         }
@@ -131,29 +136,29 @@ module.exports = {
         let con = null;
         try {
             con = await db.connect();
-            let sql = pgp.helpers.update(obj,null, tbName) + ` WHERE "${condition.field}" = '${condition.value}'`;
+            let sql = pgp.helpers.update(obj, null, tbName) + ` WHERE "${condition.field}" = '${condition.value}'`;
             const rs = await con.none(sql);
             return rs;
-        } catch (error){
+        } catch (error) {
             throw error;
         } finally {
-            if(con){
+            if (con) {
                 con.done();
             }
         }
     },
-    filterByRange: async (tbName,fieldName,value1,value2,page,perPage) =>{
+    filterByRange: async (tbName, fieldName, value1, value2, page, perPage) => {
         let con = null;
-        try{
+        try {
             con = await db.connect();
             const rs = await con.manyOrNone(`SELECT * FROM "${tbName}" WHERE "${fieldName}" > ${value1} and 
             "${fieldName}" <= ${value2} 
-             LIMIT ${perPage} OFFSET ${(page-1)*perPage} `);
+             LIMIT ${perPage} OFFSET ${(page - 1) * perPage} `);
             return rs;
-        }catch(error){
+        } catch (error) {
             throw error;
-        }finally{
-            if(con){
+        } finally {
+            if (con) {
                 con.done();
             }
         }
