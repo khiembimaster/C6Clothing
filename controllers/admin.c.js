@@ -18,17 +18,6 @@ module.exports = {
             next(error)
         }
     },
-    upload: async (req, res, next) => {
-        try {
-            res.render('categories_creation', {
-                'form-action': `https://localhost:${process.env.PORT}/category`,
-                css: () => 'css/products_upload',
-                js: () => 'js/products_upload'
-            })
-        } catch (error) {
-            next(error);
-        }
-    },
     dashboard: async (req, res, next) => {
         // res. render dashboard
         res.render('dashboard', {
@@ -57,6 +46,22 @@ module.exports = {
     },
     deleteCategory: async (req, res, next) => {
 
+    },
+    updateCategory: async (req, res, next) => {
+        try {
+            const id = req.params.id;
+            const cat = Categories.Get(id)
+            res.render('addCategory', {
+                layout: 'admin',
+                cat: cat,
+                current: 3,
+                'form-action': `https://localhost:${process.env.PORT}/admin/category`,
+                css: () => 'css/addCategory',
+                js: () => 'js/addCategory'
+            })
+        } catch (error) {
+            next(error)
+        }
     },
     uploadCategory: async (req, res, next) => {
         try {
@@ -88,6 +93,22 @@ module.exports = {
         try {
             const id = req.params.id;
             req.redirect(`/product/` + id)
+        } catch (error) {
+            next(error)
+        }
+    },
+    updateProduct: async (req, res, next) => {
+        try {
+            const id = req.params.id;
+            const prod = Product.Get(id)
+            res.render('addProduct', {
+                layout: 'admin',
+                prod: prod,
+                current: 3,
+                'form-action': `https://localhost:${process.env.PORT}/admin/product`,
+                css: () => 'css/addProduct',
+                js: () => 'js/addProduct'
+            })
         } catch (error) {
             next(error)
         }

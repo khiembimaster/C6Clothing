@@ -7,49 +7,47 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <script>
-    const data;
     $.get("https://localhost:5000/admin/transactions")
         .done(function (res) {
-            data = res;
-        });
-    const xValues = [];
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const data = res;
+            const xValues = [];
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            for (i = 1; i < 13; i++) {
+                const month_data = data.filter(e => e.date.getMonth() === i)
+                xValues.push(month_data.reduce((a, b) => a + b, 0))
+            }
 
-    for (i = 1; i < 13; i++) {
-        const month_data = data.filter(e => e.date.getMonth() === i)
-        xValues.push(month_data.reduce((a, b) => a + b, 0))
-    }
+            new Chart("myChart", {
+                type: 'line',
 
-    new Chart("myChart", {
-        type: 'line',
-
-        data: {
-            labels: months,
-            datasets: [{
-                label: 'Sale ($)',
-                fill: false,
-                backgroundColor: "rgba(0,0,255,1.0)",
-                borderColor: "rgba(0,0,255,0.1)",
-                data: xValues
-            }]
-        },
-        options: {
-            scales: {
-                xAxes: [{
-                    stacked: false,
-                    gridLines: {
-                        color: "transparent"
-                    }
-                }]
-            },
-            legend: {
-                display: false
-            },
-            plugins: {
-                filler: {
-                    propagate: false
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Sale ($)',
+                        fill: false,
+                        backgroundColor: "rgba(0,0,255,1.0)",
+                        borderColor: "rgba(0,0,255,0.1)",
+                        data: xValues
+                    }]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            stacked: false,
+                            gridLines: {
+                                color: "transparent"
+                            }
+                        }]
+                    },
+                    legend: {
+                        display: false
+                    },
+                    plugins: {
+                        filler: {
+                            propagate: false
+                        }
+                    },
                 }
-            },
-        }
-    });
+            });
+        });
 </script>
