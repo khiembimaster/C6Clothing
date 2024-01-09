@@ -37,12 +37,12 @@
         <div class="row">
             {{#each categories}}
             <div class="col-lg-4 mb-4">
-                <div class="card category-card">
+                <a class="card category-card" href="https://localhost:3000/category/{{this.ID}}">
                     <img src="{{this.ImageUrl}}" class="card-img-top" alt="Category Image">
                     <div class="card-body">
                         <h5 class="card-title text-center">{{this.CatName}}</h5>
                     </div>
-                </div>
+                </a>
             </div>
             {{/each}}
         </div>
