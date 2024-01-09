@@ -1,0 +1,16 @@
+<script>
+    $(() => {
+        $("#btn-add-to-cart").click(function (e) {
+            console.log( $('#quantityInput').val())
+            e.preventDefault();
+            $.ajax({
+                url: 'https://localhost:3000/cart/items/' + {{product.ID}} ,
+                type: "PUT",
+                data: {quantity: $('#quantityInput').val()},
+                success: function (result) {
+                    
+                }
+            })
+        })
+    })
+</script>
