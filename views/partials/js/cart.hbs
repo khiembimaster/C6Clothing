@@ -1,0 +1,42 @@
+<script>
+    $(() => {
+        $(".delete-item").click(function (e) {
+            e.preventDefault();
+            var itemId = $(this).data("item-id");
+            $.ajax({
+                url: 'https://localhost:3000/cart/items/' + itemId,
+                type: "DELETE",
+                success: function (result) {
+                    $("body").html(result);
+                }
+            })
+        })
+        $('.down').click(function(e){
+            this.parentNode.querySelector('input[type=number]').stepDown();
+            this.parentNode.querySelector('input[type=number]').dispatchEvent(new Event('change'));
+        })
+        $('.up').click(function(e){
+            this.parentNode.querySelector('input[type=number]').stepUp();
+            this.parentNode.querySelector('input[type=number]').dispatchEvent(new Event('change'));
+        })
+        const updateItems = function(e){
+            let price = $(this).closest(".col-md-3").next().find(".price");
+            const price_val = price.data('price');
+            const old_cost = price.data('old-cost');
+            const newCost = price_val * $(this).val();
+            price.text('$ ' + newCost); 
+            totalCost += (newCost - old_cost); 
+            $("#total-cost").text('$ ' + totalCost);
+            price.data('old-cost', newCost);
+        }
+        let totalProduct = 0;
+        let totalCost = 0;
+        $(".quantity")
+            .each(updateItems)
+            .change(updateItems);
+
+        
+
+        
+    })
+</script>

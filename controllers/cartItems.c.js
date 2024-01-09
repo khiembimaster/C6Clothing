@@ -59,7 +59,7 @@ module.exports = {
     update: async(req, res, next) =>{
         try {
             console.log(req.body)
-            const user = await User.Get(req.session.passport.user);
+            const user = await User.Get(req.session.passport.user.username);
             console.log("11", user)
             const c = await Cart.GetByUserID(user.ID)
             console.log(c)

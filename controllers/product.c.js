@@ -134,11 +134,13 @@ module.exports = {
     get: async (req, res, next) => {
         try {
             try {
-                const product = await Product.GetByID(req.params.id);
+                let product = await Product.GetByID(req.params.id);
+                const category = await Category.Get(product.CatID);
+                product['CatName'] = category.CatName;
                 const categories = await Category.All();
                 let user = null;
                 if (req.session.passport) {
-                    user = req.session.passport.user
+                    user = req.session.passport.user.username
                 }
                 res.render('product_detail', {
                     'product': product,

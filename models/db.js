@@ -103,8 +103,9 @@ module.exports = {
         let con = null;
         try{
             con = await db.connect();
-            let sql = pgp.helpers.insert(obj, null, tbName);
-            await con.none(sql);
+            let sql = pgp.helpers.insert(obj, null, tbName) + ` RETURNING "ID";`;
+            const id = await con.one(sql);
+            return id.ID;
         }catch(error){
             throw error;
         }finally{

@@ -1,4 +1,5 @@
 const db = require('./db');
+const Cart = require('./cart.m');
 const tbName = 'Users';
 module.exports = class Account {
     constructor(username, password, name, email) {
@@ -13,7 +14,9 @@ module.exports = class Account {
         return rs;
     }
     static async Add(user) {
-        const rs = await db.add(tbName, user);
+        const UserID = await db.add(tbName, user);
+        const rs = await Cart.Add(new Cart(UserID, 0));
+        
         console.log(user);
         const params = {
             id: user.Email,

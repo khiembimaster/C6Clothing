@@ -4,12 +4,12 @@ const router = express.Router();
 const cartController = require('../controllers/cart.c');
 const cartItemsController = require('../controllers/cartItems.c')
 router.route('/')
-    .get(cartController.all)      // Cart Management  
+    .get(cartController.cartPage)  
     .post(cartController.add)
 router.route('/:id')
     .put(cartController.update)
     .delete(cartController.delete)
-    .get(cartController.cartPage)
+    // .get(cartController.cartPage)
 router.route('/items')
     .post(cartItemsController.add)// Cart ItemAd dition 
     .get(cartItemsController.getAll)
