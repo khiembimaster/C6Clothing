@@ -1,7 +1,7 @@
 require('dotenv').config('.env');
 const express = require('express');
 const session = require('express-session');
-const checkAuthenticated = require('../modules/checkAuthenticated');
+const checkAuthenticated = require('./modules/checkAuthenticated');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 const app = express();
