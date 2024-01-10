@@ -54,6 +54,19 @@
         $(".quantity")
             .each(updateItems)
             .change(updateItems);
+
+        $("#checkout").click(function(e){
+            $.ajax({
+                url: 'https://localhost:3000/user/checkout',
+                type: "POST",
+                data: {
+                    money: totalCost
+                },
+                success: function (result) {
+                    console.log("OK");
+                }
+            })
+        })
         
     })
 </script>

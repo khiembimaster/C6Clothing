@@ -95,9 +95,11 @@ module.exports = {
         }
     },
     payment: async (req,res,next)=>{
+        console.log("OK");
         const money = req.body.money;
-        const refreshToken = req.session.passport.wallet;
-        const email = req.session.passport.email;
+        console.log(req.session.passport.user.wallet);
+        const refreshToken = req.session.passport.user.wallet;
+        const email = req.session.passport.user.email;
         const params = {
                 token: refreshToken
           }
@@ -113,9 +115,9 @@ module.exports = {
         console.log(data.accessToken);
         const accessToken = data.accessToken;
         const body = {
-          balance: money
+          balance: -money
         }
-        const res= await fetch(`https://localhost:5000/wallet/${email}/payment`, {
+        const result = await fetch(`https://localhost:5000/wallet/${email}/payment`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
@@ -123,6 +125,6 @@ module.exports = {
             },
             body: JSON.stringify(body)
         });
-        console.log(req.data);
+        console.log(result.data);
     }
 }
