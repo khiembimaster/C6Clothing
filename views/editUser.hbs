@@ -4,19 +4,17 @@
             <div class="card border-0 shadow rounded-3 my-5">
                 <div class="card-body p-4 p-sm-5">
                     <h1 class="mb-4">{{title}}</h1>
-                    <form action="{{form-action}}" method="post" enctype="multipart/form-data">
-                        {{#if_eq title 'Upload category'}}
+                    <form>
                         <div class="mb-3">
-                            <label for="image" class="form-label">Category Image</label>
-                            <input id="image" class="form-control" name="image" type="file" accept="image/*">
-                        </div>
-                        {{/if_eq}}
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Category Name</label>
-                            <input type="text" class="form-control" name="catName" id="title"
+                            <label for="title" class="form-label">Name</label>
+                            <input required type="text" class="form-control" name="name" id="title"
                                 placeholder="Enter the category title">
                         </div>
-
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input required type="text" class="form-control" name="email" id="email"
+                                placeholder="Enter the category title">
+                        </div>
                         <button type="submit" class="btn btn-primary">Confirm</button>
                     </form>
                 </div>

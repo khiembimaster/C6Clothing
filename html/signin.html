@@ -12,17 +12,23 @@
         integrity="...">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <style>
+        body {
+            height: 100vh;
+            width: 100%;
+        }
     </style>
 </head>
 
-<body>
+
+<body class="bg-secondary-subtle">
     <div class="container">
         <div class="row">
             <div class="col-lg-5 mx-auto">
                 <div class="card border-0 shadow rounded-3 my-5">
                     <div class="card-body p-4 p-sm-5">
-                        <h5 class="card-title text-center mb-5 fw-light fs-1">Sign In</h5>
-                        <form>
+                        <h5 class="card-title text-center mb-5 fw-light fs-1">System management</h5>
+                        <form action="https://localhost:3000/account/login" method="post">
                             <div class="form-floating mb-3">
                                 <input name="username" type="text" class="form-control" id="un" placeholder="Username">
                                 <label for="un">Username</label>
@@ -32,34 +38,18 @@
                                     placeholder="Password">
                                 <label for="pwd">Password</label>
                             </div>
-                            <hr>
-                            <div class="d-flex gap-2 my-3">
-                                <button class="w-50 btn btn-primary btn-login text-uppercase fw-bold" type="submit">Sign
-                                    up</button>
-
-                                <button class="w-50 btn btn-primary btn-login text-uppercase fw-bold" type="submit">Sign
-                                    in
-                                </button>
-                            </div>
-                            <style>
-                                .btn-google:hover {
-                                    background-color: rgb(52, 52, 255) !important;
-                                    color: white !important;
-                                }
-                            </style>
-                            <div class="d-grid mt-2">
-                                <button class="btn btn-google text-uppercase fw-bold bg-light text-primary border"
-                                    type="submit">
-                                    <i class="fab fa-google me-2"></i> Sign up with
-                                </button>
-                            </div>
+                            <button class="w-100 btn btn-primary btn-login text-uppercase fw-bold" type="submit">Sign
+                                in
+                            </button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
 
+    </script>
 </body>
 
 </html>

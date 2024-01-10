@@ -1,16 +1,14 @@
 const Categories = require('../models/category.m')
 const Product = require('../models/product.m');
+const User = require('../models/user.m')
+
 module.exports = {
     user: async (req, res, next) => {
         try {
-            const page = req.params.page;
-            const perPage = req.params.perPage;
-            console.log(page, perPage)
-            const rs = await Categories.All(1, 5);
-            console.log(rs.CatName)
+            const rs = await User.All(1, 5);
             res.render('manageUser', {
                 layout: 'admin',
-                categories: rs,
+                users: rs,
                 current: 4,
                 css: () => 'js/empty',
                 js: () => 'js/empty'
@@ -19,15 +17,18 @@ module.exports = {
             next(error)
         }
     },
-    upload: async (req, res, next) => {
+    userUpdate: async (req, res, next) => {
         try {
-            res.render('categories_creation', {
-                'form-action': `https://localhost:${process.env.PORT}/category`,
-                css: () => 'css/products_upload',
-                js: () => 'js/products_upload'
+            res.render('editUser', {
+                layout: 'admin',
+                title: 'Edit user',
+                'form-action': `https://localhost:${process.env.PORT}/user/${req.params.username}`,
+                current: 4,
+                css: () => 'js/empty',
+                js: () => 'js/editUser'
             })
         } catch (error) {
-            next(error);
+            next(error)
         }
     },
     dashboard: async (req, res, next) => {
@@ -56,9 +57,6 @@ module.exports = {
         } catch (error) {
             next(error)
         }
-    },
-    deleteCategory: async (req, res, next) => {
-
     },
     uploadCategory: async (req, res, next) => {
         try {

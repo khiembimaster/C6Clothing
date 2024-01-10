@@ -1,3 +1,4 @@
+const { use } = require('passport');
 const Account = require('../models/user.m');
 const User = require('../models/user.m')
 const bcrypt = require('bcrypt');
@@ -18,7 +19,7 @@ module.exports = {
             const { username, password, name, email } = req.body;
             const newUser = new User(username, password, name, email);
             await User.Add(newUser);
-          
+
         } catch (error) {
             next(error)
         }
@@ -34,47 +35,47 @@ module.exports = {
     },
     delete: async (req, res, next) => {
         try {
-            const username = req.params.id;
-            const rs = await User.Del(username);
-            return rs;
+            const username = req.params.username;
+            await User.Del(username);
+            res.send('oke')
         } catch (error) {
             next(error);
         }
     },
-    update: async (req, res, next) => {    
+    update: async (req, res, next) => {
         try {
-            const username = req.body.userName;
-            const password = req.body.passWord;
+            const username = req.params.username;
+            const user = await User.Get(username)
+            console.log(user)
+            if (user === null) return;
+            const password = req.body.password || user.Password;
             const name = req.body.name;
             const email = req.body.email;
-            
-            bcrypt.hash(password, saltRounds, async function(err, hash){
-                if(err){
+
+            bcrypt.hash(password, saltRounds, async function (err, hash) {
+                if (err) {
                     return next(err);
                 }
                 const user = new Account(username, hash, name, email);
                 const rs = await User.Update(user);
-                //return rs;
-                req.login(user, function(err) {
+                req.login(user, function (err) {
                     if (err) { return next(err); }
-                    res.redirect('/');
+                    res.send('oke');
                 });
             })
         } catch (error) {
             next(error);
         }
     },
-    updatePage: async (req, res, next)=> {
+    updatePage: async (req, res, next) => {
         try {
             const userName = req.params.username;
             const rs = await Account.Get(userName);
-            console.log("11", rs);
-            console.log(userName);
             res.render('updateUser', {
                 user: rs,
                 //passWord: pass,
-                css:()=>'css/update',
-                js:()=>'js/empty'
+                css: () => 'css/update',
+                js: () => 'js/empty'
             })
         } catch (error) {
             next(error)

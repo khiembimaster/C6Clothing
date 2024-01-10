@@ -22,6 +22,9 @@ router.route('/product/upload')
 router.route('/product/:id')
     .delete(productControler.delete)
 
+router.route('/user/update/:username')
+    .get(adminController.userUpdate)
 router.route('/user')
     .get(adminController.user)
+
 module.exports = router;
