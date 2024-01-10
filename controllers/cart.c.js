@@ -2,6 +2,7 @@ const Cart = require('../models/cart.m');
 const User = require('../models/user.m');
 const CartItem = require('../models/cartItems.m')
 const Product = require('../models/product.m')
+const Category = require('../models/category.m');
 module.exports = {
     all: async (req, res, next) => {
         try {
@@ -65,7 +66,11 @@ module.exports = {
     },
     cartPage: async(req, res, next) => {
         try {
-            const username = req.session.passport.user.username;
+            if(!req.session.passport){
+                res.sendStatus(500);
+            }
+            const username = req.session.passport.user.username
+            
             const user = await User.Get(username);
             const rs = await Cart.GetByUserID(user.ID);
             console.log(rs);
@@ -73,14 +78,16 @@ module.exports = {
             var products = 0;
             for(let cartItem of rs1){
                 const rs3 = await Product.GetByID(cartItem.ProductID);
-                //cartItem.assign(rs3.ProName, rs3.Price, rs.ImageUrl)
                 cartItem['ProName'] = rs3.ProName
                 cartItem['Price'] = rs3.Price
                 cartItem['Image'] = rs3.ImageUrl
                 products += cartItem.Quantity
             }
-            console.log(rs1)
+            const categories = await Category.All();
+            
             res.render("cart", {
+                'user': username,
+                'categories': categories,
                 cartItems: rs1,
                 Cart: products,
                 css:()=>'css/cart',

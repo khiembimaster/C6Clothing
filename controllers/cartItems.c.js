@@ -5,13 +5,19 @@ const Product = require('../models/product.m')
 module.exports = {
     add: async(req, res, next) => {
         try {
-            const cartID  = req.body.cartID;
-            const productID = req.body.productID;
-            const date = new Date();
-            const quantity = req.body.quantity;
-            const item = new Item(cartID, productID, date.getDate(), quantity);
-            const rs = await Item.Add(item);
-            console.log(rs);
+            //Get the cart associated to the loggeg user
+            if(!req.session.passport){ // Check for authenthication. This will be done by another middleware
+                res.sendStatus(500)
+            }
+            const user = await User.Get(req.session.passport.user.username);
+            const userCart = await Cart.GetByUserID(user.ID)
+
+            const productID = req.body.product_id;
+            const createDate = new Date().toLocaleDateString();
+            const initialQuantity = req.body.quantity;
+            const cartItem = new Item(userCart.ID, productID, createDate, initialQuantity);
+            const rs = await Item.Add(cartItem);
+            res.sendStatus(200);
         } catch (error) {
             next(error);
         }
@@ -20,9 +26,9 @@ module.exports = {
         try {
             const id = req.params.id;
             console.log(id)
-            const r = await Item.Del(id);
+            const rs = await Item.Del(id);
             console.log(rs);
-            
+            res.status(200).send(rs);
             
         } catch (error) {
             next(error);
@@ -58,18 +64,15 @@ module.exports = {
     }, 
     update: async(req, res, next) =>{
         try {
-            console.log(req.body)
-            const user = await User.Get(req.session.passport.user.username);
-            console.log("11", user)
-            const c = await Cart.GetByUserID(user.ID)
-            console.log(c)
-            const id = req.params.id;
-            const date = new Date();
-            const quantity = req.body.quantity;
-            const item = new Item(c.ID, id, null, quantity);
-            console.log(item)
-            const rs = await Item.Add(item);
-            console.log(rs);
+            const cartItemID = req.params.id;    
+            console.log(req.body);        
+            const data = {
+                Date: new Date(),
+                Quantity: req.body.quantity
+            }
+            const rs = await Item.Update(cartItemID, data);
+            // console.log('ok');
+            res.send(rs);
         } catch (error) {
             next(error)
         }

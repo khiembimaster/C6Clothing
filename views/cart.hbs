@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <!-- Item 1 -->
                     {{#each cartItems}}
-                    <div class="row mb-4 align-items-center">
+                    <div class="row mb-4 align-items-center cart-item">
                         <div class="col-md-2">
                             <img src="{{this.Image}}" class="img-fluid rounded-3" alt="{{this.ProName}}">
                         </div>
@@ -24,7 +24,7 @@
                                 <button class="btn btn-link px-2 down">
                                     <i class="fas fa-minus"></i>
                                 </button>
-                                <input min="0" name="quantity" data-old-quantity="0" value="{{this.Quantity}}" type="number"
+                                <input min="0" name="quantity" data-old-quantity="0" data-cart-item-id="{{this.ID}}" value="{{this.Quantity}}" type="number"
                                     class="form-control form-control-sm quantity" />
                                 <button class="btn btn-link px-2 up">
                                     <i class="fas fa-plus"></i>

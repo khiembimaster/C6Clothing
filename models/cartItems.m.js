@@ -26,7 +26,7 @@ module.exports = class Item{
     static async Update(id, item){
         const condition = {
             value: id,
-            field: "CartID"
+            field: "ID"
         }
         const rs = await db.update(tbName, condition, item);
         return rs;

@@ -3,11 +3,12 @@
         $(".delete-item").click(function (e) {
             e.preventDefault();
             var itemId = $(this).data("item-id");
+            let cartItem = $(this).closest("div .row");
             $.ajax({
                 url: 'https://localhost:3000/cart/items/' + itemId,
                 type: "DELETE",
                 success: function (result) {
-                    $("body").html(result);
+                    cartItem.remove();
                 }
             })
         })
@@ -20,31 +21,39 @@
             this.parentNode.querySelector('input[type=number]').dispatchEvent(new Event('change'));
         })
         const updateItems = function(e){
-        
-            const old_quantity = $(this).data('old-quantity'); 
-            const new_quantity = $(this).val();
-            totalProduct += new_quantity - old_quantity;
-            $("#total-product").text(totalProduct);
-            $(this).data('old-quantity', new_quantity);
+            $.ajax({
+                url: 'https://localhost:3000/cart/items/' + $(this).data('cart-item-id'),
+                type: "PUT",
+                data: {
+                    quantity: $(this).val()
+                },
+                context: this,
+                success: function () {
+                    const old_quantity = $(this).data('old-quantity'); 
+                    const new_quantity = $(this).val();
+                    totalProduct += new_quantity - old_quantity;
+                    $("#total-product").text(totalProduct);
+                    $(this).data('old-quantity', new_quantity);
 
-            let price = $(this).closest(".col-md-3").next().find(".price");
-            const price_val = price.data('price');
-            const old_cost = price.data('old-cost');
-            const new_cost = price_val * new_quantity;
-            price.text('$ ' + new_cost); 
-            totalCost += (new_cost - old_cost); 
-            $("#total-cost").text('$ ' + totalCost);
-            price.data('old-cost', new_cost);
-
+                    let price = $(this).closest(".col-md-3").next().find(".price");
+                    const price_val = price.data('price');
+                    const old_cost = price.data('old-cost');
+                    const new_cost = price_val * new_quantity;
+                    price.text('$ ' + new_cost); 
+                    totalCost += (new_cost - old_cost); 
+                    $("#total-cost").text('$ ' + totalCost);
+                    price.data('old-cost', new_cost);
+                },
+                error: function (result){
+                    alert("You have to log in!");
+                }
+            })
         }
         let totalProduct = 0;
         let totalCost = 0;
         $(".quantity")
             .each(updateItems)
             .change(updateItems);
-
-        
-
         
     })
 </script>

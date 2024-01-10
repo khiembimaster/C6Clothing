@@ -133,6 +133,7 @@ module.exports = {
         try {
             con = await db.connect();
             let sql = pgp.helpers.update(obj,null, tbName) + ` WHERE "${condition.field}" = '${condition.value}'`;
+            console.log(sql);
             const rs = await con.none(sql);
             return rs;
         } catch (error){

@@ -6,15 +6,21 @@ const cartItemsController = require('../controllers/cartItems.c')
 router.route('/')
     .get(cartController.cartPage)  
     .post(cartController.add)
-router.route('/:id')
-    .put(cartController.update)
-    .delete(cartController.delete)
-    // .get(cartController.cartPage)
-router.route('/items')
-    .post(cartItemsController.add)// Cart ItemAd dition 
-    .get(cartItemsController.getAll)
+
+
 router.route('/items/:id')
     .put(cartItemsController.update)      // Cart Item Update
     .delete(cartItemsController.delete)   // Cart Item Deletion
     .get(cartController.getByID)
-module.exports = router;
+
+// router.route('/:id')
+//     .put(cartController.update)
+//     .delete(cartController.delete)
+    // .get(cartController.cartPage)
+
+
+router.route('/items')
+    .post(cartItemsController.add)// Cart ItemAd dition 
+    .get(cartItemsController.getAll)
+
+    module.exports = router;
