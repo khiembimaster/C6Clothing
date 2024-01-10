@@ -55,7 +55,9 @@ module.exports = {
             const name = req.body.name || user.Username;
             const email = req.body.email || user.Email;
             const password = req.body.password;
+            const permission = user.Permission
             if (password) {
+                console.log(password)
                 const compare = await bcrypt.compare(req.body.oldpassword, user.Password)
                 if (!compare) {
                     return next();
@@ -64,7 +66,7 @@ module.exports = {
                     if (err) {
                         return next(err);
                     }
-                    const user = new Account(username, hash, name, email);
+                    const user = new Account(username, hash, name, email, permission);
                     const rs = await User.Update(user);
                     req.login(user, function (err) {
                         if (err) { return next(err); }
@@ -72,7 +74,7 @@ module.exports = {
                     });
                 })
             } else {
-                const updated = new Account(username, user.Password, name, email);
+                const updated = new Account(username, user.Password, name, email, permission);
                 const rs = await User.Update(updated);
                 res.send('oke');
             }

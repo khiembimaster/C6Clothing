@@ -6,7 +6,7 @@ const userController = require('../controllers/user.c');
 
 router.route('/signup')
     .get(accountController.signupPage)
-    .post( accountController.signup);
+    .post(accountController.signup);
 router.get('/logout', accountController.logout);
 
 // Username-Password strategy
