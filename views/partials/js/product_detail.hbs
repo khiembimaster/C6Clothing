@@ -4,11 +4,17 @@
             console.log( $('#quantityInput').val())
             e.preventDefault();
             $.ajax({
-                url: 'https://localhost:3000/cart/items/' + {{product.ID}} ,
-                type: "PUT",
-                data: {quantity: $('#quantityInput').val()},
+                url: 'https://localhost:3000/cart/items',
+                type: "POST",
+                data: {
+                    product_id: "{{product.ID}}",
+                    quantity: $('#quantityInput').val()
+                },
                 success: function (result) {
-                    
+                    alert("Card added!");
+                },
+                error: function (result){
+                    alert("You have to log in!");
                 }
             })
         })

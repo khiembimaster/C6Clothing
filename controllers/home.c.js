@@ -7,7 +7,7 @@ module.exports = {
         try {
             let user = null;
             if (req.session.passport) {
-                user = req.session.passport.user
+                user = req.session.passport.user.username
             }
             const categories = await Category.All();
             res.render('homepage', {

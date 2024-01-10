@@ -32,7 +32,8 @@ module.exports = {
     'google': passport.authenticate('google', { scope: ['email', 'profile'] }),
     'googleCallback': passport.authenticate('google', {
         successRedirect: 'back',
-        failureRedirect: '/'
+        failureRedirect: '/',
+        failureFlash: false
     }),
     signup: async (req, res, next) => {
         try {

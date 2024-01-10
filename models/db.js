@@ -103,8 +103,9 @@ module.exports = {
         let con = null;
         try {
             con = await db.connect();
-            let sql = pgp.helpers.insert(obj, null, tbName);
-            await con.none(sql);
+            let sql = pgp.helpers.insert(obj, null, tbName) + ` RETURNING "ID";`;
+            const id = await con.one(sql);
+            return id.ID;
         } catch (error) {
             throw error;
         } finally {
@@ -117,9 +118,7 @@ module.exports = {
         let con = null;
         try {
             con = await db.connect();
-            let sql;
-            sql = `DELETE FROM "${tbName}" WHERE "${fieldName}" = ${value}`;
-            console.log(sql)
+            let sql = `DELETE FROM "${tbName}" WHERE "${fieldName}" = ${value}`;
             await con.none(sql);
         } catch (error) {
             throw error;
