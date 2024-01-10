@@ -2,6 +2,7 @@ const { use } = require('passport');
 const Account = require('../models/user.m');
 const User = require('../models/user.m')
 const bcrypt = require('bcrypt');
+
 const saltRounds = 17;
 module.exports = {
     all: async (req, res, next) => {
@@ -92,5 +93,35 @@ module.exports = {
         } catch (error) {
             next(error)
         }
+    },
+    payment: async (req,res,next)=>{
+        const money = req.body.money;
+        const refreshToken = req.session.passport.wallet;
+        const email = req.session.passport.email;
+        const params = {
+                token: refreshToken
+          }
+          const response = await fetch('https://localhost:5000/wallet/refreshToken', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params)
+        });
+    
+        const data = await response.json();
+        console.log(data.accessToken);
+        const accessToken = data.accessToken;
+        const body = {
+          balance: money
+        }
+        const res= await fetch(`https://localhost:5000/wallet/${email}/payment`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        console.log(req.data);
     }
 }
