@@ -1,7 +1,7 @@
 <nav style="box-shadow: 0 0 2rem 0 rgba(33,37,41,.1);" class="navbar navbar-expand-lg bg-white">
     <div class="container-fluid">
         <div></div>
-        <div class="nav-item dropdown btn">
+        <div style="width: 120px;" class="nav-item dropdown btn text-end">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 {{username}}
@@ -57,7 +57,7 @@
                 datatype: "json/application",
                 data: $(this).serializeArray(),
             }).done(function (data) {
-                //window.location.href = '/admin'
+                window.location.href = '/admin'
             })
         });
     })

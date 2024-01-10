@@ -5,33 +5,50 @@ const adminController = require('../controllers/admin.c');
 const productControler = require('../controllers/product.c');
 const categoryControler = require('../controllers/category.c');
 
+function isAuthenticated(req, res, next) {
+    if (req.isAuthenticated())
+        return next()
+    res.redirect('/admin/signin')
+}
+
+async function isAdmin(req, res, next) {
+    console.log(req.session.passport.user)
+    if (req.session.passport.user.permission == 2) {
+        return next()
+    }
+
+    req.logout((error) => {
+        if (error) return next(error);
+        res.redirect('/admin/signin')
+    });
+}
 
 router.route('/signin')
     .get(adminController.signinPage)
     .post(adminController.login)
 
 router.route('/')
-    .get(adminController.dashboard)      // All accounts
+    .get(isAuthenticated, isAdmin, adminController.dashboard)      // All accounts
 
 router.route('/category')
-    .get(adminController.category)
+    .get(isAuthenticated, isAdmin, adminController.category)
 router.route('/category/upload')
-    .get(adminController.uploadCategory)
+    .get(isAuthenticated, isAdmin, adminController.uploadCategory)
 router.route('/category/:id')
-    .delete(categoryControler.delete)
+    .delete(isAuthenticated, isAdmin, categoryControler.delete)
 
 router.route('/product')
-    .get(adminController.product)
+    .get(isAuthenticated, isAdmin, adminController.product)
 router.route('/product/upload')
-    .get(adminController.uploadProduct)
+    .get(isAuthenticated, isAdmin, adminController.uploadProduct)
 router.route('/product/:id')
-    .delete(productControler.delete)
+    .delete(isAuthenticated, isAdmin, productControler.delete)
 
 router.route('/user/update/:username')
-    .get(adminController.userUpdate)
+    .get(isAuthenticated, isAdmin, adminController.userUpdate)
 router.route('/user/add')
-    .get(adminController.addUser)
+    .get(isAuthenticated, isAdmin, adminController.addUser)
 router.route('/user')
-    .get(adminController.user)
+    .get(isAuthenticated, isAdmin, adminController.user)
 
 module.exports = router;
