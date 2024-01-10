@@ -8,8 +8,7 @@
                         {{#if_eq title 'Upload product'}}
                         <div class="mb-3">
                             <label for="image" class="form-label">Product Image</label>
-                            <input id="image" class="form-control" name="image" type="file" id="formFile" required
-                                accept="image/*" multiple>
+                            <input id="image" class="form-control" name="image" type="file" required accept="image/*">
                         </div>
                         {{/if_eq}}
                         <div class="mb-3">
@@ -24,7 +23,7 @@
                         <div class="mb-3">
                             <label for="description" class="form-label">Product Full Description</label>
                             <textarea name="full" id="editor">
-                                &lt;p&gt;This is some sample content.&lt;/p&gt;
+
                             </textarea>
                         </div>
                         {{#if categories}}

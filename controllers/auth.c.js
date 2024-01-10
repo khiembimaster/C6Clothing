@@ -42,7 +42,6 @@ module.exports = {
             const password = req.body.password;
             const name = req.body.name;
             const email = req.body.email;
-            //  console.log(password);
             bcrypt.hash(password, saltRounds, async function (err, hash) {
                 if (err) {
                     return next(err);

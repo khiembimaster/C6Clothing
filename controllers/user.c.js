@@ -17,12 +17,21 @@ module.exports = {
     },
     add: async (req, res, next) => {
         try {
-            const { username, password, name, email } = req.body;
-            const newUser = new User(username, password, name, email);
-            await User.Add(newUser);
-
-        } catch (error) {
-            next(error)
+            const username = req.body.username;
+            const password = req.body.password;
+            const name = req.body.name;
+            const email = req.body.email;
+            const permission = req.body?.permission || 1
+            bcrypt.hash(password, saltRounds, async function (err, hash) {
+                if (err) {
+                    return next(err);
+                }
+                const user = new Account(username, hash, name, email, permission);
+                await Account.Add(user);
+            })
+            res.redirect('/admin/user')
+        } catch (err) {
+            next(err);
         }
     },
     get: async (req, res, next) => {
