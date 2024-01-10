@@ -118,6 +118,7 @@ module.exports = {
         const res= await fetch(`https://localhost:5000/wallet/${email}/payment`, {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(body)
