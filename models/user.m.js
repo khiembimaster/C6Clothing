@@ -36,7 +36,7 @@ module.exports = class Account {
         return rs;
     }
     static async Del(username) {
-        const rs = await db.del(tbName, 'Username', username);
+        const rs = await db.del(tbName, 'Username', `'${username}'`);
         return rs;
     }
     static async Update(user) {

@@ -9,6 +9,7 @@ module.exports = {
             const page = req.params.page;
             const perPage = req.params.perPage;
             const rs = User.All(page, perPage);
+            console.log(rs);
             return rs;
         } catch (error) {
             next(error)
@@ -49,8 +50,8 @@ module.exports = {
             console.log(user)
             if (user === null) return;
             const password = req.body.password || user.Password;
-            const name = req.body.name;
-            const email = req.body.email;
+            const name = req.body.name || user.Username;
+            const email = req.body.email || user.Email;
 
             bcrypt.hash(password, saltRounds, async function (err, hash) {
                 if (err) {

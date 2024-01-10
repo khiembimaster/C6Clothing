@@ -5,6 +5,11 @@ const adminController = require('../controllers/admin.c');
 const productControler = require('../controllers/product.c');
 const categoryControler = require('../controllers/category.c');
 
+
+router.route('/signin')
+    .get(adminController.signinPage)
+    .post(adminController.login)
+
 router.route('/')
     .get(adminController.dashboard)      // All accounts
 

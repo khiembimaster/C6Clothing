@@ -118,10 +118,7 @@ module.exports = {
         try {
             con = await db.connect();
             let sql;
-            if (typeof value === "string")
-                sql = `DELETE FROM "${tbName}" WHERE "${fieldName}" LIKE '${value}'`;
-            else
-                sql = `DELETE FROM "${tbName}" WHERE "${fieldName}" = ${value}`;
+            sql = `DELETE FROM "${tbName}" WHERE "${fieldName}" = ${value}`;
             console.log(sql)
             await con.none(sql);
         } catch (error) {

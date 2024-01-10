@@ -2,7 +2,28 @@ const Categories = require('../models/category.m')
 const Product = require('../models/product.m');
 const User = require('../models/user.m')
 
+const Account = require('../models/user.m');
+const bcrypt = require('bcrypt');
+const saltRounds = 17;
+const passport = require('passport');
+
 module.exports = {
+    signinPage: async (req, res, next) => {
+        try {
+            res.render('adminSignin', {
+                layout: 'adminSignin',
+                css: () => 'js/empty',
+                js: () => 'js/empty'
+            })
+        } catch (error) {
+            next(error)
+        }
+    },
+    'login': passport.authenticate('myStrategy', {
+        successRedirect: '/admin',
+        failureRedirect: '/admin/signin',
+        failureFlash: false
+    }),
     user: async (req, res, next) => {
         try {
             const rs = await User.All(1, 5);
@@ -33,7 +54,9 @@ module.exports = {
     },
     dashboard: async (req, res, next) => {
         // res. render dashboard
+        const username = 'Username' || req.session.passport.user
         res.render('dashboard', {
+            username: username,
             layout: 'admin',
             current: 1,
             css: () => 'js/empty',
