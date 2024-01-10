@@ -25,14 +25,14 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="/user/{{username}}" method="post">
+                            <form id="form-changepwd">
                                 <div class="form-floating mb-3">
                                     <input name="oldpassword" type="text" class="form-control" id="signin-un"
                                         placeholder="Current password">
                                     <label for="signin-un">Current password</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input name="password" type="password" class="form-control" id="signin-pwd"
+                                    <input name="password" type="text" class="form-control" id="signin-pwd"
                                         placeholder="New password">
                                     <label for="signin-pwd">New password</label>
                                 </div>
@@ -46,3 +46,19 @@
         </div>
     </div>
 </nav>
+
+<script>
+    $(() => {
+        $('#form-changepwd').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "/user/{{username}}",
+                type: "PUT",
+                datatype: "json/application",
+                data: $(this).serializeArray(),
+            }).done(function (data) {
+                //window.location.href = '/admin'
+            })
+        });
+    })
+</script>

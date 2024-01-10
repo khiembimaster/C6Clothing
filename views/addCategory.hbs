@@ -4,7 +4,7 @@
             <div class="card border-0 shadow rounded-3 my-5">
                 <div class="card-body p-4 p-sm-5">
                     <h1 class="mb-4">{{title}}</h1>
-                    <form action="{{form-action}}" method="post" enctype="multipart/form-data">
+                    <form id="form" action="{{form-action}}" method="post" enctype="multipart/form-data">
                         {{#if_eq title 'Upload category'}}
                         <div class="mb-3">
                             <label for="image" class="form-label">Category Image</label>

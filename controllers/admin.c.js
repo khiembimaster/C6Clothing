@@ -27,7 +27,7 @@ module.exports = {
     user: async (req, res, next) => {
         try {
             const rs = await User.All(1, 5);
-            const username = 'Username' || req.session.passport.user
+            const username = req.session.passport?.user?.username || 'Username'
             res.render('manageUser', {
                 username: username,
                 layout: 'admin',
@@ -42,7 +42,7 @@ module.exports = {
     },
     userUpdate: async (req, res, next) => {
         try {
-            const username = 'Username' || req.session.passport.user
+            const username = req.session.passport?.user?.username || 'Username'
             res.render('editUser', {
                 username: username,
                 layout: 'admin',
@@ -58,7 +58,7 @@ module.exports = {
     },
     dashboard: async (req, res, next) => {
         // res. render dashboard
-        const username = 'Username' || req.session.passport.user
+        const username = req.session.passport?.user?.username || 'Username'
         res.render('dashboard', {
             username: username,
             layout: 'admin',
@@ -69,7 +69,7 @@ module.exports = {
     },
     category: async (req, res, next) => {
         try {
-            const username = 'Username' || req.session.passport.user
+            const username = req.session.passport?.user?.username || 'Username'
             const page = req.params.page;
             const perPage = req.params.perPage;
             console.log(page, perPage)
@@ -96,7 +96,7 @@ module.exports = {
     },
     product: async (req, res, next) => {
         try {
-            const username = 'Username' || req.session.passport.user
+            const username = req.session.passport?.user?.username || 'Username'
             const page = req.params.page;
             const perPage = req.params.perPage;
             console.log(page, perPage)

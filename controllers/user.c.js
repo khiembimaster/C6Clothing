@@ -47,23 +47,34 @@ module.exports = {
         try {
             const username = req.params.username;
             const user = await User.Get(username)
-            console.log(user)
-            if (user === null) return;
-            const password = req.body.password || user.Password;
+            if (!user) {
+                return next();
+            }
+
             const name = req.body.name || user.Username;
             const email = req.body.email || user.Email;
-
-            bcrypt.hash(password, saltRounds, async function (err, hash) {
-                if (err) {
-                    return next(err);
+            const password = req.body.password;
+            if (password) {
+                const compare = await bcrypt.compare(req.body.oldpassword, user.Password)
+                if (!compare) {
+                    return next();
                 }
-                const user = new Account(username, hash, name, email);
-                const rs = await User.Update(user);
-                req.login(user, function (err) {
-                    if (err) { return next(err); }
-                    res.send('oke');
-                });
-            })
+                bcrypt.hash(password, saltRounds, async function (err, hash) {
+                    if (err) {
+                        return next(err);
+                    }
+                    const user = new Account(username, hash, name, email);
+                    const rs = await User.Update(user);
+                    req.login(user, function (err) {
+                        if (err) { return next(err); }
+                        res.send('oke');
+                    });
+                })
+            } else {
+                const updated = new Account(username, user.Password, name, email);
+                const rs = await User.Update(updated);
+                res.send('oke');
+            }
         } catch (error) {
             next(error);
         }

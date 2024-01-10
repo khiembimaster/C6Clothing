@@ -8,23 +8,24 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 passport.serializeUser((user, done) => {
     // token = ??
-    console.log(user);
-    const params = {
-        id: user.Email
-    }
-    fetch('https://localhost:5000/wallet/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(params)
-    }).then(async (res) => {
-        const data = await res.json();
-        user.refreshToken = data.refreshToken;
-        console.log(data);
-        done(null, { 'username': user.Username, wallet: user.refreshToken });
-    });
+    // console.log(user);
+    // const params = {
+    //     id: user.Email
+    // }
+    // fetch('https://localhost:5000/wallet/login', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(params)
+    // }).then(async (res) => {
+    //     const data = await res.json();
+    //     user.refreshToken = data.refreshToken;
+    //     done(null, { 'username': user.Username, wallet: user.refreshToken });
+    //     console.log(data);
+    // });
 
+    done(null, { 'username': user.Username });
 
 });
 passport.deserializeUser(async (user, done) => {

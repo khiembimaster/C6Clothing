@@ -118,7 +118,7 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form>
+                                <form id="form-changepwd">
                                     <div class="form-floating mb-3">
                                         <input name="username" type="text" class="form-control" id="signin-un"
                                             placeholder="Username">
@@ -187,6 +187,13 @@
                 },
             }
         });
+
+        $(() => {
+            $('#form-changepwd').submit(function (e) {
+                e.preventDefault();
+                console.log($(this).serializeArray())
+            });
+        })
     </script>
 </body>
 
