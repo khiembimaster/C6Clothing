@@ -27,7 +27,9 @@ module.exports = {
     user: async (req, res, next) => {
         try {
             const rs = await User.All(1, 5);
+            const username = 'Username' || req.session.passport.user
             res.render('manageUser', {
+                username: username,
                 layout: 'admin',
                 users: rs,
                 current: 4,
@@ -40,7 +42,9 @@ module.exports = {
     },
     userUpdate: async (req, res, next) => {
         try {
+            const username = 'Username' || req.session.passport.user
             res.render('editUser', {
+                username: username,
                 layout: 'admin',
                 title: 'Edit user',
                 'form-action': `https://localhost:${process.env.PORT}/user/${req.params.username}`,
@@ -65,6 +69,7 @@ module.exports = {
     },
     category: async (req, res, next) => {
         try {
+            const username = 'Username' || req.session.passport.user
             const page = req.params.page;
             const perPage = req.params.perPage;
             console.log(page, perPage)
@@ -72,6 +77,7 @@ module.exports = {
             console.log(rs.CatName)
             res.render('manageCategories', {
                 layout: 'admin',
+                username: username,
                 categories: rs,
                 current: 3,
                 css: () => 'js/empty',
@@ -90,6 +96,7 @@ module.exports = {
     },
     product: async (req, res, next) => {
         try {
+            const username = 'Username' || req.session.passport.user
             const page = req.params.page;
             const perPage = req.params.perPage;
             console.log(page, perPage)
@@ -97,6 +104,7 @@ module.exports = {
             console.log(rs)
             res.render("manageProduct", {
                 layout: 'admin',
+                username: username,
                 products: rs,
                 current: 2,
                 css: () => 'css/manageCategories',
