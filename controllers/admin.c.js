@@ -56,6 +56,22 @@ module.exports = {
             next(error)
         }
     },
+    addUser: async (req, res, next) => {
+        try {
+            const username = req.session.passport?.user?.username || 'Username'
+            res.render('addUser', {
+                username: username,
+                layout: 'admin',
+                title: 'Add user',
+                'form-action': `https://localhost:${process.env.PORT}/user`,
+                current: 4,
+                css: () => 'js/empty',
+                js: () => 'js/empty'
+            })
+        } catch (error) {
+            next(error)
+        }
+    },
     dashboard: async (req, res, next) => {
         // res. render dashboard
         const username = req.session.passport?.user?.username || 'Username'
@@ -107,7 +123,7 @@ module.exports = {
                 username: username,
                 products: rs,
                 current: 2,
-                css: () => 'css/manageCategories',
+                css: () => 'js/empty',
                 js: () => 'js/empty'
             }
             )

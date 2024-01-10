@@ -29,6 +29,8 @@ router.route('/product/:id')
 
 router.route('/user/update/:username')
     .get(adminController.userUpdate)
+router.route('/user/add')
+    .get(adminController.addUser)
 router.route('/user')
     .get(adminController.user)
 
