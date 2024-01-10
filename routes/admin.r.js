@@ -16,6 +16,9 @@ router.route('/signin')
 router.route('/')
     .get(isAuthenticated, isAdmin, adminController.dashboard)      // All accounts
 
+router.route('/dashboard')
+    .get(isAuthenticated, isAdmin, adminController.getDashboard)
+
 router.route('/category')
     .get(isAuthenticated, isAdmin, adminController.category)
 router.route('/category/upload')

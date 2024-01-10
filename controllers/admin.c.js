@@ -83,6 +83,24 @@ module.exports = {
             js: () => 'js/empty'
         })
     },
+    getDashboard: async (req, res, next) => {
+        // res. render dashboard
+        const refreshToken = req.session.passport.user.wallet;
+        const params = {
+            token: refreshToken
+        }
+        const year = new Date().getFullYear()
+        const response = await fetch(`https://localhost:5000/admin/transactions?start=${year}-01-01T00:00:00Z&end=${year}-12-31T23:59:59Z`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params)
+        });
+
+        const data = await response.json();
+        res.send(data)
+    },
     category: async (req, res, next) => {
         try {
             const username = req.session.passport?.user?.username || 'Username'

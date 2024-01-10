@@ -1,8 +1,11 @@
 // middleware to test if authenticated
-module.exports = function checkAuthenticated (req, res, next) {
+module.exports = function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next()
     }
-    res.redirect('back');
+    if (req.originalUrl.includes('admin'))
+        res.redirect('/admin/signin');
+    else
+        res.redirect('back');
 }
 

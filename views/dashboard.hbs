@@ -7,8 +7,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <script>
-    const year = new Date().getFullYear()
-    fetch(`https://localhost:5000/admin/transactions?start=${year}-01-01T00:00:00Z&end=${year}-12-31T23:59:59Z`)
+    fetch(`https://localhost:3000/admin/dashboard`)
         .done(function (res) {
             const data = res;
             const xValues = [];
