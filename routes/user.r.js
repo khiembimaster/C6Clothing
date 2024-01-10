@@ -11,4 +11,8 @@ router.route('/:username')
     .put(userController.update)
     .delete(userController.delete)
 
+router.post('/checkout', userController.payment);
+
+
+    
 module.exports = router;
