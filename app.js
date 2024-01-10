@@ -51,7 +51,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', require('./routes/home.r'));
 app.use('/account', require('./routes/auth.r'));
 app.use('/category', require('./routes/category.r'));
-app.use('/admin', checkAuthenticated, require('./routes/admin.r'));
+app.use('/admin', require('./routes/admin.r'));
 app.use('/product', require('./routes/product.r'));
 // app.use('/order', require('./routes/order.r'));
 app.use('/cart', checkAuthenticated, require('./routes/cart.r'));

@@ -22,7 +22,7 @@ passport.serializeUser((user, done) => {
         const data = await res.json();
         user.refreshToken = data.refreshToken;
         console.log(data);
-        done(null, { 'username': user.Username, 'permission': user.permission, wallet: user.refreshToken });
+        done(null, { 'username': user.Username, 'permission': user.Permission, wallet: user.refreshToken });
     });
 });
 passport.deserializeUser(async (user, done) => {

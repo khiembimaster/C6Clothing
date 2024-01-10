@@ -5,23 +5,9 @@ const adminController = require('../controllers/admin.c');
 const productControler = require('../controllers/product.c');
 const categoryControler = require('../controllers/category.c');
 
-function isAuthenticated(req, res, next) {
-    if (req.isAuthenticated())
-        return next()
-    res.redirect('/admin/signin')
-}
+const isAuthenticated = require('../modules/checkAuthenticated');
+const isAdmin = require('../modules/checkAdmin');
 
-async function isAdmin(req, res, next) {
-    console.log(req.session.passport.user)
-    if (req.session.passport.user.permission == 2) {
-        return next()
-    }
-
-    req.logout((error) => {
-        if (error) return next(error);
-        res.redirect('/admin/signin')
-    });
-}
 
 router.route('/signin')
     .get(adminController.signinPage)
