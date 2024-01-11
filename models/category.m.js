@@ -21,6 +21,7 @@ module.exports = class Category {
         console.log(rs)
         return rs;
     }
+
     static async Add(cat, buffer, mimetype) {
         console.log(cat);
         await db.add(tbName, cat);
