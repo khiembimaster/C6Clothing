@@ -13,6 +13,14 @@ module.exports = class Account {
         const rs = await db.findAll(tbName, page, perPage);
         return rs;
     }
+    static async AllFiltered(params) {
+        let filters = [];
+
+        const result = await db.searchAndFilter(tbName, params.page, params.perPage,
+            { key: 'Name', value: params.search }, filters, { field: 'Name', order: params.order });
+
+        return result;
+    }
     static async Add(user) {
         const UserID = await db.add(tbName, user);
         const rs = await Cart.Add(new Cart(UserID, 0));

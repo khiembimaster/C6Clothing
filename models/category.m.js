@@ -8,6 +8,21 @@ module.exports = class Category {
         this.Image = image;
         this.CatName = catName;
     }
+    static async AllFiltered(params) {
+        let filters = [];
+
+        const result = await db.searchAndFilter(tbName, params.page, params.perPage,
+            { key: 'CatName', value: params.search }, filters, { field: 'CatName', order: params.order });
+
+        for (let category of result.data) {
+            if (category.Image) {
+                category.ImageUrl = await imageURL.getURL(category.Image);
+            } else {
+                category.ImageUrl = "#";
+            }
+        }
+        return result;
+    }
     static async All(page = 1, perPage = 5) {
         console.log(page, perPage)
         const rs = await db.findAll(tbName, page, perPage);

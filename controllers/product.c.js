@@ -152,7 +152,7 @@ module.exports = {
                 });
             }
             else {
-                res.render('partials/product_list_comp_products', {
+                res.render('partials/products', {
                     layout: false,
                     'products': result.data,
                     'total': result.count,
