@@ -23,7 +23,7 @@ module.exports = class Category {
         }
         return result;
     }
-    static async All(page = 1, perPage = 5) {
+    static async All(page = 1, perPage = 20) {
         console.log(page, perPage)
         const rs = await db.findAll(tbName, page, perPage);
         for (let cat of rs) {
