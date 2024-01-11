@@ -17,6 +17,6 @@ router.route('/update/:id')
 
 router.route('/:id')
     .get(productController.get) // Product details
-    .put(productController.edit) // Product details
+    .put(productController.updateQuantity) // Product details
 
 module.exports = router;

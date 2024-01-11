@@ -38,6 +38,10 @@ module.exports = class Category {
     static async Del(catID) {
         const products = await db.findByField('Products', 'CatID', catID);
         for (var product of products) {
+            const cartItems = await db.findByField('CartItems', 'ProductID', product.ID)
+            for(var cartItem of cartItems){
+                await db.del('CartItems', 'ID', cartItem.ID)
+            }
             await imageURL.deleteImage(product.Image);
             await db.del('Products', 'ID', product.ID);
         }

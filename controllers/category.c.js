@@ -3,6 +3,9 @@ const Product = require('../models/product.m')
 require('dotenv').config('.env');
 const crypto = require('crypto');
 const sharp = require('sharp');
+const User = require('../models/user.m')
+const Cart = require('../models/cart.m')
+const cartItem = require('../models/cartItems.m');
 module.exports = {
     upload: async (req, res, next) => {
         try {
@@ -48,30 +51,62 @@ module.exports = {
             }
 
             const result = await Product.All(params);
-
             if (Object.keys(req.query).length <= 1) {
                 const categories = await Category.All();
                 let user = null;
                 if(req.session.passport){
                     user = req.session.passport.user.username
                 }
-                res.render('products_list', {
-                    'search': params.search,
-                    'user': user,
-                    'title': 'Products',
-                    'section': category.CatName.toUpperCase(),
-                    'products': result.data,
-                    'total': result.count,
-                    'totalPages': result.totalPages,
-                    'prev': (params.page - 1) || result.totalPages,
-                    'page': params.page,
-                    'next': (params.page % result.totalPages) + 1,
-                    'min_price': params.minPrice || 0,
-                    'max_price': params.maxPrice || 100,
-                    'categories': categories,
-                    css: () => 'css/products_list',
-                    js: () => 'js/products_list'
-                });
+                const u = await User.Get(user)
+                if(u!=null){
+                    const userCart = await Cart.GetByUserID(u.ID);
+                    const cartItems = await cartItem.GetByCartID(userCart.ID);
+                    var products = 0;
+                    for(let cartItem of cartItems){
+                        const rs3 = await Product.GetByID(cartItem.ProductID);
+                        cartItem['ProName'] = rs3.ProName
+                        cartItem['Price'] = rs3.Price
+                        cartItem['Image'] = rs3.ImageUrl
+                        products += cartItem.Quantity
+                    }
+                    res.render('products_list', {
+                        'search': params.search,
+                        'user': user,
+                        cartItems: cartItems,
+                        'title': 'Products',
+                        'section': category.CatName.toUpperCase(),
+                        'products': result.data,
+                        'total': result.count,
+                        'totalPages': result.totalPages,
+                        'prev': (params.page - 1) || result.totalPages,
+                        'page': params.page,
+                        'next': (params.page % result.totalPages) + 1,
+                        'min_price': params.minPrice || 0,
+                        'max_price': params.maxPrice || 100,
+                        'categories': categories,
+                        css: () => 'css/products_list',
+                        js: () => 'js/products_list'
+                    });
+                }
+                else{
+                    res.render('products_list', {
+                        'search': params.search,
+                        'user': user,
+                        'title': 'Products',
+                        'section': category.CatName.toUpperCase(),
+                        'products': result.data,
+                        'total': result.count,
+                        'totalPages': result.totalPages,
+                        'prev': (params.page - 1) || result.totalPages,
+                        'page': params.page,
+                        'next': (params.page % result.totalPages) + 1,
+                        'min_price': params.minPrice || 0,
+                        'max_price': params.maxPrice || 100,
+                        'categories': categories,
+                        css: () => 'css/products_list',
+                        js: () => 'js/products_list'
+                    });
+                }
             } else if (req.query.page == null) {
                 res.render('partials/product_list_comp', {
                     layout: false,

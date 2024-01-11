@@ -45,24 +45,15 @@ module.exports = {
     update: async (req, res, next) => {
         try {
             const username = req.params.username;
+            console.log(username);
             const user = await User.Get(username)
-            console.log(user)
             if (user === null) return;
             const password = req.body.password || user.Password;
             const name = req.body.name;
             const email = req.body.email;
-
-            bcrypt.hash(password, saltRounds, async function (err, hash) {
-                if (err) {
-                    return next(err);
-                }
-                const user = new Account(username, hash, name, email);
-                const rs = await User.Update(user);
-                req.login(user, function (err) {
-                    if (err) { return next(err); }
-                    res.send('oke');
-                });
-            })
+            const u = new Account(username, password, name, email);
+            const rs = await User.Update(u);
+            res.status(200).send(rs);
         } catch (error) {
             next(error);
         }
@@ -75,7 +66,7 @@ module.exports = {
                 user: rs,
                 //passWord: pass,
                 css: () => 'css/update',
-                js: () => 'js/empty'
+                js: () => 'js/editUser'
             })
         } catch (error) {
             next(error)

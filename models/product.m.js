@@ -70,6 +70,10 @@ module.exports = class Product {
         return rs;
     }
     static async DelByID(proID) {
+        const cartItems = await db.findByField('CartItems', 'ProductID', proID)
+        for(var cartItem of cartItems){
+            await db.del('CartItems', 'ID', cartItem.ID)
+        }
         const product = await db.findOne(tbName, 'ID', proID);
         await imageURL.deleteImage(product.Image);
         await db.del(tbName, 'ID', proID);
@@ -80,5 +84,8 @@ module.exports = class Product {
         product.CatID = dbProduct.CatID
         await db.update(tbName, { field: "ID", value: id }, product);
         //return imageURL.saveImage(buffer, mimetype, product.Image);
+    }
+    static async UpdateQuanntity(id, product) {
+        await db.update(tbName, { field: "ID", value: id }, product);
     }
 }

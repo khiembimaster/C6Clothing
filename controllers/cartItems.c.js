@@ -2,6 +2,7 @@ const Item = require('../models/cartItems.m');
 const Cart = require('../models/cart.m')
 const User = require('../models/user.m')
 const Product = require('../models/product.m')
+const productController = require('./product.c')
 module.exports = {
     add: async(req, res, next) => {
         try {
@@ -10,6 +11,21 @@ module.exports = {
                 res.sendStatus(500)
             }
             const user = await User.Get(req.session.passport.user.username);
+            if(user != null)
+            {
+                var product = await Product.GetByID(req.body.product_id);
+                const quantity = req.body.quantity;
+                var q = 0;
+                if(product.Quantity > quantity)
+                {
+                    q = product.Quantity - quantity;
+                    product.Quantity = q;
+                    console.log(product)
+                    let objectWithoutImgURL = Object.assign({}, product);
+                    delete objectWithoutImgURL.ImageUrl;
+                    await Product.UpdateQuanntity(req.body.product_id,objectWithoutImgURL)
+                }
+            }
             const userCart = await Cart.GetByUserID(user.ID)
 
             const productID = req.body.product_id;
@@ -25,9 +41,18 @@ module.exports = {
     delete: async(req, res, next)=>{
         try {
             const id = req.params.id;
-            console.log(id)
+            const cartItem = await Item.Get(id);
+            var product = await Product.GetByID(cartItem.ProductID);
+            const quantity = cartItem.Quantity;
+            var q = 0;
+            q = product.Quantity + quantity;
+                product.Quantity = q;
+                console.log(product)
+                let objectWithoutImgURL = Object.assign({}, product);
+                delete objectWithoutImgURL.ImageUrl;
+                await Product.UpdateQuanntity(cartItem.ProductID,objectWithoutImgURL)
             const rs = await Item.Del(id);
-            console.log(rs);
+            //res.redirect('admin/category');
             res.status(200).send(rs);
             
         } catch (error) {
