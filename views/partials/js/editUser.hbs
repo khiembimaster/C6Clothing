@@ -1,17 +1,15 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(() => {
         $('#form').submit(function (e) {
             e.preventDefault();
-            console.log('{{form-action}}')
             $.ajax({
-                type: 'PUT', 
-                url: 'https://localhost:3000/account/' + $(this).val(),
-                data: formData,
-                success: function (result) {
-                    window.location.href = 'https://localhost:3000';
-                }
-            });
+                url: "{{form-action}}",
+                type: "PUT",
+                datatype: "json/application",
+                data: $(this).serializeArray(),
+            }).done(function (data) {
+                window.location.href = "{{href}}"
+            })
         });
-    });
+    })
 </script>
