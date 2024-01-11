@@ -19,7 +19,7 @@ Handlebars.registerHelper("list", function (n, prev, page, next) {
         <button class="page-link" tabindex="-1" aria-disabled="true" value="${prev}">Previous</button>
     </li>`
     for (var i = 1; i <= n; i++) {
-        accum += `<li class="page-item"><button class="page-link" value="${1}" ${page == i ? "active" : ''}>${i}</button></li>`;
+        accum += `<li class="page-item"><button class="page-link ${page == i ? "active" : ''}" value="${1}">${i}</button></li>`;
     }
     accum += `
     <li class="page-item">
