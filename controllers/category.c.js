@@ -23,13 +23,14 @@ module.exports = {
     },
     update: async (req, res, next) => {
         try {
-            const category = await Category.Get(req.params.id);
+            const catID = req.params.id;
+            const category = await Category.Get(catID);
             res.render('addCategory', {
                 layout: 'admin',
                 cat: category,
                 title: "Edit category",
                 current: 3,
-                'form-action': `https://localhost:${process.env.PORT}/category/${req.params.id}`,
+                'form-action': `https://localhost:${process.env.PORT}/category/${catID}`,
                 css: () => 'js/empty',
                 js: () => 'js/editCategory'
             })

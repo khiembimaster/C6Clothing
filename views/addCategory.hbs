@@ -13,8 +13,8 @@
                         {{/if_eq}}
                         <div class="mb-3">
                             <label for="title" class="form-label">Category Name</label>
-                            <input {{#if_eq title 'Edit category' }} value="{{cat.CatName}}" {{/if_eq}} type="text"
-                                class="form-control" name="catName" id="title" placeholder="Enter the category title">
+                            <input type="text" class="form-control" name="catName" id="title" {{#if category.CatName}}
+                                value="{{category.CatName}}" {{else}} placeholder="Enter the category title" {{/if}}>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Confirm</button>
