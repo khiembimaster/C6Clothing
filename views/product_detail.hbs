@@ -12,6 +12,7 @@
                 text-transform: uppercase;">{{product.ProName}}</h1>
             <p style="font-size: 18px; color: #666;">{{{product.FullDes}}}</p>
             <h3 style="font-size: 40px; color: #000;">Price: ${{product.Price}}</h3>
+            <h3 style="font-size: 20px; color: #000;">Stock : {{product.Quantity}} item</h3>
             <div style="display: flex; gap: 10px; align-items: center;">
                 <div style="flex: 1;">
                     <label for="sizeSelect" style="font-size: 18px; color: #333;">Category</label>
@@ -19,7 +20,7 @@
                 </div>
                 <div style="flex: 1;">
                     <label for="quantityInput" style="font-size: 18px; color: #333;">Quantity:</label>
-                    <input type="number" id="quantityInput" name="quantity" value="1" min="1" class="form-control">
+                    <input type="number" id="quantityInput" name="quantity" value="1" min="1" max="{{product.Quantity}}" class="form-control">
                 </div>
             </div>
             <div class="row" style="margin-top: 15px;">

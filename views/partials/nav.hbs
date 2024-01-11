@@ -44,6 +44,42 @@
         font-size: 35px;
         /* Kích thước icon */
     }
+
+    /* CSS cho mini cart */
+    #miniCart {
+        position: absolute;
+        top: calc(100% + 10px);
+        /* Đặt vị trí ngay dưới icon giỏ hàng */
+        right: -500px;
+        /* Điều chỉnh khoảng cách từ biểu tượng giỏ hàng */
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 10px;
+        max-height: 300px;
+        /* Đặt chiều cao tối đa */
+        width: 500px;
+        /* Đặt chiều rộng */
+        overflow-x: hidden;
+        /* Cho phép cuộn nếu nội dung vượt quá kích thước */
+        z-index: 999;
+    }
+
+    #cartItemsList {
+        list-style: none;
+        padding: 0px;
+    }
+
+    #viewCart {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .product-image {
+        width: 62px;
+        height: 50px;
+        /* Các thuộc tính khác nếu bạn muốn điều chỉnh kiểu dáng */
+    }
 </style>
 
 <header>
@@ -57,43 +93,63 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <div class="dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
                                     <i class="fas fa-user-circle"></i>
                                 </a>
                                 <ul class="dropdown-menu">
                                     {{#if user}}
                                     <li>
-                                        <a href=`https://localhost:3000/account/{{user}}` class="dropdown-item btn-primary"> {{user}}</a>
+                                        <a href="https://localhost:3000/account/{{user}}" class="dropdown-item btn-primary"> {{user}}</a>
                                     <li>
-                                        <li>
-                                        <!-- Button trigger modal -->
-                                        <a type="button" class="dropdown-item btn-primary" href="https://localhost:3000/account/logout">Log Out</a>
-                                    <li>
-                                    {{else}}
                                     <li>
                                         <!-- Button trigger modal -->
-                                        <button type="button" class="dropdown-item btn-primary" data-bs-toggle="modal" data-bs-target="#signin">
-                                        Log In
+                                        <a type="button" class="dropdown-item btn-primary"
+                                            href="https://localhost:3000/account/logout">Log Out</a>
+                                    <li>
+                                        {{else}}
+                                    <li>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="dropdown-item btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#signin">
+                                            Log In
                                         </button>
                                     <li>
-                                        <button type="button" class="dropdown-item btn-primary" data-bs-toggle="modal" data-bs-target="#signup">
-                                        Sign Up
+                                        <button type="button" class="dropdown-item btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#signup">
+                                            Sign Up
                                         </button>
                                     </li>
                                     {{/if}}
                                 </ul>
                             </div>
-                            
+
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-cart-plus" style="font-size: 35px;"></i></a>
+                            <a class="nav-link" href="https://localhost:3000/cart"><i class="fas fa-cart-plus"
+                                    style="font-size: 35px;" id="cart"></i></a>
+
+                            <div id="miniCart" style="display: none;">
+                                <ul id="cartItemsList">
+                                    {{#each cartItems}}
+                                    <div class="row  mb-3">
+                                        <img class="col-6 col-sm-3" src="{{this.Image}}" alt="" style="height: 60px; width: 80px">
+                                        <p class="col-6 col-sm-3">{{this.ProName}}</p>
+                                        <p class="col-6 col-sm-3" id="price">${{this.Price}}</p>
+                                        <hr style="margin: 10px 0;">
+                                    </div>
+
+                                    {{/each}}
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                 </div>
                 <div class="navbar-brand">C6 CLOTHING</div>
                 <div class="search-bar">
                     <form class="d-flex" id="search" action="https://localhost:3000/product" method="get">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchbar" name="search" value="{{search}}">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                            id="searchbar" name="search" value="{{search}}">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>
@@ -108,7 +164,7 @@
                                 <a class="nav-link active" aria-current="page" href="https://localhost:3000/">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">About</a>
+                                <a class="nav-link" href="https://localhost:3000/about">About</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="https://localhost:3000/product">All Product</a>
@@ -120,7 +176,8 @@
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     {{#each categories}}
-                                    <li><a class="dropdown-item" href="https://localhost:3000/category/{{this.ID}}">{{this.CatName}}</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="https://localhost:3000/category/{{this.ID}}">{{this.CatName}}</a></li>
                                     {{/each}}
                                 </ul>
                             </li>
@@ -131,3 +188,25 @@
         </div>
     </div>
 </header>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#cart').mouseenter(function () {
+            const cartItemsList = $('#cartItemsList');
+            const cartIconPosition = $(this).offset();
+            const cartIconWidth = $(this).outerWidth();
+            const miniCartWidth = $('#miniCart').outerWidth();
+            const miniCartLeft = cartIconPosition.left - (miniCartWidth - cartIconWidth) / 2;
+
+            $('#miniCart').css({
+                top: cartIconPosition.top + $(this).outerHeight(),
+                left: miniCartLeft
+            }).slideDown();
+            let totalPrice = 0;
+        });
+
+        $('#miniCart').mouseleave(function () {
+            $(this).slideUp();
+        });
+    });
+</script>

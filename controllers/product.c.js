@@ -5,7 +5,9 @@ const crypto = require('crypto');
 const sharp = require('sharp');
 const Handlebars = require('handlebars');
 const { category } = require('./admin.c');
-
+const User = require('../models/user.m')
+const Cart = require('../models/cart.m')
+const cartItem = require('../models/cartItems.m');
 Handlebars.registerHelper("list", function (n, prev, page, next) {
     if (n < 1) return;
 
@@ -88,23 +90,56 @@ module.exports = {
                 if (req.session.passport) {
                     user = req.session.passport.user.username
                 }
-                res.render('products_list', {
-                    'search': params.search,
-                    'user': user,
-                    'title': 'Products',
-                    'section': 'ALL PRODUCT',
-                    'products': result.data,
-                    'total': result.count,
-                    'totalPages': result.totalPages,
-                    'prev': (params.page - 1) || result.totalPages,
-                    'page': params.page,
-                    'next': (params.page % result.totalPages) + 1,
-                    'min_price': params.minPrice || 0,
-                    'max_price': params.maxPrice || 100,
-                    'categories': categories,
-                    css: () => 'css/products_list',
-                    js: () => 'js/products_list'
-                });
+                const u = await User.Get(user)
+                if(u!=null){
+                    const userCart = await Cart.GetByUserID(u.ID);
+                    const cartItems = await cartItem.GetByCartID(userCart.ID);
+                    var products = 0;
+                    for(let cartItem of cartItems){
+                        const rs3 = await Product.GetByID(cartItem.ProductID);
+                        cartItem['ProName'] = rs3.ProName
+                        cartItem['Price'] = rs3.Price
+                        cartItem['Image'] = rs3.ImageUrl
+                        products += cartItem.Quantity
+                    }
+                    res.render('products_list', {
+                        'search': params.search,
+                        'user': user,
+                        cartItems: cartItems,
+                        'title': 'Products',
+                        'section': 'ALL PRODUCT',
+                        'products': result.data,
+                        'total': result.count,
+                        'totalPages': result.totalPages,
+                        'prev': (params.page - 1) || result.totalPages,
+                        'page': params.page,
+                        'next': (params.page % result.totalPages) + 1,
+                        'min_price': params.minPrice || 0,
+                        'max_price': params.maxPrice || 100,
+                        'categories': categories,
+                        css: () => 'css/products_list',
+                        js: () => 'js/products_list'
+                    });
+                }
+                else{
+                    res.render('products_list', {
+                        'search': params.search,
+                        'user': user,
+                        'title': 'Products',
+                        'section': 'ALL PRODUCT',
+                        'products': result.data,
+                        'total': result.count,
+                        'totalPages': result.totalPages,
+                        'prev': (params.page - 1) || result.totalPages,
+                        'page': params.page,
+                        'next': (params.page % result.totalPages) + 1,
+                        'min_price': params.minPrice || 0,
+                        'max_price': params.maxPrice || 100,
+                        'categories': categories,
+                        css: () => 'css/products_list',
+                        js: () => 'js/products_list'
+                    });
+                }
             } else if (req.query.page == null) {
                 res.render('partials/product_list_comp', {
                     layout: false,
@@ -142,14 +177,36 @@ module.exports = {
                 if (req.session.passport) {
                     user = req.session.passport.user.username
                 }
-                res.render('product_detail', {
-                    'product': product,
-                    'user': user,
-                    'categories': categories,
-                    css: () => 'css/product_detail',
-                    js: () => 'js/product_detail'
-                });
-
+                const u = await User.Get(user)
+                if(u!=null){
+                    const userCart = await Cart.GetByUserID(u.ID);
+                    const cartItems = await cartItem.GetByCartID(userCart.ID);
+                    var products = 0;
+                    for(let cartItem of cartItems){
+                        const rs3 = await Product.GetByID(cartItem.ProductID);
+                        cartItem['ProName'] = rs3.ProName
+                        cartItem['Price'] = rs3.Price
+                        cartItem['Image'] = rs3.ImageUrl
+                        products += cartItem.Quantity
+                    }
+                    res.render('product_detail', {
+                        'product': product,
+                        'user': user,
+                        cartItems: cartItems,
+                        'categories': categories,
+                        css: () => 'css/product_detail',
+                        js: () => 'js/product_detail'
+                    });
+                }
+                else{
+                    res.render('product_detail', {
+                        'product': product,
+                        'user': user,
+                        'categories': categories,
+                        css: () => 'css/product_detail',
+                        js: () => 'js/product_detail'
+                    });
+                }
 
             } catch (error) {
                 next(error);
@@ -185,4 +242,22 @@ module.exports = {
             next(error);
         }
     },
+    updateQuantity: async (req, res, next) => {
+        try {
+            const id = req.params.id;
+            var product = await Product.GetByID(id);
+            const quantity = req.body.quantity;
+            var q = 0;
+            if(product.Quantity > quantity)
+            {
+                q = product.Quantity - quantity;
+                product.Quantity = q;
+                let objectWithoutImgURL = Object.assign({}, product);
+                delete objectWithoutImgURL.ImageUrl;
+                await Product.UpdateQuanntity(id,objectWithoutImgURL)
+            }
+        } catch (error) {
+            next(error)
+        }
+    }
 }

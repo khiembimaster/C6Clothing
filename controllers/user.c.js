@@ -56,6 +56,7 @@ module.exports = {
     update: async (req, res, next) => {
         try {
             const username = req.params.username;
+            console.log(username);
             const user = await User.Get(username)
             if (!user) {
                 return next();
@@ -99,7 +100,7 @@ module.exports = {
                 user: rs,
                 //passWord: pass,
                 css: () => 'css/update',
-                js: () => 'js/empty'
+                js: () => 'js/editUser'
             })
         } catch (error) {
             next(error)
