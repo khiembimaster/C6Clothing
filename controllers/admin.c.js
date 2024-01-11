@@ -89,17 +89,27 @@ module.exports = {
         const params = {
             token: refreshToken
         }
-        const year = new Date().getFullYear()
-        const response = await fetch(`https://localhost:5000/admin/transactions?start=${year}-01-01T00:00:00Z&end=${year}-12-31T23:59:59Z`, {
-            method: 'GET',
+        const response = await fetch('https://localhost:5000/wallet/refreshToken', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(params)
         });
-
+        const year = new Date().getFullYear()
         const data = await response.json();
-        res.send(data)
+        console.log(data.accessToken);
+        const accessToken = data.accessToken;
+        const result = await fetch(`https://localhost:5000/admin/transactions?start=${year}-01-01T00:00:00Z&end=${year}-12-31T23:59:59Z`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+        });
+        const rs = await result.json()
+        console.log(rs)
+        res.send(rs);
     },
     category: async (req, res, next) => {
         try {

@@ -64,7 +64,7 @@ const google = new GoogleStrategy({
                 return done(null, user)
             } else {
                 // const pw = await bcrypt.hash(profile._raw, 10);
-                bcrypt.hash(profile._raw, 10, async function (err, hash) {
+                bcrypt.hash('123', 10, async function (err, hash) {
                     if (err) {
                         return next(err);
                     }
