@@ -14,17 +14,19 @@
                         <div class="mb-3">
                             <label for="title" class="form-label">Product Name</label>
                             <input type="text" class="form-control" name="name" id="title"
-                                placeholder="Enter the product title">
+                                {{#if product}}
+                                    value="{{product.ProName}}"
+                                {{else}}
+                                    placeholder="Enter the product title"
+                                {{/if}}>
                         </div>
                         <div class="mb-3">
                             <label for="tiny-description" class="form-label">Product Tiny Description</label>
-                            <textarea class="form-control" name="tiny" id="tiny-description"></textarea>
+                            <textarea class="form-control" name="tiny" id="tiny-description">{{{product.TinyDes}}}</textarea>
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Product Full Description</label>
-                            <textarea name="full" id="editor">
-
-                            </textarea>
+                            <textarea name="full" id="editor">{{{product.FullDes}}}</textarea>
                         </div>
                         {{#if categories}}
                         <div class="mb-3">
@@ -41,13 +43,19 @@
                             <div class="input-group">
                                 <span class="input-group-text">$</span>
                                 <input type="text" id="price" class="form-control"
-                                    aria-label="Amount (to the nearest dollar)" name="price">
+                                    aria-label="Amount (to the nearest dollar)" name="price"                                 
+                                {{#if product}}
+                                    value="{{product.Price}}"
+                                {{/if}}>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="quantity" class="form-label">Product Quantity</label>
                             <input type="number" class="form-control" id="quantity" name="quantity"
-                                placeholder="Enter the product quantity">
+                                placeholder="Enter the product quantity"
+                                {{#if product}}
+                                    value="{{product.Quantity}}"
+                                {{/if}}>
                         </div>
                         <button type="submit" class="btn btn-primary">Upload</button>
                     </form>

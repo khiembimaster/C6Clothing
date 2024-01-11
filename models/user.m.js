@@ -40,7 +40,11 @@ module.exports = class Account {
         return rs;
     }
     static async Del(username) {
+        //delete cart
+        const user = await this.Get(username);
+        await Cart.DelByUserID(user.ID);
         const rs = await db.del(tbName, 'Username', `'${username}'`);
+
         return rs;
     }
     static async Update(user) {

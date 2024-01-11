@@ -47,7 +47,7 @@ module.exports = {
         res.render('addProduct', {
             layout: 'admin',
             current: 2,
-            prod: prod,
+            'product': prod,
             title: "Edit product",
             'form-action': `https://localhost:${process.env.PORT}/product/${req.params.id}`,
             css: () => 'js/empty',

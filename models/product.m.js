@@ -2,6 +2,7 @@ const db = require('./db');
 const tbName = 'Products';
 const imageURL = require('../modules/imageURL');
 
+const CartItemDel = require('./cartItems.m').Del
 module.exports = class Product {
     constructor(ProName, TinyDes, FullDes, Price, CatID, Quantity, Image) {
         this.ProName = ProName;
@@ -72,7 +73,7 @@ module.exports = class Product {
     static async DelByID(proID) {
         const cartItems = await db.findByField('CartItems', 'ProductID', proID)
         for(var cartItem of cartItems){
-            await db.del('CartItems', 'ID', cartItem.ID)
+            await CartItemDel(cartItem.ID);
         }
         const product = await db.findOne(tbName, 'ID', proID);
         await imageURL.deleteImage(product.Image);
