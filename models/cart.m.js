@@ -19,12 +19,12 @@ module.exports = class Cart{
         return rs;
     }
     static async DelByUserID(userID){
-        const id = await db.findOne(tbName, 'UserID', userID);
-        const cartItems = await db.findByField('CartItems', 'CartID', id)
+        const cart = await db.findOne(tbName, 'UserID', userID);
+        const cartItems = await db.findByField('CartItems', 'CartID', cart.ID);
         for(var cartItem of cartItems){
             await CartItemDel(cartItem.ID);
         }
-        const rs = await db.del(tbName, 'ID',id);
+        const rs = await db.del(tbName, 'ID',cart.ID);
         return rs;
     }
     static async Update(id, order){

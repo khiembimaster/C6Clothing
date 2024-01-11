@@ -119,6 +119,7 @@ module.exports = {
         try {
             con = await db.connect();
             let sql = `DELETE FROM "${tbName}" WHERE "${fieldName}" = ${value}`;
+            console.log(sql);
             await con.none(sql);
         } catch (error) {
             throw error;

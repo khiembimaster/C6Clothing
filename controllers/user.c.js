@@ -47,6 +47,7 @@ module.exports = {
     delete: async (req, res, next) => {
         try {
             const username = req.params.username;
+            console.log("DELLLL");
             await User.Del(username);
             res.send('oke')
         } catch (error) {
