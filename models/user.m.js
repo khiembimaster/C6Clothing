@@ -51,6 +51,7 @@ module.exports = class Account {
         //delete cart
         const user = await this.Get(username);
         await Cart.DelByUserID(user.ID);
+        console.log("DELL");
         const rs = await db.del(tbName, 'Username', `'${username}'`);
 
         return rs;
