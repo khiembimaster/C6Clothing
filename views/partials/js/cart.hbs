@@ -12,15 +12,15 @@
                 }
             })
         })
-        $('.down').click(function(e){
+        $('.down').click(function (e) {
             this.parentNode.querySelector('input[type=number]').stepDown();
             this.parentNode.querySelector('input[type=number]').dispatchEvent(new Event('change'));
         })
-        $('.up').click(function(e){
+        $('.up').click(function (e) {
             this.parentNode.querySelector('input[type=number]').stepUp();
             this.parentNode.querySelector('input[type=number]').dispatchEvent(new Event('change'));
         })
-        const updateItems = function(e){
+        const updateItems = function (e) {
             $.ajax({
                 url: 'https://localhost:3000/cart/items/' + $(this).data('cart-item-id'),
                 type: "PUT",
@@ -29,7 +29,7 @@
                 },
                 context: this,
                 success: function () {
-                    const old_quantity = $(this).data('old-quantity'); 
+                    const old_quantity = $(this).data('old-quantity');
                     const new_quantity = $(this).val();
                     totalProduct += new_quantity - old_quantity;
                     $("#total-product").text(totalProduct);
@@ -39,12 +39,12 @@
                     const price_val = price.data('price');
                     const old_cost = price.data('old-cost');
                     const new_cost = price_val * new_quantity;
-                    price.text('$ ' + new_cost); 
-                    totalCost += (new_cost - old_cost); 
+                    price.text('$ ' + new_cost);
+                    totalCost += (new_cost - old_cost);
                     $("#total-cost").text('$ ' + totalCost);
                     price.data('old-cost', new_cost);
                 },
-                error: function (result){
+                error: function (result) {
                     alert("You have to log in!");
                 }
             })
@@ -55,7 +55,7 @@
             .each(updateItems)
             .change(updateItems);
 
-        $("#checkout").click(function(e){
+        $("#checkout").click(function (e) {
             $.ajax({
                 url: 'https://localhost:3000/user/checkout',
                 type: "POST",
@@ -63,10 +63,10 @@
                     money: totalCost
                 },
                 success: function (result) {
-                    console.log("OK");
+                    alert('Buy successful!')
                 }
             })
         })
-        
+
     })
 </script>
