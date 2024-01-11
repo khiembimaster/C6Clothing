@@ -19,6 +19,5 @@ router.route('/update/:id')
 router.route('/:id')
     .get(productController.get) // Product details
     .put(checkAuthenticated, productController.edit) // Product details
-    .put(productController.updateQuantity) // Product details
 
 module.exports = router;
