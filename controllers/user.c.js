@@ -99,6 +99,8 @@ module.exports = {
             res.render('updateUser', {
                 user: rs,
                 //passWord: pass,
+                href: '/',
+                "form-action": `https://localhost:3000/account/${rs.Username}`,
                 css: () => 'css/update',
                 js: () => 'js/editUser'
             })

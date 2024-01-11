@@ -57,15 +57,15 @@ module.exports = {
             if (Object.keys(req.query).length <= 1) {
                 const categories = await Category.All();
                 let user = null;
-                if(req.session.passport){
+                if (req.session.passport) {
                     user = req.session.passport.user.username
                 }
                 const u = await User.Get(user)
-                if(u!=null){
+                if (u != null) {
                     const userCart = await Cart.GetByUserID(u.ID);
                     const cartItems = await cartItem.GetByCartID(userCart.ID);
                     var products = 0;
-                    for(let cartItem of cartItems){
+                    for (let cartItem of cartItems) {
                         const rs3 = await Product.GetByID(cartItem.ProductID);
                         cartItem['ProName'] = rs3.ProName
                         cartItem['Price'] = rs3.Price
@@ -91,7 +91,7 @@ module.exports = {
                         js: () => 'js/products_list'
                     });
                 }
-                else{
+                else {
                     res.render('products_list', {
                         'search': params.search,
                         'user': user,

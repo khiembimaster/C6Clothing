@@ -43,11 +43,14 @@ module.exports = {
     userUpdate: async (req, res, next) => {
         try {
             const username = req.session.passport?.user?.username || 'Username'
+            const rs = await Account.Get(username);
             res.render('editUser', {
                 username: username,
+                user: rs,
                 layout: 'admin',
                 title: 'Edit user',
-                'form-action': `https://localhost:${process.env.PORT}/user/${req.params.username}`,
+                href: '/admin/user',
+                'form-action': `https://localhost:${process.env.PORT}/user/${username}`,
                 current: 4,
                 css: () => 'js/empty',
                 js: () => 'js/editUser'

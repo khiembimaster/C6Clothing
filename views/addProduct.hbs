@@ -13,16 +13,13 @@
                         {{/if_eq}}
                         <div class="mb-3">
                             <label for="title" class="form-label">Product Name</label>
-                            <input type="text" class="form-control" name="name" id="title"
-                                {{#if product}}
-                                    value="{{product.ProName}}"
-                                {{else}}
-                                    placeholder="Enter the product title"
-                                {{/if}}>
+                            <input type="text" class="form-control" name="name" id="title" {{#if product}}
+                                value="{{product.ProName}}" {{else}} placeholder="Enter the product title" {{/if}}>
                         </div>
                         <div class="mb-3">
                             <label for="tiny-description" class="form-label">Product Tiny Description</label>
-                            <textarea class="form-control" name="tiny" id="tiny-description">{{{product.TinyDes}}}</textarea>
+                            <textarea class="form-control" name="tiny"
+                                id="tiny-description">{{{product.TinyDes}}}</textarea>
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Product Full Description</label>
@@ -31,7 +28,8 @@
                         {{#if categories}}
                         <div class="mb-3">
                             <label for="category" class="form-label">Product Category</label>
-                            <select class="form-select" id="category" name="category">
+                            <select {{#if product.ID}} value="{{product.ID}}" {{/if}} class="form-select" id="category"
+                                name="category">
                                 {{#each categories}}
                                 <option value="{{this.ID}}">{{this.CatName}}</option>
                                 {{/each}}
@@ -43,18 +41,14 @@
                             <div class="input-group">
                                 <span class="input-group-text">$</span>
                                 <input type="text" id="price" class="form-control"
-                                    aria-label="Amount (to the nearest dollar)" name="price"                                 
-                                {{#if product}}
-                                    value="{{product.Price}}"
-                                {{/if}}>
+                                    aria-label="Amount (to the nearest dollar)" name="price" {{#if product}}
+                                    value="{{product.Price}}" {{/if}}>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="quantity" class="form-label">Product Quantity</label>
                             <input type="number" class="form-control" id="quantity" name="quantity"
-                                placeholder="Enter the product quantity"
-                                {{#if product}}
-                                    value="{{product.Quantity}}"
+                                placeholder="Enter the product quantity" {{#if product}} value="{{product.Quantity}}"
                                 {{/if}}>
                         </div>
                         <button type="submit" class="btn btn-primary">Upload</button>

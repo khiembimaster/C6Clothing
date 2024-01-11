@@ -50,7 +50,6 @@
         position: absolute;
         top: calc(100% + 10px);
         /* Đặt vị trí ngay dưới icon giỏ hàng */
-        right: -500px;
         /* Điều chỉnh khoảng cách từ biểu tượng giỏ hàng */
         background-color: #fff;
         border: 1px solid #ccc;
@@ -100,7 +99,8 @@
                                 <ul class="dropdown-menu">
                                     {{#if user}}
                                     <li>
-                                        <a href="https://localhost:3000/account/{{user}}" class="dropdown-item btn-primary"> {{user}}</a>
+                                        <a href="https://localhost:3000/account/{{user}}"
+                                            class="dropdown-item btn-primary"> {{user}}</a>
                                     <li>
                                     <li>
                                         <!-- Button trigger modal -->
@@ -133,7 +133,8 @@
                                 <ul id="cartItemsList">
                                     {{#each cartItems}}
                                     <div class="row  mb-3">
-                                        <img class="col-6 col-sm-3" src="{{this.Image}}" alt="" style="height: 60px; width: 80px">
+                                        <img class="col-6 col-sm-3" src="{{this.Image}}" alt=""
+                                            style="height: 60px; width: 80px">
                                         <p class="col-6 col-sm-3">{{this.ProName}}</p>
                                         <p class="col-6 col-sm-3" id="price">${{this.Price}}</p>
                                         <hr style="margin: 10px 0;">
@@ -199,8 +200,8 @@
             const miniCartLeft = cartIconPosition.left - (miniCartWidth - cartIconWidth) / 2;
 
             $('#miniCart').css({
-                top: cartIconPosition.top + $(this).outerHeight(),
-                left: miniCartLeft
+                //top: cartIconPosition.top + $(this).outerHeight(),
+                //left: miniCartLeft
             }).slideDown();
             let totalPrice = 0;
         });
