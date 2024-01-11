@@ -27,9 +27,9 @@ module.exports = {
             const category = await Category.Get(catID);
             res.render('addCategory', {
                 layout: 'admin',
-                cat: category,
                 title: "Edit category",
                 current: 3,
+                'category': category,
                 'form-action': `https://localhost:${process.env.PORT}/category/${catID}`,
                 css: () => 'js/empty',
                 js: () => 'js/editCategory'

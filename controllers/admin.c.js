@@ -50,7 +50,7 @@ module.exports = {
                 layout: 'admin',
                 title: 'Edit user',
                 href: '/admin/user',
-                'form-action': `https://localhost:${process.env.PORT}/user/${req.params.username}`,
+                'form-action': `https://localhost:${process.env.PORT}/user/${username}`,
                 current: 4,
                 css: () => 'js/empty',
                 js: () => 'js/editUser'
