@@ -4,10 +4,12 @@
         font-family: Arial, sans-serif;
         overflow: auto;
     }
+
     .dropdown-menu {
         max-height: 100px;
         overflow-y: scroll;
     }
+
     .navbar-custom {
         background-color: #f8f9fa;
         /* Màu nền của header */
@@ -59,11 +61,14 @@
         padding: 10px;
         max-height: 300px;
         /* Đặt chiều cao tối đa */
-        width: 500px;
+        width: 430px;
         /* Đặt chiều rộng */
         overflow-x: hidden;
         /* Cho phép cuộn nếu nội dung vượt quá kích thước */
         z-index: 999;
+        border: 2px solid rgb(0, 0, 0);
+        padding: 10px;
+        border-radius: 10px;
     }
 
     #cartItemsList {
@@ -133,19 +138,25 @@
                                     style="font-size: 35px;" id="cart"></i></a>
 
                             <div id="miniCart" style="display: none;">
-                                <ul id="cartItemsList">
+                                <ul id="cartItemsList" class="list-unstyled">
                                     {{#each cartItems}}
-                                    <div class="row  mb-3">
-                                        <img class="col-6 col-sm-3" src="{{this.Image}}" alt=""
-                                            style="height: 60px; width: 80px">
-                                        <p class="col-6 col-sm-3">{{this.ProName}}</p>
-                                        <p class="col-6 col-sm-3" id="price">${{this.Price}}</p>
-                                        <hr style="margin: 10px 0;">
-                                    </div>
-
+                                    <li class="row items border-bottom pb-2">
+                                        <div class="col-3 col-sm-2">
+                                            <img src="{{this.Image}}" alt="" class="img-fluid"
+                                                style="height: 60px; width: 80px">
+                                        </div>
+                                        <div class="col-3 col-sm-4">
+                                            <p class="mb-0" >{{this.ProName}}</p>
+                                        </div>
+                                        <div class="col-3 col-sm-3" data-price="{{this.Price}}" data-quantity="{{this.Quantity}}">
+                                            <p id="totalPrice" class="mb-0" ></p>
+                                        </div>
+                                    </li>
                                     {{/each}}
+                                    <p id="totalCost" class="mb-0 text-center" style="font-size: larger;" ></p>
                                 </ul>
                             </div>
+
                         </li>
                     </ul>
                 </div>
@@ -201,12 +212,21 @@
             const cartIconWidth = $(this).outerWidth();
             const miniCartWidth = $('#miniCart').outerWidth();
             const miniCartLeft = cartIconPosition.left - (miniCartWidth - cartIconWidth) / 2;
-
+            $('#totalPrice').empty();
+            let cost = 0;
+            $('.items').each(function (e) {
+                let price = parseFloat($(this).find("[data-price]").data("price"));
+                let quantity = parseInt($(this).find("[data-quantity]").data("quantity"));
+                let total = price * quantity;
+                cost += total;
+                $(this).find("#totalPrice").text('Total: $' + total);
+            });
+            $('#totalCost').text("Total price: $" + cost)
             $('#miniCart').css({
                 //top: cartIconPosition.top + $(this).outerHeight(),
                 //left: miniCartLeft
             }).slideDown();
-            let totalPrice = 0;
+
         });
 
         $('#miniCart').mouseleave(function () {
