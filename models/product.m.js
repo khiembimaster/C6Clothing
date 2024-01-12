@@ -18,6 +18,7 @@ module.exports = class Product {
         if (params.category) filters.push(`"CatID" = ${params.category}`);
         if (params.minPrice) filters.push(`"Price" >= ${params.minPrice}`);
         if (params.maxPrice) filters.push(`"Price" <= ${params.maxPrice}`);
+        if (params.not) filters.push(`"ID" <> ${params.not}`);
 
         const result = await db.searchAndFilter(tbName, params.page, params.perPage,
             { key: 'ProName', value: params.search }, filters, { field: 'Price', order: params.order });

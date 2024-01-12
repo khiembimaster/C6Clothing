@@ -80,6 +80,7 @@ module.exports = {
                         products += cartItem.Quantity
                     }
                     res.render('products_list', {
+                        'form-action':'https://localhost:3000/category/' + category.ID ,
                         'search': params.search,
                         'user': user,
                         cartItems: cartItems,
@@ -101,6 +102,7 @@ module.exports = {
                 }
                 else {
                     res.render('products_list', {
+                        'form-action':'https://localhost:3000/category/' + category.ID ,
                         'search': params.search,
                         'user': user,
                         'title': 'Products',

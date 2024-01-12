@@ -111,6 +111,7 @@ module.exports = {
                         products += cartItem.Quantity
                     }
                     res.render('products_list', {
+                        'form-action':'https://localhost:3000/product/',
                         'search': params.search,
                         'user': user,
                         cartItems: cartItems,
@@ -132,6 +133,7 @@ module.exports = {
                 }
                 else{
                     res.render('products_list', {
+                        'form-action':'https://localhost:3000/product/',
                         'search': params.search,
                         'user': user,
                         'title': 'Products',
@@ -183,6 +185,21 @@ module.exports = {
                 const category = await Category.Get(product.CatID);
                 product['CatName'] = category.CatName;
                 const categories = await Category.All();
+                    
+                let params = {
+                    category: parseInt(category.ID),
+                    page: 1,
+                    perPage: 6,
+                    search: "",
+                    sort: null,
+                    order: "DESC",
+                    minPrice: null,
+                    maxPrice: null,
+                    not: product.ID,
+                }
+
+                const related_products = await Product.All(params);
+                console.log(related_products);
                 let user = null;
                 if (req.session.passport) {
                     user = req.session.passport.user.username
@@ -200,6 +217,7 @@ module.exports = {
                         products += cartItem.Quantity
                     }
                     res.render('product_detail', {
+                        'related_products':related_products.data,
                         'product': product,
                         'user': user,
                         cartItems: cartItems,
@@ -210,6 +228,7 @@ module.exports = {
                 }
                 else{
                     res.render('product_detail', {
+                        'related_products':related_products.data,
                         'product': product,
                         'user': user,
                         'categories': categories,

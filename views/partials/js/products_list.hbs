@@ -37,7 +37,7 @@
                     'page': page
                 };
                 console.log(page);
-                $.get("https://localhost:3000/product/", data)
+                $.get("{{form-action}}", data)
                     .done(function(data){
                         $('#product-list-comp-products').replaceWith(data);
                     });
@@ -55,7 +55,7 @@
                 'max_price':max_price,
                 'search':search
             };
-            $.get("https://localhost:3000/product/", data)
+            $.get("{{form-action}}", data)
                 .done(function(data){
                     $('#product-list-comp').replaceWith(data);
                     pageNavigatorConfig(order);
