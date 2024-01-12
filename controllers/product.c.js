@@ -84,6 +84,13 @@ module.exports = {
                 maxPrice: req.query.max_price || null
             }
             const result = await Product.All(params);
+            let mostExpensive = 0;
+            if(result.data){
+                mostExpensive = result.data.reduce(function(prev, current) {
+                    return (prev && prev.Price > current.Price) ? prev : current
+                },0) 
+            }
+            console.log("MOST EXPENSIVE"+mostExpensive.Price);
             if (Object.keys(req.query).length <= 1) {
                 const categories = await Category.All();
                 let user = null;
@@ -91,6 +98,7 @@ module.exports = {
                     user = req.session.passport.user.username
                 }
                 const u = await User.Get(user)
+
                 if(u!=null){
                     const userCart = await Cart.GetByUserID(u.ID);
                     const cartItems = await cartItem.GetByCartID(userCart.ID);
@@ -117,6 +125,7 @@ module.exports = {
                         'min_price': params.minPrice || 0,
                         'max_price': params.maxPrice || 100,
                         'categories': categories,
+                        'most_expensive':mostExpensive.Price,
                         css: () => 'css/products_list',
                         js: () => 'js/products_list'
                     });
@@ -136,6 +145,7 @@ module.exports = {
                         'min_price': params.minPrice || 0,
                         'max_price': params.maxPrice || 100,
                         'categories': categories,
+                        'most_expensive':mostExpensive.Price,
                         css: () => 'css/products_list',
                         js: () => 'js/products_list'
                     });

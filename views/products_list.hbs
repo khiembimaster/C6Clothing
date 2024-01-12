@@ -11,10 +11,10 @@
                 <div class="container-fluid justify-content-center">
                     <form class="d-flex flex-column">
                         <label for="priceMin" class="form-label">Price Min: <span id="priceMinValue">0</span>$</label>
-                        <input type="range" class="form-range mb-2" min="0" max="100" id="priceMin" value="{{min_price}}">
+                        <input type="range" class="form-range mb-2" min="0" max="{{most_expensive}}" id="priceMin" value="{{min_price}}">
 
                         <label for="priceMax" class="form-label">Price Max: <span id="priceMaxValue">0</span>$</label>
-                        <input type="range" class="form-range mb-2" min="0" max="100" id="priceMax" value="{{max_price}}">
+                        <input type="range" class="form-range mb-2" min="0" max="{{most_expensive}}" id="priceMax" value="{{max_price}}">
                         <div class="d-grid gap-2 mb-2">
                             <button class="btn btn-outline-success sort-btn" value="ASC">Ascending</button>
                         </div>
