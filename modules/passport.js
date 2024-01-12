@@ -18,10 +18,9 @@ passport.serializeUser((user, done) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(params)
-    }).then(async (res) => {
-        const data = await res.json();
+    }).then(res => res.json())
+    .then(data => {
         user.refreshToken = data.refreshToken;
-        console.log(data);
         done(null, { 'username': user.Username, 'email': user.Email, 'permission': user.Permission, wallet: user.refreshToken });
     });
 });
