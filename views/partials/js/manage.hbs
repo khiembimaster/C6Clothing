@@ -1,0 +1,34 @@
+<script>
+    $(() => {
+        const pageNavigatorConfig = function (order) {
+            $('.page-link').click(function (e) {
+                e.preventDefault();
+                const page = $(this).val();
+                const search = $('#searchbar').val();
+                const data = {
+                    'page': page,
+                    'search': search,
+                };
+                $.get("https://localhost:3000/admin/{{manage}}", data)
+                    .done(function (data) {
+                        $('main > div').replaceWith(data);
+                    });
+            });
+        }
+        const search = function (e) {
+            e.preventDefault();
+            const search = $('#searchbar').val();
+            const data = {
+                'search': search
+            };
+            $.get("https://localhost:3000/admin/{{manage}}", data)
+                .done(function (data) {
+                    $('main > div').replaceWith(data);
+                    pageNavigatorConfig();
+                });
+        };
+
+        $('#search').submit(search);
+        pageNavigatorConfig();
+    })
+</script>

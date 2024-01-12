@@ -26,16 +26,42 @@ module.exports = {
     }),
     user: async (req, res, next) => {
         try {
-            const rs = await User.All(1, 5);
+            let params = {
+                page: parseInt(req.query.page) || 1,
+                perPage: parseInt(req.query.per_page) || 3,
+                search: req.query.search || "",
+                order: req.query.order || "ASC",
+            }
+            const result = await User.AllFiltered(params);
             const username = req.session.passport?.user?.username || 'Username'
-            res.render('manageUser', {
-                username: username,
-                layout: 'admin',
-                users: rs,
-                current: 4,
-                css: () => 'js/empty',
-                js: () => 'js/empty'
-            })
+            if (Object.keys(req.query).length === 0) {
+                res.render('manageUser', {
+                    username: username,
+                    layout: 'admin',
+                    users: result.data,
+                    manage: 'user',
+                    current: 4,
+                    css: () => 'js/empty',
+                    js: () => 'js/empty',
+                    'total': result.count,
+                    'totalPages': result.totalPages,
+                    'prev': (params.page - 1) || result.totalPages,
+                    'page': params.page,
+                    'next': (params.page % result.totalPages) + 1,
+                })
+            } else {
+                res.render('manageUser', {
+                    layout: false,
+                    users: result.data,
+                    search: params.search,
+                    manage: 'user',
+                    'total': result.count,
+                    'totalPages': result.totalPages,
+                    'prev': (params.page - 1) || result.totalPages,
+                    'page': params.page,
+                    'next': (params.page % result.totalPages) + 1,
+                })
+            }
         } catch (error) {
             next(error)
         }
@@ -116,20 +142,42 @@ module.exports = {
     },
     category: async (req, res, next) => {
         try {
+            let params = {
+                page: parseInt(req.query.page) || 1,
+                perPage: parseInt(req.query.per_page) || 3,
+                search: req.query.search || "",
+                order: req.query.order || "ASC",
+            }
+            const result = await Categories.AllFiltered(params);
             const username = req.session.passport?.user?.username || 'Username'
-            const page = req.params.page;
-            const perPage = req.params.perPage;
-            console.log(page, perPage)
-            const rs = await Categories.All(1, 5);
-            console.log(rs.CatName)
-            res.render('manageCategories', {
-                layout: 'admin',
-                username: username,
-                categories: rs,
-                current: 3,
-                css: () => 'js/empty',
-                js: () => 'js/empty'
-            })
+            if (Object.keys(req.query).length === 0) {
+                res.render('manageCategories', {
+                    username: username,
+                    layout: 'admin',
+                    categories: result.data,
+                    manage: 'category',
+                    current: 3,
+                    css: () => 'js/empty',
+                    js: () => 'js/empty',
+                    'total': result.count,
+                    'totalPages': result.totalPages,
+                    'prev': (params.page - 1) || result.totalPages,
+                    'page': params.page,
+                    'next': (params.page % result.totalPages) + 1,
+                })
+            } else {
+                res.render('manageCategories', {
+                    layout: false,
+                    categories: result.data,
+                    search: params.search,
+                    manage: 'category',
+                    'total': result.count,
+                    'totalPages': result.totalPages,
+                    'prev': (params.page - 1) || result.totalPages,
+                    'page': params.page,
+                    'next': (params.page % result.totalPages) + 1,
+                })
+            }
         } catch (error) {
             next(error)
         }
@@ -144,20 +192,41 @@ module.exports = {
     product: async (req, res, next) => {
         try {
             const username = req.session.passport?.user?.username || 'Username'
-            const page = req.params.page;
-            const perPage = req.params.perPage;
-            console.log(page, perPage)
-            const rs = await Product.getAll(1, 5);
-            console.log(rs)
-            res.render("manageProduct", {
-                layout: 'admin',
-                username: username,
-                products: rs,
-                current: 2,
-                css: () => 'js/empty',
-                js: () => 'js/empty'
+            let params = {
+                page: parseInt(req.query.page) || 1,
+                perPage: parseInt(req.query.per_page) || 3,
+                search: req.query.search || "",
+                order: req.query.order || "ASC",
             }
-            )
+            const result = await Product.All(params);
+            if (Object.keys(req.query).length === 0) {
+                res.render('manageProduct', {
+                    username: username,
+                    layout: 'admin',
+                    products: result.data,
+                    manage: 'product',
+                    current: 2,
+                    css: () => 'js/empty',
+                    js: () => 'js/empty',
+                    'total': result.count,
+                    'totalPages': result.totalPages,
+                    'prev': (params.page - 1) || result.totalPages,
+                    'page': params.page,
+                    'next': (params.page % result.totalPages) + 1,
+                })
+            } else {
+                res.render('manageProduct', {
+                    layout: false,
+                    products: result.data,
+                    search: params.search,
+                    manage: 'product',
+                    'total': result.count,
+                    'totalPages': result.totalPages,
+                    'prev': (params.page - 1) || result.totalPages,
+                    'page': params.page,
+                    'next': (params.page % result.totalPages) + 1,
+                })
+            }
         } catch (error) {
             next(error)
         }

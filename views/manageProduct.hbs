@@ -10,8 +10,9 @@
     <div>
         <div class="d-flex justify-content-between align-items-center mb-2">
             <p class="m-0 fs-5">Product list</p>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <form id="search" class="d-flex">
+                <input id="searchbar" value="{{search}}" class="form-control me-2" type="search" placeholder="Search"
+                    aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
@@ -50,6 +51,15 @@
                     </table>
                 </div>
             </div>
+            <div class="row">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {{#list totalPages prev page next}}
+                        {{this}}
+                        {{/list}}
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 </div>
@@ -62,5 +72,38 @@
                 window.location.href = 'https://localhost:3000/admin/product/'
             }
         })
+    })
+
+    $(() => {
+        const pageNavigatorConfig = function (order) {
+            $('.page-link').click(function (e) {
+                e.preventDefault();
+                const page = $(this).val();
+                const search = $('#searchbar').val();
+                const data = {
+                    'page': page,
+                    'search': search,
+                };
+                $.get("https://localhost:3000/admin/{{manage}}", data)
+                    .done(function (data) {
+                        $('main > div').replaceWith(data);
+                    });
+            });
+        }
+        const search = function (e) {
+            e.preventDefault();
+            const search = $('#searchbar').val();
+            const data = {
+                'search': search
+            };
+            $.get("https://localhost:3000/admin/{{manage}}", data)
+                .done(function (data) {
+                    $('main > div').replaceWith(data);
+                    pageNavigatorConfig();
+                });
+        };
+
+        $('#search').submit(search);
+        pageNavigatorConfig();
     })
 </script>
