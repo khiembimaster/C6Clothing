@@ -88,13 +88,23 @@ module.exports = {
     }, 
     update: async(req, res, next) =>{
         try {
-            const cartItemID = req.params.id;    
-            console.log(req.body);        
+            const id = req.params.id;
+            const cartItem = await Item.Get(id);
+            var product = await Product.GetByID(cartItem.ProductID);
+            console.log("111", product); 
+            const q = cartItem.Quantity - req.body.quantity;
+            var q1 = 0;
+                q1 = product.Quantity + q;
+                product.Quantity = q1;
+                console.log(product.Quantity)
+                let objectWithoutImgURL = Object.assign({}, product);
+                delete objectWithoutImgURL.ImageUrl;
+                await Product.UpdateQuanntity(cartItem.ProductID,objectWithoutImgURL)
             const data = {
                 Date: new Date(),
                 Quantity: req.body.quantity
             }
-            const rs = await Item.Update(cartItemID, data);
+            const rs = await Item.Update(id, data);
             // console.log('ok');
             res.send(rs);
         } catch (error) {
