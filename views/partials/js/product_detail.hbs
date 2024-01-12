@@ -16,8 +16,7 @@
                         console.log(result);
                         $('#stock').text(`Stock : ${result.quantity} item`);
                     }
-                    alert(JSON.stringify(result));
-                
+                    else alert(JSON.stringify(result));
                 },
                 error: function (result){
                     alert('YOU HAVE TO LOG IN!');
