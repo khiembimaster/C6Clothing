@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const cartController = require('../controllers/cart.c');
 const cartItemsController = require('../controllers/cartItems.c')
+const checkAuthenticated = require('../modules/checkAuthenticated')
 router.route('/')
     .get(cartController.cartPage)  
     .post(cartController.add)
@@ -20,7 +21,7 @@ router.route('/items/:id')
 
 
 router.route('/items')
-    .post(cartItemsController.add)// Cart ItemAd dition 
+    .post(checkAuthenticated, cartItemsController.add)// Cart ItemAd dition 
     .get(cartItemsController.getAll)
 
     module.exports = router;

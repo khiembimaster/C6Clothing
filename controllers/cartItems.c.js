@@ -6,16 +6,13 @@ const productController = require('./product.c')
 module.exports = {
     add: async(req, res, next) => {
         try {
-            //Get the cart associated to the loggeg user
-            if(!req.session.passport){ // Check for authenthication. This will be done by another middleware
-                res.sendStatus(500)
-            }
             const user = await User.Get(req.session.passport.user.username);
             if(user != null)
             {
+                var q = 0;
                 var product = await Product.GetByID(req.body.product_id);
                 const quantity = req.body.quantity;
-                var q = 0;
+                
                 if(product.Quantity > quantity)
                 {
                     q = product.Quantity - quantity;
@@ -24,16 +21,18 @@ module.exports = {
                     let objectWithoutImgURL = Object.assign({}, product);
                     delete objectWithoutImgURL.ImageUrl;
                     await Product.UpdateQuanntity(req.body.product_id,objectWithoutImgURL)
+                    const userCart = await Cart.GetByUserID(user.ID)
+                    const productID = req.body.product_id;
+                    const createDate = new Date().toLocaleDateString();
+                    const initialQuantity = req.body.quantity;
+                    const cartItem = new Item(userCart.ID, productID, createDate, initialQuantity);
+                    await Item.Add(cartItem);
+                    res.json({'quantity' : q});    
+                }else {
+                    res.json("Not enough");
                 }
             }
-            const userCart = await Cart.GetByUserID(user.ID)
-
-            const productID = req.body.product_id;
-            const createDate = new Date().toLocaleDateString();
-            const initialQuantity = req.body.quantity;
-            const cartItem = new Item(userCart.ID, productID, createDate, initialQuantity);
-            const rs = await Item.Add(cartItem);
-            res.sendStatus(200);
+            
         } catch (error) {
             next(error);
         }
