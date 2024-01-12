@@ -148,7 +148,7 @@ module.exports = {
                     res.send("You dont have enough money!");
                     break;
                 case 401:
-                    res.send(401);
+                    res.sendStatus(401);
                     break;
                 case 200:
                     //use CartItems
