@@ -62,7 +62,7 @@ module.exports = {
             const price = Number.parseFloat(req.body.price) || 0;
             const category = req.body.category;
             const quantity = Number.parseInt(req.body.quantity) || 0;
-            const buffer = await sharp(req.file.buffer).resize({ height: 640, width: 1080, fit: "contain" }).toBuffer();
+            const buffer = await sharp(req.file.buffer).resize({ height: 1080, width: 1080, fit: "contain" }).toBuffer();
             const image = crypto.randomUUID();
 
             await Product.Add(new Product(name, tinyDes, fullDes, price, category, quantity, image), buffer, req.file.mimetype);
