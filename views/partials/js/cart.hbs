@@ -1,18 +1,6 @@
 <script>
     $(() => {
-        $(".delete-item").click(function (e) {
-            e.preventDefault();
-            var itemId = $(this).data("item-id");
-            let cartItem = $(this).closest("div .row");
-            $.ajax({
-                url: 'https://localhost:3000/cart/items/' + itemId,
-                type: "DELETE",
-                success: function (result) {
-                    cartItem.remove();
-                    window.location.href = 'https://localhost:3000/cart';
-                }
-            })
-        })
+
         $('.down').click(function (e) {
             this.parentNode.querySelector('input[type=number]').stepDown();
             this.parentNode.querySelector('input[type=number]').dispatchEvent(new Event('change'));
@@ -56,18 +44,73 @@
             .each(updateItems)
             .change(updateItems);
 
+        const deleteItems = function (e) {
+            var itemId = $(this).data("item-id");
+            let cartItem = $(this).closest("div .row");
+            $.ajax({
+                url: 'https://localhost:3000/cart/items/' + itemId,
+                type: "DELETE",
+                context: cartItem,
+                success: function (result) {
+                    console.log(this);
+                    const new_quantity = this.find(".quantity").val();
+                    totalProduct -= new_quantity
+                    $("#total-product").text(totalProduct);
+                    let price = this.find(".price");
+                    const price_val = price.data('price');
+                    const new_cost = price_val * new_quantity;
+                    price.text('$ ' + new_cost);
+                    totalCost -= new_cost;
+                    $("#total-cost").text('$ ' + totalCost);
+                    cartItem.remove();
+
+                    if($(".cart-item").length == 0){
+                        $("#main-view").html(`
+                            <div class="container d-flex align-items-center justify-content-center">
+                                <div class="text-center">
+                                <h1>Your Cart</h1>
+                                <p class="lead">Your cart is empty</p>
+                                </div>
+                            </div>
+                        `);
+                    }
+                }
+            })
+        }
+        
+        $(".delete-item").click(deleteItems)
+
         $("#checkout").click(function (e) {
+            console.log("purchasing");
             $.ajax({
                 url: 'https://localhost:3000/user/checkout',
                 type: "POST",
                 data: {
                     money: totalCost
                 },
-                success: function (result) {
-                    alert('Buy successful!')
+                success: function (result) { 
+                    if(result == 200){
+                    $("#main-cart").html(`
+                    <div class="container">
+                        <div class="alert alert-success text-center" role="alert">
+                        <h1 class="alert-heading">Buy Success</h1>
+                        <p>Your purchase was successful!</p>
+                        </div>
+                    </div>
+                    `);
+
+                    $("#checkout")
+                        .text("Thank you!")
+                        .off('click');
+                    }
+                    else {
+                        alert(JSON.stringify(result));
+                    }
                 }
             })
         })
+
+        
 
     })
 </script>

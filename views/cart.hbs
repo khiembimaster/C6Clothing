@@ -5,10 +5,12 @@
             Your Cart
         </h2>
     </div>
-    <div class="row">
+    {{#if cartItems}}
+            
+    <div class="row" id="main-view">
         <div class="col-lg-8">
             <div class="card mb-4">
-                <div class="card-body">
+                <div class="card-body" id="main-cart">
                     <!-- Item 1 -->
                     {{#each cartItems}}
                     <div class="row mb-4 align-items-center cart-item">
@@ -42,10 +44,11 @@
                     {{/each}}
                 </div>
             </div>
+            
         </div>
         <div class="col-lg-4">
             <div class="card bg-grey mb-4">
-                <div class="card-body p-5">
+                <div class="card-body p-5" id="side-panel">
                     <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
                     <hr class="my-4">
                     <div class="d-flex justify-content-between mb-4">
@@ -64,4 +67,13 @@
             </div>
         </div>
     </div>
+    {{else}}
+    <div class="container d-flex align-items-center justify-content-center">
+    <div class="text-center">
+      <h1>Your Cart</h1>
+      <p class="lead">Your cart is empty</p>
+    </div>
+  </div>
+    {{/if}}
+
 </div>
