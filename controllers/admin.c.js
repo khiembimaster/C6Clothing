@@ -34,6 +34,7 @@ module.exports = {
             }
             const result = await User.AllFiltered(params);
             const username = req.session.passport?.user?.username || 'Username'
+            result.data = result.data.filter(e => e.Username != username)
             if (Object.keys(req.query).length === 0) {
                 res.render('manageUser', {
                     username: username,
