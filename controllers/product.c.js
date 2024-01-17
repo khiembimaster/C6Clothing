@@ -8,7 +8,7 @@ const { category } = require('./admin.c');
 const User = require('../models/user.m')
 const Cart = require('../models/cart.m')
 const cartItem = require('../models/cartItems.m');
-Handlebars.registerHelper("list", function (n, page) {
+Handlebars.registerHelper("product-list", function (n, page) {
     if (n < 1) return;
 
     var accum = '';

@@ -7,6 +7,28 @@ const bcrypt = require('bcrypt');
 const saltRounds = 17;
 const passport = require('passport');
 
+
+const Handlebars = require('handlebars');
+Handlebars.registerHelper("list", function (n, prev, page, next) {
+    if (n < 1) return;
+
+    var accum = '';
+    console.log("page" + page);
+
+    accum += `
+    <li class="page-item">
+        <button class="page-link" tabindex="-1" aria-disabled="true" value="${prev}">Previous</button>
+    </li>`
+    for (var i = 1; i <= n; i++) {
+        accum += `<li class="page-item"><button class="page-link  ${page == i ? "active" : ''}" value="${1}">${i}</button></li>`;
+    }
+    accum += `
+    <li class="page-item">
+        <button class="page-link" tabindex="-1" aria-disabled="true" value="${next}">Next</button>
+    </li>`
+    return new Handlebars.SafeString(accum);
+})
+
 module.exports = {
     signinPage: async (req, res, next) => {
         try {
