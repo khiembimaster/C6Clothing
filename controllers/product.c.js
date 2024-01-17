@@ -85,12 +85,12 @@ module.exports = {
             }
             const result = await Product.All(params);
             let mostExpensive = 0;
-            if(result.data){
-                mostExpensive = result.data.reduce(function(prev, current) {
-                    return (prev && prev.Price > current.Price) ? prev : current
-                },0) 
+            if (result.data) {
+                mostExpensive = result.data.reduce(function (prev, current) {
+                    return prev > parseInt(current.Price) ? prev : parseInt(current.Price)
+                }, 0)
             }
-            console.log("MOST EXPENSIVE"+mostExpensive.Price);
+            console.log("MOST EXPENSIVE" + mostExpensive);
             if (Object.keys(req.query).length <= 1) {
                 const categories = await Category.All();
                 let user = null;
@@ -99,11 +99,11 @@ module.exports = {
                 }
                 const u = await User.Get(user)
 
-                if(u!=null){
+                if (u != null) {
                     const userCart = await Cart.GetByUserID(u.ID);
                     const cartItems = await cartItem.GetByCartID(userCart.ID);
                     var products = 0;
-                    for(let cartItem of cartItems){
+                    for (let cartItem of cartItems) {
                         const rs3 = await Product.GetByID(cartItem.ProductID);
                         cartItem['ProName'] = rs3.ProName
                         cartItem['Price'] = rs3.Price
@@ -111,7 +111,7 @@ module.exports = {
                         products += cartItem.Quantity
                     }
                     res.render('products_list', {
-                        'form-action':'https://localhost:3000/product/',
+                        'form-action': 'https://localhost:3000/product/',
                         'search': params.search,
                         'user': user,
                         cartItems: cartItems,
@@ -126,14 +126,14 @@ module.exports = {
                         'min_price': params.minPrice || 0,
                         'max_price': params.maxPrice || 100,
                         'categories': categories,
-                        'most_expensive':mostExpensive.Price,
+                        'most_expensive': mostExpensive,
                         css: () => 'css/products_list',
                         js: () => 'js/products_list'
                     });
                 }
-                else{
+                else {
                     res.render('products_list', {
-                        'form-action':'https://localhost:3000/product/',
+                        'form-action': 'https://localhost:3000/product/',
                         'search': params.search,
                         'user': user,
                         'title': 'Products',
@@ -147,7 +147,7 @@ module.exports = {
                         'min_price': params.minPrice || 0,
                         'max_price': params.maxPrice || 100,
                         'categories': categories,
-                        'most_expensive':mostExpensive.Price,
+                        'most_expensive': mostExpensive,
                         css: () => 'css/products_list',
                         js: () => 'js/products_list'
                     });
@@ -185,7 +185,7 @@ module.exports = {
                 const category = await Category.Get(product.CatID);
                 product['CatName'] = category.CatName;
                 const categories = await Category.All();
-                    
+
                 let params = {
                     category: parseInt(category.ID),
                     page: 1,
@@ -205,11 +205,11 @@ module.exports = {
                     user = req.session.passport.user.username
                 }
                 const u = await User.Get(user)
-                if(u!=null){
+                if (u != null) {
                     const userCart = await Cart.GetByUserID(u.ID);
                     const cartItems = await cartItem.GetByCartID(userCart.ID);
                     var products = 0;
-                    for(let cartItem of cartItems){
+                    for (let cartItem of cartItems) {
                         const rs3 = await Product.GetByID(cartItem.ProductID);
                         cartItem['ProName'] = rs3.ProName
                         cartItem['Price'] = rs3.Price
@@ -217,7 +217,7 @@ module.exports = {
                         products += cartItem.Quantity
                     }
                     res.render('product_detail', {
-                        'related_products':related_products.data,
+                        'related_products': related_products.data,
                         'product': product,
                         'user': user,
                         cartItems: cartItems,
@@ -226,9 +226,9 @@ module.exports = {
                         js: () => 'js/product_detail'
                     });
                 }
-                else{
+                else {
                     res.render('product_detail', {
-                        'related_products':related_products.data,
+                        'related_products': related_products.data,
                         'product': product,
                         'user': user,
                         'categories': categories,
@@ -277,13 +277,12 @@ module.exports = {
             var product = await Product.GetByID(id);
             const quantity = req.body.quantity;
             var q = 0;
-            if(product.Quantity > quantity)
-            {
+            if (product.Quantity > quantity) {
                 q = product.Quantity - quantity;
                 product.Quantity = q;
                 let objectWithoutImgURL = Object.assign({}, product);
                 delete objectWithoutImgURL.ImageUrl;
-                await Product.UpdateQuanntity(id,objectWithoutImgURL)
+                await Product.UpdateQuanntity(id, objectWithoutImgURL)
             }
         } catch (error) {
             next(error)
