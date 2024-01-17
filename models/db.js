@@ -74,9 +74,13 @@ module.exports = {
     searchAndFilter: async (tbName, page, perPage, query, filters, sort) => {
         let con = null;
         try {
+            let maxByPrice = "";
+            if(tbName == "Products"){
+                maxByPrice = ',MAX("Price")';
+            }
             con = await db.connect();
             let sql = `SELECT * FROM "${tbName}" WHERE "${query.key}" ILIKE '%${query.value}%'`;
-            let count_sql = `SELECT COUNT(*), MAX("Price") FROM "${tbName}" WHERE "${query.key}" ILIKE '%${query.value}%'`;
+            let count_sql = `SELECT COUNT(*)`+ maxByPrice +`FROM "${tbName}" WHERE "${query.key}" ILIKE '%${query.value}%'`;
             let filters_sql = "";
             for (let filter of filters) {
                 filters_sql += ` AND ${filter}`;
