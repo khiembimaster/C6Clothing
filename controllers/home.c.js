@@ -13,12 +13,11 @@ module.exports = {
             }
             const u = await User.Get(user)
             const categories = await Category.All();
-            if(u!=null)
-            {
+            if (u != null) {
                 const userCart = await Cart.GetByUserID(u.ID);
                 const cartItems = await cartItem.GetByCartID(userCart.ID);
                 var products = 0;
-                for(let cartItem of cartItems){
+                for (let cartItem of cartItems) {
                     const rs3 = await Product.GetByID(cartItem.ProductID);
                     cartItem['ProName'] = rs3.ProName
                     cartItem['Price'] = rs3.Price
@@ -27,19 +26,20 @@ module.exports = {
                 }
                 console.log(cartItems)
                 res.render('homepage', {
-                    'user':  user,
+                    'user': user,
                     categories: categories,
                     cartItems: cartItems,
-                    css:()=>'css/homepage',
-                    js:()=>'js/empty'
+                    css: () => 'css/homepage',
+                    js: () => 'js/empty'
+                })
+            } else {
+                res.render('homepage', {
+                    'user': user,
+                    categories: categories,
+                    css: () => 'css/homepage',
+                    js: () => 'js/empty'
                 })
             }
-            res.render('homepage', {
-                'user': user,
-                categories: categories,
-                css: () => 'css/homepage',
-                js: () => 'js/empty'
-            })
         } catch (error) {
             next(error);
         }
@@ -47,17 +47,16 @@ module.exports = {
     aboutUs: async (req, res, next) => {
         try {
             let user = null;
-            if(req.session.passport){
+            if (req.session.passport) {
                 user = req.session.passport.user.username
             }
             const u = await User.Get(user)
             const categories = await Category.All();
-            if(u!=null)
-            {
+            if (u != null) {
                 const userCart = await Cart.GetByUserID(u.ID);
                 const cartItems = await cartItem.GetByCartID(userCart.ID);
                 var products = 0;
-                for(let cartItem of cartItems){
+                for (let cartItem of cartItems) {
                     const rs3 = await Product.GetByID(cartItem.ProductID);
                     cartItem['ProName'] = rs3.ProName
                     cartItem['Price'] = rs3.Price
@@ -66,18 +65,18 @@ module.exports = {
                 }
                 console.log(cartItems)
                 res.render('aboutUs', {
-                    'user':  user,
+                    'user': user,
                     categories: categories,
                     cartItems: cartItems,
-                    css:()=>'css/about',
-                    js:()=>'js/empty'
+                    css: () => 'css/about',
+                    js: () => 'js/empty'
                 })
             }
             res.render('aboutUs', {
-                'user':  user,
+                'user': user,
                 categories: categories,
-                css:()=>'css/about',
-                js:()=>'js/empty'
+                css: () => 'css/about',
+                js: () => 'js/empty'
             })
         } catch (error) {
             next(error);

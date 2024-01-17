@@ -5,7 +5,7 @@ const cartController = require('../controllers/cart.c');
 const cartItemsController = require('../controllers/cartItems.c')
 const checkAuthenticated = require('../modules/checkAuthenticated')
 router.route('/')
-    .get(cartController.cartPage)  
+    .get(cartController.cartPage)
     .post(cartController.add)
 
 
@@ -17,11 +17,11 @@ router.route('/items/:id')
 // router.route('/:id')
 //     .put(cartController.update)
 //     .delete(cartController.delete)
-    // .get(cartController.cartPage)
+// .get(cartController.cartPage)
 
 
 router.route('/items')
     .post(checkAuthenticated, cartItemsController.add)// Cart ItemAd dition 
     .get(cartItemsController.getAll)
 
-    module.exports = router;
+module.exports = router;

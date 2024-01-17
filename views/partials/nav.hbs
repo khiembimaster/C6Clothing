@@ -7,7 +7,6 @@
 
     .dropdown-menu {
         max-height: 100px;
-        overflow-y: scroll;
     }
 
     .navbar-custom {
@@ -146,14 +145,15 @@
                                                 style="height: 60px; width: 80px">
                                         </div>
                                         <div class="col-3 col-sm-4">
-                                            <p class="mb-0" >{{this.ProName}}</p>
+                                            <p class="mb-0">{{this.ProName}}</p>
                                         </div>
-                                        <div class="col-3 col-sm-3" data-price="{{this.Price}}" data-quantity="{{this.Quantity}}">
-                                            <p id="totalPrice" class="mb-0" ></p>
+                                        <div class="col-3 col-sm-3" data-price="{{this.Price}}"
+                                            data-quantity="{{this.Quantity}}">
+                                            <p id="totalPrice" class="mb-0"></p>
                                         </div>
                                     </li>
                                     {{/each}}
-                                    <p id="totalCost" class="mb-0 text-center" style="font-size: larger;" ></p>
+                                    <p id="totalCost" class="mb-0 text-center" style="font-size: larger;"></p>
                                 </ul>
                             </div>
 
