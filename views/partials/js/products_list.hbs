@@ -1,8 +1,10 @@
 <script>
     $(()=>{
         let page = 1;
-        $("#prev").val((page - 1) || {{totalPages}});
-        $("#next").val((page % {{totalPages}}) + 1);
+        let total_pages = Number.parseInt($("#total-pages").text());
+        $("#prev").val((page - 1) || total_pages);
+        $("#next").val((page % total_pages) + 1);
+        $(".page-item").eq(page).addClass("active")
         const priceMinInput = document.getElementById('priceMin');
         const priceMaxInput = document.getElementById('priceMax');
         const priceMinValue = document.getElementById('priceMinValue');
@@ -32,21 +34,22 @@
                 const max_price = $('#priceMax').val();
                 const search = $('#searchbar').val();
                 page = Number.parseInt($(this).val());
-                
-                console.log(page);
-                $("#prev").val((page - 1) || {{totalPages}});
-                $("#next").val((page % {{totalPages}}) + 1);
+                total_pages = Number.parseInt($("#total-pages").text());
+                $("#prev").val((page - 1) || total_pages);
+                $("#next").val((page % total_pages) + 1);
                 const data = {
                     'order':order,
                     'min_price':min_price,
                     'max_price':max_price,
                     'search':search,
                     'page': page
-                };
+                };            
                 
                 $.get("{{form-action}}", data)
                     .done(function(data){
                         $('#product-list-comp-products').replaceWith(data);
+                        $(".page-item.active").removeClass("active");
+                        $(".page-item").eq(page).addClass("active");
                     });
             });
         }
@@ -65,6 +68,7 @@
             $.get("{{form-action}}", data)
                 .done(function(data){
                     $('#product-list-comp').replaceWith(data);
+                    $(".page-item").eq(1).addClass("active");
                     pageNavigatorConfig(order);
                 });
         };
