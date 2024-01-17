@@ -8,7 +8,7 @@ const { category } = require('./admin.c');
 const User = require('../models/user.m')
 const Cart = require('../models/cart.m')
 const cartItem = require('../models/cartItems.m');
-Handlebars.registerHelper("list", function (n, prev, page, next) {
+Handlebars.registerHelper("list", function (n, page) {
     if (n < 1) return;
 
     var accum = '';
@@ -16,14 +16,14 @@ Handlebars.registerHelper("list", function (n, prev, page, next) {
 
     accum += `
     <li class="page-item">
-        <button class="page-link" tabindex="-1" aria-disabled="true" value="${prev}">Previous</button>
+        <button class="page-link" id="prev" tabindex="-1" aria-disabled="true" >Previous</button>
     </li>`
     for (var i = 1; i <= n; i++) {
-        accum += `<li class="page-item"><button class="page-link ${page == i ? "active" : ''}" value="${i}">${i}</button></li>`;
+        accum += `<li class="page-item"><button class="page-link" value="${i}">${i}</button></li>`;
     }
     accum += `
     <li class="page-item">
-        <button class="page-link" tabindex="-1" aria-disabled="true" value="${next}">Next</button>
+        <button class="page-link" id="next" tabindex="-1" aria-disabled="true">Next</button>
     </li>`
     return new Handlebars.SafeString(accum);
 })
@@ -74,9 +74,10 @@ module.exports = {
     },
     all: async (req, res, next) => {
         try {
+            console.log(req.query.max_price);
             let params = {
                 page: parseInt(req.query.page) || 1,
-                perPage: parseInt(req.query.per_page) || 5,
+                perPage: parseInt(req.query.per_page) || 2,
                 search: req.query.search || "",
                 sort: req.query.sort || null,
                 order: req.query.order || "ASC",
@@ -84,13 +85,6 @@ module.exports = {
                 maxPrice: req.query.max_price || null
             }
             const result = await Product.All(params);
-            let mostExpensive = 0;
-            if(result.data){
-                mostExpensive = result.data.reduce(function(prev, current) {
-                    return (prev && prev.Price > current.Price) ? prev : current
-                },0) 
-            }
-            console.log("MOST EXPENSIVE"+mostExpensive.Price);
             if (Object.keys(req.query).length <= 1) {
                 const categories = await Category.All();
                 let user = null;
@@ -120,13 +114,11 @@ module.exports = {
                         'products': result.data,
                         'total': result.count,
                         'totalPages': result.totalPages,
-                        'prev': (params.page - 1) || result.totalPages,
                         'page': params.page,
-                        'next': (params.page % result.totalPages) + 1,
                         'min_price': params.minPrice || 0,
                         'max_price': params.maxPrice || 100,
                         'categories': categories,
-                        'most_expensive':mostExpensive.Price,
+                        'most_expensive':result.max,
                         css: () => 'css/products_list',
                         js: () => 'js/products_list'
                     });
@@ -141,13 +133,11 @@ module.exports = {
                         'products': result.data,
                         'total': result.count,
                         'totalPages': result.totalPages,
-                        'prev': (params.page - 1) || result.totalPages,
                         'page': params.page,
-                        'next': (params.page % result.totalPages) + 1,
                         'min_price': params.minPrice || 0,
                         'max_price': params.maxPrice || 100,
                         'categories': categories,
-                        'most_expensive':mostExpensive.Price,
+                        'most_expensive':result.max,
                         css: () => 'css/products_list',
                         js: () => 'js/products_list'
                     });

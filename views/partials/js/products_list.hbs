@@ -1,5 +1,8 @@
 <script>
     $(()=>{
+        let page = 1;
+        $("#prev").val((page - 1) || {{totalPages}});
+        $("#next").val((page % {{totalPages}}) + 1);
         const priceMinInput = document.getElementById('priceMin');
         const priceMaxInput = document.getElementById('priceMax');
         const priceMinValue = document.getElementById('priceMinValue');
@@ -28,7 +31,11 @@
                 const min_price = $('#priceMin').val();
                 const max_price = $('#priceMax').val();
                 const search = $('#searchbar').val();
-                const page = $(this).val();
+                page = Number.parseInt($(this).val());
+                
+                console.log(page);
+                $("#prev").val((page - 1) || {{totalPages}});
+                $("#next").val((page % {{totalPages}}) + 1);
                 const data = {
                     'order':order,
                     'min_price':min_price,
@@ -36,7 +43,7 @@
                     'search':search,
                     'page': page
                 };
-                console.log(page);
+                
                 $.get("{{form-action}}", data)
                     .done(function(data){
                         $('#product-list-comp-products').replaceWith(data);
